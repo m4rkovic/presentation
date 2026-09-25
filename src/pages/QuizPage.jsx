@@ -49,21 +49,16 @@ export default function QuizPage() {
 
   if (finished) {
     return (
-      <main className="grid min-h-screen place-items-center bg-asca-cream px-5">
-        <div className="w-full max-w-xl rounded-[2rem] bg-white p-10 text-center shadow-sm">
-          <div className={`mx-auto grid size-20 place-items-center rounded-full ${passed ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+      <main className="grid min-h-[100svh] place-items-center bg-asca-bg px-5 text-white">
+        <div className="w-full max-w-xl rounded-[30px] border border-white/10 bg-asca-panel p-8 text-center md:p-12">
+          <div className={`mx-auto grid size-20 place-items-center rounded-full ${passed ? 'bg-emerald-500/12 text-emerald-400' : 'bg-red-500/12 text-red-400'}`}>
             {passed ? <Check size={42} strokeWidth={2.5} /> : <X size={42} strokeWidth={2.5} />}
           </div>
-          <h1 className="mt-7 text-4xl font-semibold tracking-[-0.04em]">
-            {passed ? 'You passed the quiz.' : 'Not this time.'}
+          <h1 className="mt-7 text-4xl font-semibold tracking-[-.045em] md:text-5xl">
+            {passed ? 'You passed.' : 'Not this time.'}
           </h1>
-          <p className="mt-3 text-asca-gray">
-            Score: {correctCount} / {quizQuestions.length}
-          </p>
-          <button
-            onClick={() => navigate('/')}
-            className="mt-8 rounded-full bg-asca-dark px-6 py-3 font-semibold text-white transition hover:bg-asca-orange"
-          >
+          <p className="mt-3 text-white/45">Score: {correctCount} / {quizQuestions.length}</p>
+          <button onClick={() => navigate('/')} className="mt-8 min-h-14 w-full rounded-2xl bg-asca-orange px-6 font-semibold text-black">
             OK
           </button>
         </div>
@@ -71,22 +66,34 @@ export default function QuizPage() {
     )
   }
 
+  const progress = ((questionIndex + 1) / quizQuestions.length) * 100
+  const timePercent = Math.max(0, (timeLeft / currentQuestion.timeLimit) * 100)
+
   return (
-    <main className="grid min-h-screen place-items-center bg-asca-cream px-5 py-10">
-      <div className="w-full max-w-3xl">
-        <div className="mb-6 flex items-center justify-between text-sm font-semibold">
+    <main className="min-h-[100svh] bg-asca-bg px-5 py-7 text-white md:grid md:place-items-center md:px-8">
+      <div className="w-full max-w-4xl">
+        <div className="mb-6 flex items-center justify-between gap-4 text-sm font-semibold text-white/52">
           <span>Question {questionIndex + 1} / {quizQuestions.length}</span>
-          <span className="rounded-full bg-white px-4 py-2 tabular-nums shadow-sm">00:{String(timeLeft).padStart(2, '0')}</span>
+          <span className="rounded-full border border-white/10 bg-white/[.04] px-4 py-2 tabular-nums text-white">
+            00:{String(timeLeft).padStart(2, '0')}
+          </span>
         </div>
 
-        <section className="rounded-[2rem] bg-white p-7 shadow-sm sm:p-10">
-          <h1 className="text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">{currentQuestion.question}</h1>
-          <div className="mt-8 grid gap-3">
+        <div className="mb-3 h-1 overflow-hidden rounded-full bg-white/8">
+          <div className="h-full bg-asca-orange transition-all" style={{ width: `${progress}%` }} />
+        </div>
+
+        <section className="rounded-[30px] border border-white/10 bg-asca-panel p-6 md:p-10">
+          <div className="mb-8 h-1 overflow-hidden rounded-full bg-white/8">
+            <div className="h-full bg-white/60 transition-all duration-1000" style={{ width: `${timePercent}%` }} />
+          </div>
+          <h1 className="text-3xl font-semibold tracking-[-.035em] md:text-5xl">{currentQuestion.question}</h1>
+          <div className="mt-8 grid gap-3 md:grid-cols-2">
             {currentQuestion.answers.map((answer, index) => (
               <button
                 key={answer}
                 onClick={() => advance(index)}
-                className="rounded-2xl bg-asca-surface px-5 py-4 text-left font-medium transition hover:bg-asca-orange hover:text-white"
+                className="min-h-20 rounded-2xl border border-white/10 bg-white/[.035] px-5 py-4 text-left font-medium text-white/82 transition hover:border-asca-orange/60 hover:bg-asca-orange hover:text-black active:scale-[.99]"
               >
                 {answer}
               </button>
