@@ -4,23 +4,46 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
 const reveal = {
-  hidden: { opacity: 0, y: 34 },
-  show: { opacity: 1, y: 0, transition: { duration: .72, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, y: 72, filter: 'blur(10px)' },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 1.05, ease: [0.16, 1, 0.3, 1] },
+  },
 }
 
 const revealLeft = {
-  hidden: { opacity: 0, x: -46 },
-  show: { opacity: 1, x: 0, transition: { duration: .78, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, x: -110, rotateZ: -1.2, filter: 'blur(8px)' },
+  show: {
+    opacity: 1,
+    x: 0,
+    rotateZ: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
+  },
 }
 
 const revealRight = {
-  hidden: { opacity: 0, x: 46 },
-  show: { opacity: 1, x: 0, transition: { duration: .78, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, x: 110, rotateZ: 1.2, filter: 'blur(8px)' },
+  show: {
+    opacity: 1,
+    x: 0,
+    rotateZ: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
+  },
 }
 
 const imageReveal = {
-  hidden: { opacity: 0, scale: 1.055 },
-  show: { opacity: 1, scale: 1, transition: { duration: 1.05, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, scale: 1.16, y: 34, filter: 'blur(12px)' },
+  show: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 1.35, ease: [0.16, 1, 0.3, 1] },
+  },
 }
 
 const serviceStories = [
@@ -94,7 +117,7 @@ export default function HomePage() {
               <motion.h1
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: .7 }}
+                transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
                 className="max-w-5xl text-[clamp(3.5rem,8.5vw,8.8rem)] font-semibold leading-[.89] tracking-[-0.065em]"
               >
                 Built to fit.<br />
