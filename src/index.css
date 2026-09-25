@@ -148,3 +148,43 @@ textarea.field {
     transform: none !important;
   }
 }
+
+
+.survey-choice,
+.survey-option {
+  display: block;
+  cursor: pointer;
+}
+
+.survey-choice-box,
+.survey-option > span {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 14px;
+  background: rgba(255,255,255,.035);
+  padding: 0 14px;
+  color: rgba(255,255,255,.72);
+  transition: border-color .2s ease, background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.survey-option > span {
+  justify-content: flex-start;
+}
+
+.survey-choice input:checked + .survey-choice-box,
+.survey-option input:checked + span {
+  border-color: rgba(247,149,84,.85);
+  background: rgba(247,149,84,.16);
+  color: #fff;
+}
+
+@media (hover: hover) {
+  .survey-choice:hover .survey-choice-box,
+  .survey-option:hover > span {
+    border-color: rgba(247,149,84,.45);
+    transform: translateY(-1px);
+  }
+}
