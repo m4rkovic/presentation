@@ -267,7 +267,7 @@ export default function HomePage() {
               </p>
             </motion.div>
 
-            <motion.div variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }}>
+            <motion.div className="min-h-[760px]" variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }}>
               <iframe title="Google Forms submit target" name="google-form-target" className="hidden" />
 
               {formSent ? (
@@ -275,7 +275,7 @@ export default function HomePage() {
                   initial={{ opacity: 0, scale: .96, y: 14 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   transition={{ duration: .45, ease: [0.22, 1, 0.36, 1] }}
-                  className="grid min-h-[520px] place-items-center rounded-[28px] border border-emerald-400/15 bg-[radial-gradient(circle_at_50%_35%,rgba(16,185,129,.11),transparent_44%),#0f1318] p-8 text-center md:min-h-[620px]"
+                  className="grid min-h-[760px] place-items-center rounded-[28px] border border-emerald-400/15 bg-[radial-gradient(circle_at_50%_35%,rgba(16,185,129,.11),transparent_44%),#0f1318] p-8 text-center"
                 >
                   <div>
                     <motion.div
@@ -299,7 +299,7 @@ export default function HomePage() {
                   action="https://docs.google.com/forms/d/e/1FAIpQLScRy8VVrCMWDZgcmKenHgR-Y1sjB5TLlBj_fuN_3n2xxLdgBw/formResponse"
                   method="POST"
                   target="google-form-target"
-                  className="rounded-[28px] border border-white/9 bg-asca-panel p-5 md:p-7"
+                  className="min-h-[760px] rounded-[28px] border border-white/9 bg-asca-panel p-5 md:p-7"
                   onSubmit={(event) => {
                     const form = event.currentTarget
                     setFormSent(false)
