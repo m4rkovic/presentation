@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { ArrowDown, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
@@ -70,6 +71,8 @@ const industryStories = [
 ]
 
 export default function HomePage() {
+  const [formSent, setFormSent] = useState(false)
+
   return (
     <div className="min-h-screen bg-asca-bg text-white">
       <main>
@@ -254,25 +257,91 @@ export default function HomePage() {
         </section>
 
         <section className="px-6 py-24 md:px-10 md:py-32 lg:px-14">
-          <div className="mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-start">
+          <div className="mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-start">
             <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
               <h2 className="max-w-xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-                Leave your details.
+                Conference feedback.
               </h2>
               <p className="mt-5 max-w-md text-lg leading-8 text-white/46">
-                This will be connected to the final Google form / Sheets flow once the event fields are confirmed.
+                This is the first live Google Forms integration test. The interface is ours; the answers are submitted straight into the published form in the background.
               </p>
+              {formSent && (
+                <div className="mt-8 max-w-md rounded-2xl border border-emerald-400/20 bg-emerald-400/8 px-5 py-4 text-sm leading-6 text-emerald-300">
+                  Response sent. Check the Google Forms Responses tab to confirm it landed.
+                </div>
+              )}
             </motion.div>
 
-            <motion.form variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }} className="grid gap-3 rounded-[28px] border border-white/9 bg-asca-panel p-5 md:p-7" onSubmit={(e) => e.preventDefault()}>
-              <input className="field" placeholder="Name" />
-              <input className="field" placeholder="Company" />
-              <input className="field" placeholder="Email" type="email" />
-              <textarea className="field min-h-32 resize-none" placeholder="Message" />
-              <button className="mt-2 min-h-14 rounded-2xl bg-white px-6 font-semibold text-black transition hover:bg-asca-orange" type="submit">
-                Submit
-              </button>
-            </motion.form>
+            <motion.div variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }}>
+              <iframe title="Google Forms submit target" name="google-form-target" className="hidden" />
+
+              <form
+                action="https://docs.google.com/forms/d/e/1FAIpQLScRy8VVrCMWDZgcmKenHgR-Y1sjB5TLlBj_fuN_3n2xxLdgBw/formResponse"
+                method="POST"
+                target="google-form-target"
+                className="rounded-[28px] border border-white/9 bg-asca-panel p-5 md:p-7"
+                onSubmit={() => {
+                  setFormSent(false)
+                  window.setTimeout(() => setFormSent(true), 650)
+                }}
+              >
+                <fieldset>
+                  <legend className="text-lg font-semibold">Overall quality</legend>
+                  <p className="mt-1 text-sm text-white/38">Poor → Excellent</p>
+                  <div className="mt-4 grid grid-cols-5 gap-2">
+                    {[1, 2, 3, 4, 5].map((value) => (
+                      <label key={value} className="survey-choice">
+                        <input required type="radio" name="entry.1080979567" value={value} className="sr-only peer" />
+                        <span className="survey-choice-box">{value}</span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <fieldset className="mt-8">
+                  <legend className="text-lg font-semibold">Most valuable keynote or topic</legend>
+                  <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                    {['Global Market Trends', 'Digital Assets and Blockchain', 'Sustainable Investing', 'Regulatory Updates'].map((option) => (
+                      <label key={option} className="survey-option">
+                        <input required type="radio" name="entry.795391864" value={option} className="sr-only peer" />
+                        <span>{option}</span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <fieldset className="mt-8">
+                  <legend className="text-lg font-semibold">What did you enjoy most?</legend>
+                  <label className="survey-option mt-4">
+                    <input type="checkbox" name="entry.1322378946" value="Panel discussions" className="sr-only peer" />
+                    <span>Panel discussions</span>
+                  </label>
+                  <p className="mt-2 text-xs text-white/30">Test mapping currently uses the confirmed “Panel discussions” option.</p>
+                </fieldset>
+
+                <fieldset className="mt-8">
+                  <legend className="text-lg font-semibold">Additional rating</legend>
+                  <div className="mt-4 grid grid-cols-5 gap-2">
+                    {[1, 2, 3, 4, 5].map((value) => (
+                      <label key={value} className="survey-choice">
+                        <input required type="radio" name="entry.809343022" value={value} className="sr-only peer" />
+                        <span className="survey-choice-box">{value}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <p className="mt-2 text-xs text-white/30">Question wording will be replaced once we confirm the lower half of the source form.</p>
+                </fieldset>
+
+                <label className="mt-8 block">
+                  <span className="text-lg font-semibold">Additional feedback</span>
+                  <textarea required name="entry.239328865" className="field mt-4 min-h-32 resize-none" placeholder="Tell us what you think..." />
+                </label>
+
+                <button className="mt-6 min-h-14 w-full rounded-2xl bg-white px-6 font-semibold text-black transition hover:bg-asca-orange" type="submit">
+                  Send feedback
+                </button>
+              </form>
+            </motion.div>
           </div>
         </section>
 
