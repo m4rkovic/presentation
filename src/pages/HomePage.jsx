@@ -1,33 +1,45 @@
-import { ArrowDown, ArrowRight, ShieldCheck, Database, FlaskConical } from 'lucide-react'
+import { ArrowDown, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
 const services = [
   {
-    number: '01',
-    title: 'Development',
-    text: 'Architecture and delivery across desktop, web and mobile, from core systems and data warehouses to modern AI-driven applications.',
-    icon: Database,
+    kicker: 'Development',
+    title: 'Software that has to survive the real world.',
+    text: 'We work on systems where reliability matters more than novelty: core business platforms, portals, integrations, data-heavy applications and internal tools. The focus is practical architecture, maintainable code and a delivery model that can live inside an existing organisation without creating another layer of chaos.',
+    detail: 'From discovery and solution design through implementation, migration and production support, the team can join at the point where the work actually starts.',
   },
   {
-    number: '02',
-    title: 'DevOps',
-    text: 'Reliable Azure, AWS and GCP pipelines, infrastructure as code, cloud migration, observability and releases without drama.',
-    icon: ShieldCheck,
+    kicker: 'DevOps',
+    title: 'Infrastructure should disappear into the background.',
+    text: 'Cloud environments, delivery pipelines, observability and release processes are treated as part of the product, not as an afterthought. We help teams reduce fragile manual steps and make deployments more repeatable across Azure, AWS and GCP.',
+    detail: 'That includes infrastructure as code, migration work, CI/CD, monitoring and the boring operational detail that usually becomes very interesting only when something breaks at 2 a.m.',
   },
   {
-    number: '03',
-    title: 'Testing',
-    text: 'A controlled testing process across application portfolios, backed by our own codeless automation product, myQAbee.',
-    icon: FlaskConical,
+    kicker: 'Testing',
+    title: 'Quality is a system, not a final checkbox.',
+    text: 'Testing is built into the delivery process across complex application portfolios. Manual testing, automation, device coverage and repeatable validation are combined so releases can move faster without turning production into a live experiment.',
+    detail: 'Our own codeless automation product, myQAbee, comes from the same problem space: making broad test coverage easier to manage without forcing every team to build a custom automation stack.',
   },
 ]
 
 const industries = [
-  ['Banking', 'Core systems, data warehouses and regulatory reporting.'],
-  ['Insurance', 'Claims, policy administration and risk calculation.'],
-  ['Energy', 'Metering data, billing and operational reporting.'],
-  ['Telecom', 'Subscriber systems, integrations and self-service platforms.'],
+  {
+    title: 'Banking',
+    text: 'Core systems, data warehouses, reporting, customer-facing applications and integrations often sit across years of accumulated technology. We help modernise around what already works instead of pretending every system can be replaced in one heroic rewrite.',
+  },
+  {
+    title: 'Insurance',
+    text: 'Policy administration, claims, billing, reporting and risk logic need careful changes because the business rules are dense and the consequences of small mistakes are not small. This is exactly the kind of environment our teams are used to working in.',
+  },
+  {
+    title: 'Energy',
+    text: 'Metering, billing, operational data and reporting demand systems that are dependable, traceable and able to handle large volumes without becoming opaque. We build around those constraints instead of fighting them.',
+  },
+  {
+    title: 'Telecom',
+    text: 'Subscriber platforms, integrations, self-service applications and large operational datasets create a constant flow of change. Our work focuses on making that change safer, clearer and easier to ship.',
+  },
 ]
 
 export default function HomePage() {
@@ -40,7 +52,7 @@ export default function HomePage() {
             alt=""
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,12,.38),rgba(7,9,12,.72)_58%,#07090c_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,12,.28),rgba(7,9,12,.68)_60%,#07090c_100%)]" />
 
           <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] flex-col px-6 py-7 md:px-10 md:py-9 lg:px-14">
             <div className="flex items-center justify-between">
@@ -72,7 +84,7 @@ export default function HomePage() {
 
               <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
                 <p className="max-w-2xl text-lg leading-8 text-white/68 md:text-xl">
-                  We plug into the workflows you already run and take ownership of the outcome. Built for regulated, mission-critical systems.
+                  We build and support software for organisations that cannot afford vague delivery, fragile systems or fashionable technology for its own sake.
                 </p>
                 <a href="#story" className="inline-flex min-h-12 shrink-0 items-center gap-2 text-sm font-semibold text-white/72 transition hover:text-white">
                   Scroll to explore <ArrowDown size={17} />
@@ -90,7 +102,7 @@ export default function HomePage() {
               ['60+', 'Projects delivered'],
               ['9', 'Countries delivered in'],
             ].map(([value, label]) => (
-              <div key={label} className="border-white/10 md:border-l md:first:border-l-0 md:px-8 md:first:pl-0">
+              <div key={label} className="md:px-8 md:first:pl-0">
                 <div className="text-4xl font-semibold tracking-[-.05em] md:text-5xl">{value}</div>
                 <div className="mt-2 max-w-40 text-sm leading-5 text-white/44">{label}</div>
               </div>
@@ -100,48 +112,51 @@ export default function HomePage() {
 
         <section className="px-6 py-24 md:px-10 md:py-32 lg:px-14">
           <div className="mx-auto max-w-[1500px]">
-            <div className="grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-end">
-              <div>
-                <p className="eyebrow">What we do</p>
-                <h2 className="mt-4 max-w-xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-                  Three services. One team that stays in the work.
-                </h2>
-              </div>
-              <p className="max-w-2xl text-lg leading-8 text-white/52 lg:justify-self-end">
-                Architecture, delivery, infrastructure and testing for software companies and regulated industries.
+            <div className="max-w-4xl">
+              <p className="eyebrow">What we do</p>
+              <h2 className="mt-4 text-4xl font-semibold tracking-[-.045em] md:text-6xl">
+                We join complex projects where technology has to answer to the business.
+              </h2>
+              <p className="mt-7 max-w-3xl text-lg leading-8 text-white/52 md:text-xl">
+                ASCALab works across development, infrastructure and quality engineering. The shape changes from client to client, but the principle stays the same: understand the existing system, reduce unnecessary risk and leave the product easier to operate than we found it.
               </p>
             </div>
 
-            <div className="mt-14 grid gap-px overflow-hidden rounded-[28px] border border-white/8 bg-white/8 lg:grid-cols-3">
-              {services.map(({ number, title, text, icon: Icon }) => (
-                <article key={title} className="bg-asca-panel p-7 md:p-9">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-asca-orange">{number}</span>
-                    <Icon size={22} className="text-white/42" />
+            <div className="mt-20 space-y-24 md:mt-28 md:space-y-32">
+              {services.map((service, index) => (
+                <article key={service.kicker} className="service-editorial grid gap-8 md:grid-cols-[180px_1fr] lg:grid-cols-[260px_1fr]">
+                  <div className="relative">
+                    <span className="service-index">0{index + 1}</span>
+                    <p className="eyebrow relative z-10 pt-3">{service.kicker}</p>
                   </div>
-                  <h3 className="mt-16 text-3xl font-semibold tracking-[-.04em]">{title}</h3>
-                  <p className="mt-4 leading-7 text-white/48">{text}</p>
+                  <div className="max-w-4xl border-t border-white/12 pt-8">
+                    <h3 className="text-3xl font-semibold tracking-[-.04em] md:text-5xl">{service.title}</h3>
+                    <div className="mt-7 grid gap-6 lg:grid-cols-2">
+                      <p className="text-lg leading-8 text-white/68">{service.text}</p>
+                      <p className="leading-7 text-white/42">{service.detail}</p>
+                    </div>
+                  </div>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="photo-band relative mx-4 min-h-[72svh] overflow-hidden rounded-[30px] md:mx-8 md:rounded-[38px]">
+        <section className="photo-band relative mx-4 min-h-[74svh] overflow-hidden rounded-[30px] md:mx-8 md:rounded-[38px]">
           <img
             src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=2200&q=88"
             alt=""
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,8,11,.92),rgba(6,8,11,.55)_48%,rgba(6,8,11,.16))]" />
-          <div className="relative z-10 mx-auto flex min-h-[72svh] max-w-[1500px] items-end px-7 py-10 md:px-12 md:py-14">
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,8,11,.94),rgba(6,8,11,.58)_50%,rgba(6,8,11,.2))]" />
+          <div className="relative z-10 mx-auto flex min-h-[74svh] max-w-[1500px] items-end px-7 py-10 md:px-12 md:py-14">
             <div className="max-w-2xl">
               <p className="eyebrow">Built for regulated environments</p>
               <h2 className="mt-4 text-4xl font-semibold tracking-[-.05em] md:text-7xl">
                 Complexity is normal. Losing control of it isn't.
               </h2>
               <p className="mt-6 max-w-xl text-lg leading-8 text-white/62">
-                Banking, insurance, energy and telecom each have different constraints. The need for reliability, traceability and clean delivery does not.
+                Banking, insurance, energy and telecom all carry different operational and regulatory constraints. What they share is the need for systems that are understandable, testable and dependable long after the first release.
               </p>
             </div>
           </div>
@@ -149,33 +164,87 @@ export default function HomePage() {
 
         <section className="px-6 py-24 md:px-10 md:py-32 lg:px-14">
           <div className="mx-auto max-w-[1500px]">
-            <p className="eyebrow">Industries</p>
-            <div className="mt-8 divide-y divide-white/10 border-y border-white/10">
-              {industries.map(([title, text], index) => (
-                <div key={title} className="grid gap-3 py-7 md:grid-cols-[90px_1fr_1fr] md:items-center md:py-9">
-                  <span className="text-sm font-semibold text-asca-orange">0{index + 1}</span>
-                  <h3 className="text-3xl font-semibold tracking-[-.035em] md:text-4xl">{title}</h3>
-                  <p className="max-w-xl text-base leading-7 text-white/46 md:justify-self-end">{text}</p>
-                </div>
-              ))}
+            <div className="grid gap-10 lg:grid-cols-[.75fr_1.25fr]">
+              <div className="lg:sticky lg:top-10 lg:self-start">
+                <p className="eyebrow">Industries</p>
+                <h2 className="mt-4 max-w-md text-4xl font-semibold tracking-[-.045em] md:text-6xl">
+                  Different sectors. Same requirement: trust the system.
+                </h2>
+                <p className="mt-6 max-w-md leading-7 text-white/44">
+                  The details change, but regulated businesses tend to share the same hard problems: old and new systems living together, critical data moving between them and changes that need to be explained as clearly as they are implemented.
+                </p>
+              </div>
+
+              <div>
+                {industries.map((industry, index) => (
+                  <article key={industry.title} className="industry-story border-t border-white/12 py-10 md:py-14">
+                    <div className="grid gap-5 md:grid-cols-[90px_1fr]">
+                      <span className="text-sm font-semibold text-asca-orange">0{index + 1}</span>
+                      <div>
+                        <h3 className="text-4xl font-semibold tracking-[-.04em] md:text-5xl">{industry.title}</h3>
+                        <p className="mt-5 max-w-2xl text-lg leading-8 text-white/55">{industry.text}</p>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="px-4 pb-4 md:px-8 md:pb-8">
-          <div className="relative min-h-[68svh] overflow-hidden rounded-[30px] md:rounded-[38px]">
-            <img
-              src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=2200&q=88"
-              alt=""
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,9,12,.92),rgba(7,9,12,.67)_54%,rgba(7,9,12,.32))]" />
-            <div className="relative z-10 flex min-h-[68svh] items-end px-7 py-10 md:px-12 md:py-14">
-              <div className="max-w-2xl">
-                <p className="eyebrow">Our product</p>
-                <h2 className="mt-4 text-5xl font-semibold tracking-[-.055em] md:text-7xl">myQAbee</h2>
-                <p className="mt-5 max-w-xl text-lg leading-8 text-white/62">
-                  Codeless QA automation for every environment. No scripts to write, multi-device by design, built from the testing work we do on real platforms.
+        <section className="px-6 pb-24 md:px-10 md:pb-32 lg:px-14">
+          <div className="mx-auto grid max-w-[1500px] gap-8 lg:grid-cols-[1.1fr_.9fr] lg:items-stretch">
+            <div className="relative min-h-[520px] overflow-hidden rounded-[30px]">
+              <img
+                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1800&q=88"
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,12,.1),rgba(7,9,12,.82))]" />
+              <div className="relative z-10 flex h-full min-h-[520px] items-end p-7 md:p-10">
+                <div>
+                  <p className="eyebrow">myQAbee</p>
+                  <h2 className="mt-3 text-4xl font-semibold tracking-[-.05em] md:text-6xl">
+                    Codeless automation, built from real testing work.
+                  </h2>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col justify-between rounded-[30px] bg-[#101419] p-7 md:p-10">
+              <div>
+                <p className="text-lg leading-8 text-white/62">
+                  myQAbee is our own codeless QA automation product. It is designed to reduce the amount of custom scripting needed to cover broad application portfolios and multi-device scenarios.
+                </p>
+                <p className="mt-6 leading-7 text-white/42">
+                  For now this section is intentionally content-heavy enough to establish the rhythm of the page. Once the final event messaging is approved, we can replace the placeholder depth with product-specific features, screenshots, metrics or a short demo flow.
+                </p>
+              </div>
+              <div className="mt-12 border-t border-white/10 pt-6 text-sm uppercase tracking-[.18em] text-white/36">
+                Product · Testing · Automation
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="px-6 py-24 md:px-10 md:py-32 lg:px-14">
+          <div className="mx-auto max-w-[1500px]">
+            <div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]">
+              <div>
+                <p className="eyebrow">How we work</p>
+                <h2 className="mt-4 max-w-xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
+                  Enough process to stay in control. Not enough to slow everything down.
+                </h2>
+              </div>
+              <div className="space-y-8 text-lg leading-8 text-white/55">
+                <p>
+                  We start by understanding the system as it exists, not as a diagram says it exists. That means talking to the people who use it, reading the constraints, mapping dependencies and identifying where change is genuinely risky.
+                </p>
+                <p>
+                  From there, delivery is broken into pieces that can be validated early. Architecture, implementation, testing and operational concerns move together instead of waiting for one another in a sequence of handovers.
+                </p>
+                <p>
+                  The exact engagement model can change. The expectation does not: clear ownership, visible progress and fewer surprises when software reaches production.
                 </p>
               </div>
             </div>
@@ -190,7 +259,7 @@ export default function HomePage() {
                 Leave your details.
               </h2>
               <p className="mt-5 max-w-md text-lg leading-8 text-white/46">
-                This form is ready to be wired to the Google form / Sheets flow once the final fields are confirmed.
+                This will be connected to the final Google form / Sheets flow once the event fields are confirmed.
               </p>
             </div>
 
