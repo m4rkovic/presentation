@@ -277,10 +277,11 @@ export default function HomePage() {
         </section>
 
         <section className="px-4 pb-4 md:px-8 md:pb-8">
-          <Link
-            to="/quiz"
-            className="quiz-cta group relative flex min-h-[27svh] items-end justify-between gap-6 overflow-hidden rounded-[28px] bg-asca-orange p-6 text-black transition duration-500 md:min-h-[30svh] md:rounded-[34px] md:p-9"
-          >
+          <div className="mx-auto max-w-[1180px]">
+            <Link
+              to="/quiz"
+              className="quiz-cta group relative flex min-h-[27svh] items-end justify-between gap-6 overflow-hidden rounded-[28px] bg-asca-orange p-6 text-black transition duration-500 md:min-h-[30svh] md:rounded-[34px] md:p-9"
+            >
             <div className="relative z-10">
               <p className="text-base font-semibold opacity-55">One more thing.</p>
               <h2 className="mt-3 text-[clamp(2.7rem,6vw,6.5rem)] font-semibold leading-[.9] tracking-[-.06em]">
@@ -291,7 +292,8 @@ export default function HomePage() {
             <div className="quiz-arrow mb-1 hidden size-16 shrink-0 place-items-center rounded-full bg-black text-white transition duration-500 md:grid">
               <ArrowRight size={32} />
             </div>
-          </Link>
+            </Link>
+          </div>
         </section>
 
         <footer className="px-6 py-8 text-sm text-white/34 md:px-10 lg:px-14">
