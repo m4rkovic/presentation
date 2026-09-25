@@ -86,8 +86,8 @@ export default function HomePage() {
 
           <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] flex-col px-6 py-7 md:px-10 md:py-9 lg:px-14">
             <div className="flex items-center justify-between">
-              <img src="/ascalab-logo.svg" alt="ASCALab" className="h-8 w-auto brightness-[1.25] md:h-10" />
               <span className="hidden text-sm text-white/48 sm:block">Belgrade · Niš · Europe</span>
+              <img src="/ascalab-logo-official.webp" alt="ASCALab" className="h-9 w-auto md:h-11" />
             </div>
 
             <div className="mt-auto max-w-5xl pb-10 md:pb-16">
