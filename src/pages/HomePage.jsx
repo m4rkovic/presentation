@@ -280,9 +280,13 @@ export default function HomePage() {
                 method="POST"
                 target="google-form-target"
                 className="rounded-[28px] border border-white/9 bg-asca-panel p-5 md:p-7"
-                onSubmit={() => {
+                onSubmit={(event) => {
+                  const form = event.currentTarget
                   setFormSent(false)
-                  window.setTimeout(() => setFormSent(true), 650)
+                  window.setTimeout(() => {
+                    form.reset()
+                    setFormSent(true)
+                  }, 650)
                 }}
               >
                 <fieldset>
