@@ -48,30 +48,6 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
-.eyebrow {
-  font-size: .78rem;
-  line-height: 1rem;
-  font-weight: 700;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: #f79554;
-}
-
-.service-index {
-  position: absolute;
-  inset: -38px auto auto -10px;
-  font-size: clamp(5.5rem, 10vw, 9rem);
-  line-height: 1;
-  font-weight: 700;
-  letter-spacing: -.08em;
-  color: rgba(255,255,255,.028);
-  user-select: none;
-}
-
-.industry-story:last-child {
-  border-bottom: 1px solid rgba(255,255,255,.12);
-}
-
 .field {
   min-height: 58px;
   width: 100%;
@@ -97,15 +73,12 @@ textarea.field {
   background: rgba(255,255,255,.055);
 }
 
-@media (max-width: 767px) {
-  .service-index {
-    inset: -28px auto auto -4px;
-    font-size: 5.5rem;
+@media (hover: hover) {
+  .industry-cinema img {
+    transition: transform 1s cubic-bezier(.2,.7,.2,1);
   }
-}
 
-@media (hover: none) {
-  .photo-band img {
-    transform: scale(1.01);
+  .industry-cinema:hover img {
+    transform: scale(1.025);
   }
 }
