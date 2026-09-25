@@ -2,6 +2,26 @@ import { ArrowDown, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
+const reveal = {
+  hidden: { opacity: 0, y: 34 },
+  show: { opacity: 1, y: 0, transition: { duration: .72, ease: [0.22, 1, 0.36, 1] } },
+}
+
+const revealLeft = {
+  hidden: { opacity: 0, x: -46 },
+  show: { opacity: 1, x: 0, transition: { duration: .78, ease: [0.22, 1, 0.36, 1] } },
+}
+
+const revealRight = {
+  hidden: { opacity: 0, x: 46 },
+  show: { opacity: 1, x: 0, transition: { duration: .78, ease: [0.22, 1, 0.36, 1] } },
+}
+
+const imageReveal = {
+  hidden: { opacity: 0, scale: 1.055 },
+  show: { opacity: 1, scale: 1, transition: { duration: 1.05, ease: [0.22, 1, 0.36, 1] } },
+}
+
 const serviceStories = [
   {
     title: 'Development',
@@ -108,7 +128,7 @@ export default function HomePage() {
 
         <section id="statement" className="flex min-h-[86svh] items-center px-6 py-24 md:px-10 lg:px-14">
           <div className="mx-auto w-full max-w-[1500px]">
-            <div className="max-w-6xl">
+            <motion.div className="max-w-6xl" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .35 }}>
               <p className="mb-8 text-xl font-medium text-asca-orange md:text-2xl">
                 Technology built around business
               </p>
@@ -120,23 +140,23 @@ export default function HomePage() {
               <p className="mt-10 max-w-2xl text-xl leading-9 text-white/58 md:text-2xl md:leading-10">
                 ASCALab designs and delivers practical digital solutions for complex business problems.
               </p>
-            </div>
+            </motion.div>
           </div>
         </section>
 
         <section className="pb-24 md:pb-36">
-          <div className="mx-auto max-w-[1500px] px-6 md:px-10 lg:px-14">
+          <motion.div className="mx-auto max-w-[1500px] px-6 md:px-10 lg:px-14" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .35 }}>
             <h2 className="max-w-4xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
               We do three things. We prefer to do them properly.
             </h2>
-          </div>
+          </motion.div>
 
           <div className="mt-16 space-y-4 md:mt-24 md:space-y-8">
             {serviceStories.map((service, index) => (
-              <article key={service.title} className="mx-auto max-w-[1500px] px-4 md:px-8">
+              <motion.article key={service.title} className="mx-auto max-w-[1500px] px-4 md:px-8" variants={index % 2 ? revealRight : revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .18 }}>
                 <div className={`grid min-h-[72svh] overflow-hidden rounded-[30px] bg-[#0e1217] md:rounded-[40px] lg:grid-cols-2 ${index % 2 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
                   <div className="relative min-h-[42svh] lg:min-h-full">
-                    <img src={service.image} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                    <motion.img src={service.image} alt="" className="absolute inset-0 h-full w-full object-cover" variants={imageReveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }} />
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,12,.05),rgba(7,9,12,.35))]" />
                     <div className="absolute left-6 top-6 rounded-full bg-black/45 px-4 py-2 text-sm font-medium text-white/80 backdrop-blur-md md:left-8 md:top-8">
                       {service.title}
@@ -150,28 +170,28 @@ export default function HomePage() {
                     <p className="mt-6 max-w-xl leading-7 text-white/40">{service.detail}</p>
                   </div>
                 </div>
-              </article>
+              </motion.article>
             ))}
           </div>
         </section>
 
         <section className="px-6 py-24 md:px-10 md:py-36 lg:px-14">
           <div className="mx-auto max-w-[1500px]">
-            <div className="max-w-5xl">
+            <motion.div className="max-w-5xl" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .4 }}>
               <h2 className="text-[clamp(3.3rem,6.8vw,7rem)] font-semibold leading-[.95] tracking-[-.06em]">
                 Software gets serious when somebody's money, policy, power or connection depends on it.
               </h2>
               <p className="mt-8 max-w-2xl text-xl leading-9 text-white/48">
                 That is the environment we know. Four industries, different rules, same expectation: the system has to be trustworthy.
               </p>
-            </div>
+            </motion.div>
           </div>
         </section>
 
         <section className="space-y-4 px-4 pb-24 md:space-y-8 md:px-8 md:pb-36">
           {industryStories.map((industry, index) => (
-            <article key={industry.title} className="industry-cinema relative mx-auto min-h-[68svh] max-w-[1500px] overflow-hidden rounded-[30px] md:rounded-[40px]">
-              <img src={industry.image} alt="" className="absolute inset-0 h-full w-full object-cover" />
+            <motion.article key={industry.title} className="industry-cinema relative mx-auto min-h-[68svh] max-w-[1500px] overflow-hidden rounded-[30px] md:rounded-[40px]" variants={index % 2 ? revealRight : revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .16 }}>
+              <motion.img src={industry.image} alt="" className="absolute inset-0 h-full w-full object-cover" variants={imageReveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .2 }} />
               <div className={`absolute inset-0 ${index % 2 === 0 ? 'bg-[linear-gradient(90deg,rgba(5,7,10,.9),rgba(5,7,10,.48)_55%,rgba(5,7,10,.14))]' : 'bg-[linear-gradient(270deg,rgba(5,7,10,.9),rgba(5,7,10,.48)_55%,rgba(5,7,10,.14))]'}`} />
               <div className={`relative z-10 flex min-h-[68svh] items-end p-7 md:p-12 ${index % 2 ? 'justify-end text-right' : ''}`}>
                 <div className={`max-w-2xl ${index % 2 ? 'ml-auto' : ''}`}>
@@ -189,7 +209,7 @@ export default function HomePage() {
 
         <section className="px-6 py-24 md:px-10 md:py-36 lg:px-14">
           <div className="mx-auto grid max-w-[1500px] gap-14 lg:grid-cols-[1fr_1fr] lg:items-center">
-            <div>
+            <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
               <h2 className="text-5xl font-semibold leading-[.98] tracking-[-.055em] md:text-7xl">
                 Quality became a product.
               </h2>
@@ -199,8 +219,8 @@ export default function HomePage() {
               <p className="mt-6 max-w-xl leading-7 text-white/38">
                 This block will eventually carry real product screenshots, features and event-specific messaging. For now it holds the rhythm and space the final content will need.
               </p>
-            </div>
-            <div className="relative min-h-[58svh] overflow-hidden rounded-[34px]">
+            </motion.div>
+            <motion.div className="relative min-h-[58svh] overflow-hidden rounded-[34px]" variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }}>
               <img
                 src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1800&q=88"
                 alt=""
@@ -210,16 +230,16 @@ export default function HomePage() {
               <div className="absolute bottom-7 left-7 text-3xl font-semibold tracking-[-.04em] md:bottom-10 md:left-10 md:text-5xl">
                 myQAbee
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
         <section className="flex min-h-[76svh] items-center px-6 py-24 md:px-10 lg:px-14">
           <div className="mx-auto grid w-full max-w-[1500px] gap-12 lg:grid-cols-[1fr_1fr]">
-            <h2 className="max-w-2xl text-5xl font-semibold leading-[.98] tracking-[-.055em] md:text-7xl">
+            <motion.h2 className="max-w-2xl text-5xl font-semibold leading-[.98] tracking-[-.055em] md:text-7xl" variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
               Enough process to stay in control. Not enough to hide behind it.
-            </h2>
-            <div className="space-y-8 self-end text-lg leading-8 text-white/56">
+            </motion.h2>
+            <motion.div className="space-y-8 self-end text-lg leading-8 text-white/56" variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
               <p>
                 We start with the system as it exists, not the version of it living in a PowerPoint diagram. That means talking to the people who use it, tracing dependencies and understanding which parts of the business cannot simply stop while a new solution is being built.
               </p>
@@ -229,22 +249,22 @@ export default function HomePage() {
               <p>
                 The engagement model can change. The expectation does not: clear ownership, visible progress and fewer surprises in production.
               </p>
-            </div>
+            </motion.div>
           </div>
         </section>
 
         <section className="px-6 py-24 md:px-10 md:py-32 lg:px-14">
           <div className="mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-start">
-            <div>
+            <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
               <h2 className="max-w-xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
                 Leave your details.
               </h2>
               <p className="mt-5 max-w-md text-lg leading-8 text-white/46">
                 This will be connected to the final Google form / Sheets flow once the event fields are confirmed.
               </p>
-            </div>
+            </motion.div>
 
-            <form className="grid gap-3 rounded-[28px] border border-white/9 bg-asca-panel p-5 md:p-7" onSubmit={(e) => e.preventDefault()}>
+            <motion.form variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }} className="grid gap-3 rounded-[28px] border border-white/9 bg-asca-panel p-5 md:p-7" onSubmit={(e) => e.preventDefault()}>
               <input className="field" placeholder="Name" />
               <input className="field" placeholder="Company" />
               <input className="field" placeholder="Email" type="email" />
@@ -252,22 +272,23 @@ export default function HomePage() {
               <button className="mt-2 min-h-14 rounded-2xl bg-white px-6 font-semibold text-black transition hover:bg-asca-orange" type="submit">
                 Submit
               </button>
-            </form>
+            </motion.form>
           </div>
         </section>
 
         <section className="px-4 pb-4 md:px-8 md:pb-8">
           <Link
             to="/quiz"
-            className="group flex min-h-[44svh] items-end justify-between gap-6 rounded-[30px] bg-asca-orange p-7 text-black transition duration-300 hover:brightness-105 md:min-h-[50svh] md:rounded-[38px] md:p-12"
+            className="quiz-cta group relative flex min-h-[27svh] items-end justify-between gap-6 overflow-hidden rounded-[28px] bg-asca-orange p-6 text-black transition duration-500 md:min-h-[30svh] md:rounded-[34px] md:p-9"
           >
-            <div>
-              <p className="text-lg font-semibold opacity-55">One more thing.</p>
-              <h2 className="mt-4 text-[clamp(3.5rem,9vw,9rem)] font-semibold leading-[.86] tracking-[-.065em]">
+            <div className="relative z-10">
+              <p className="text-base font-semibold opacity-55">One more thing.</p>
+              <h2 className="mt-3 text-[clamp(2.7rem,6vw,6.5rem)] font-semibold leading-[.9] tracking-[-.06em]">
                 Take the quiz.
               </h2>
             </div>
-            <div className="mb-2 hidden size-20 shrink-0 place-items-center rounded-full bg-black text-white transition group-hover:translate-x-1 md:grid">
+            <span className="quiz-sheen" aria-hidden="true" />
+            <div className="quiz-arrow mb-1 hidden size-16 shrink-0 place-items-center rounded-full bg-black text-white transition duration-500 md:grid">
               <ArrowRight size={32} />
             </div>
           </Link>
