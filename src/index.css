@@ -57,6 +57,21 @@ a {
   color: #f79554;
 }
 
+.service-index {
+  position: absolute;
+  inset: -38px auto auto -10px;
+  font-size: clamp(5.5rem, 10vw, 9rem);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -.08em;
+  color: rgba(255,255,255,.028);
+  user-select: none;
+}
+
+.industry-story:last-child {
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
 .field {
   min-height: 58px;
   width: 100%;
@@ -80,6 +95,13 @@ textarea.field {
 .field:focus {
   border-color: rgba(247,149,84,.75);
   background: rgba(255,255,255,.055);
+}
+
+@media (max-width: 767px) {
+  .service-index {
+    inset: -28px auto auto -4px;
+    font-size: 5.5rem;
+  }
 }
 
 @media (hover: none) {
