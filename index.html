@@ -1,107 +1,13 @@
-import { useEffect, useMemo, useState } from 'react'
-import { Check, X } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
-import { passingScore, quizQuestions } from '../data/quizQuestions.js'
-
-export default function QuizPage() {
-  const navigate = useNavigate()
-  const [questionIndex, setQuestionIndex] = useState(0)
-  const [correctCount, setCorrectCount] = useState(0)
-  const [finished, setFinished] = useState(false)
-
-  const currentQuestion = quizQuestions[questionIndex]
-  const [timeLeft, setTimeLeft] = useState(currentQuestion?.timeLimit ?? 15)
-
-  const passed = useMemo(
-    () => correctCount / quizQuestions.length >= passingScore,
-    [correctCount],
-  )
-
-  function advance(answerIndex = null) {
-    const isCorrect = answerIndex === currentQuestion.correctAnswer
-    const nextCorrectCount = correctCount + (isCorrect ? 1 : 0)
-
-    if (questionIndex === quizQuestions.length - 1) {
-      setCorrectCount(nextCorrectCount)
-      setFinished(true)
-      return
-    }
-
-    setCorrectCount(nextCorrectCount)
-    setQuestionIndex((index) => index + 1)
-  }
-
-  useEffect(() => {
-    if (finished) return
-    setTimeLeft(currentQuestion.timeLimit)
-  }, [questionIndex, currentQuestion, finished])
-
-  useEffect(() => {
-    if (finished) return
-    if (timeLeft <= 0) {
-      advance(null)
-      return
-    }
-
-    const timer = window.setTimeout(() => setTimeLeft((time) => time - 1), 1000)
-    return () => window.clearTimeout(timer)
-  }, [timeLeft, finished])
-
-  if (finished) {
-    return (
-      <main className="grid min-h-screen place-items-center bg-asca-bg px-5 py-8 text-white">
-        <div className="w-full max-w-xl rounded-[2rem] border border-white/10 bg-asca-panel p-8 text-center shadow-2xl shadow-black/30 md:p-12">
-          <div className={`mx-auto grid size-20 place-items-center rounded-full ${passed ? 'bg-emerald-500/12 text-emerald-400' : 'bg-red-500/12 text-red-400'}`}>
-            {passed ? <Check size={42} strokeWidth={2.5} /> : <X size={42} strokeWidth={2.5} />}
-          </div>
-          <h1 className="mt-7 text-4xl font-semibold tracking-[-0.045em] md:text-5xl">
-            {passed ? 'You passed.' : 'Not this time.'}
-          </h1>
-          <p className="mt-3 text-white/48">Score: {correctCount} / {quizQuestions.length}</p>
-          <button
-            onClick={() => navigate('/')}
-            className="mt-8 min-h-14 w-full rounded-xl bg-asca-orange px-6 font-semibold text-black transition hover:brightness-105"
-          >
-            OK
-          </button>
-        </div>
-      </main>
-    )
-  }
-
-  const progress = ((questionIndex + 1) / quizQuestions.length) * 100
-  const timePercent = Math.max(0, (timeLeft / currentQuestion.timeLimit) * 100)
-
-  return (
-    <main className="min-h-screen bg-asca-bg px-5 py-8 text-white md:grid md:place-items-center md:px-8">
-      <div className="w-full max-w-4xl">
-        <div className="mb-6 flex items-center justify-between gap-4 text-sm font-semibold text-white/55">
-          <span>Question {questionIndex + 1} / {quizQuestions.length}</span>
-          <span className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 tabular-nums text-white">00:{String(timeLeft).padStart(2, '0')}</span>
-        </div>
-
-        <div className="mb-3 h-1 overflow-hidden rounded-full bg-white/8">
-          <div className="h-full bg-asca-orange transition-all" style={{ width: `${progress}%` }} />
-        </div>
-
-        <section className="rounded-[2rem] border border-white/10 bg-asca-panel p-6 md:p-10">
-          <div className="mb-8 h-1 overflow-hidden rounded-full bg-white/8">
-            <div className="h-full bg-white/65 transition-all duration-1000" style={{ width: `${timePercent}%` }} />
-          </div>
-          <h1 className="text-3xl font-semibold tracking-[-0.035em] md:text-5xl">{currentQuestion.question}</h1>
-          <div className="mt-8 grid gap-3 md:grid-cols-2">
-            {currentQuestion.answers.map((answer, index) => (
-              <button
-                key={answer}
-                onClick={() => advance(index)}
-                className="min-h-20 rounded-2xl border border-white/10 bg-white/[0.035] px-5 py-4 text-left font-medium text-white/82 transition hover:border-asca-orange/60 hover:bg-asca-orange hover:text-black active:scale-[.99]"
-              >
-                {answer}
-              </button>
-            ))}
-          </div>
-        </section>
-      </div>
-    </main>
-  )
-}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#090B0F" />
+    <title>ASCALab</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
