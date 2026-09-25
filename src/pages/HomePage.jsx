@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ArrowDown, ArrowRight } from 'lucide-react'
+import { ArrowDown, ArrowRight, Check } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
@@ -265,86 +265,107 @@ export default function HomePage() {
               <p className="mt-5 max-w-md text-lg leading-8 text-white/46">
                 This is the first live Google Forms integration test. The interface is ours; the answers are submitted straight into the published form in the background.
               </p>
-              {formSent && (
-                <div className="mt-8 max-w-md rounded-2xl border border-emerald-400/20 bg-emerald-400/8 px-5 py-4 text-sm leading-6 text-emerald-300">
-                  Response sent. Check the Google Forms Responses tab to confirm it landed.
-                </div>
-              )}
             </motion.div>
 
             <motion.div variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }}>
               <iframe title="Google Forms submit target" name="google-form-target" className="hidden" />
 
-              <form
-                action="https://docs.google.com/forms/d/e/1FAIpQLScRy8VVrCMWDZgcmKenHgR-Y1sjB5TLlBj_fuN_3n2xxLdgBw/formResponse"
-                method="POST"
-                target="google-form-target"
-                className="rounded-[28px] border border-white/9 bg-asca-panel p-5 md:p-7"
-                onSubmit={(event) => {
-                  const form = event.currentTarget
-                  setFormSent(false)
-                  window.setTimeout(() => {
-                    form.reset()
-                    setFormSent(true)
-                  }, 650)
-                }}
-              >
-                <fieldset>
-                  <legend className="text-lg font-semibold">Overall quality</legend>
-                  <p className="mt-1 text-sm text-white/38">Poor → Excellent</p>
-                  <div className="mt-4 grid grid-cols-5 gap-2">
-                    {[1, 2, 3, 4, 5].map((value) => (
-                      <label key={value} className="survey-choice">
-                        <input required type="radio" name="entry.1080979567" value={value} className="sr-only peer" />
-                        <span className="survey-choice-box">{value}</span>
-                      </label>
-                    ))}
+              {formSent ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: .96, y: 14 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ duration: .45, ease: [0.22, 1, 0.36, 1] }}
+                  className="grid min-h-[520px] place-items-center rounded-[28px] border border-emerald-400/15 bg-[radial-gradient(circle_at_50%_35%,rgba(16,185,129,.11),transparent_44%),#0f1318] p-8 text-center md:min-h-[620px]"
+                >
+                  <div>
+                    <motion.div
+                      initial={{ scale: .6, rotate: -10 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      transition={{ delay: .08, type: 'spring', stiffness: 220, damping: 16 }}
+                      className="mx-auto grid size-24 place-items-center rounded-full border border-emerald-300/25 bg-emerald-400/10 text-emerald-300 shadow-[0_0_70px_rgba(16,185,129,.12)]"
+                    >
+                      <Check size={48} strokeWidth={2.4} />
+                    </motion.div>
+                    <h3 className="mt-8 text-4xl font-semibold tracking-[-.045em] md:text-5xl">
+                      Form sent successfully.
+                    </h3>
+                    <p className="mx-auto mt-4 max-w-md text-lg leading-8 text-white/46">
+                      Thanks for the feedback. Your response has been submitted.
+                    </p>
                   </div>
-                </fieldset>
+                </motion.div>
+              ) : (
+                <form
+                  action="https://docs.google.com/forms/d/e/1FAIpQLScRy8VVrCMWDZgcmKenHgR-Y1sjB5TLlBj_fuN_3n2xxLdgBw/formResponse"
+                  method="POST"
+                  target="google-form-target"
+                  className="rounded-[28px] border border-white/9 bg-asca-panel p-5 md:p-7"
+                  onSubmit={(event) => {
+                    const form = event.currentTarget
+                    setFormSent(false)
+                    window.setTimeout(() => {
+                      form.reset()
+                      setFormSent(true)
+                    }, 650)
+                  }}
+                >
+                  <fieldset>
+                    <legend className="text-lg font-semibold">Overall quality</legend>
+                    <p className="mt-1 text-sm text-white/38">Poor → Excellent</p>
+                    <div className="mt-4 grid grid-cols-5 gap-2">
+                      {[1, 2, 3, 4, 5].map((value) => (
+                        <label key={value} className="survey-choice">
+                          <input required type="radio" name="entry.1080979567" value={value} className="sr-only peer" />
+                          <span className="survey-choice-box">{value}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
 
-                <fieldset className="mt-8">
-                  <legend className="text-lg font-semibold">Most valuable keynote or topic</legend>
-                  <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                    {['Global Market Trends', 'Digital Assets and Blockchain', 'Sustainable Investing', 'Regulatory Updates'].map((option) => (
-                      <label key={option} className="survey-option">
-                        <input required type="radio" name="entry.795391864" value={option} className="sr-only peer" />
-                        <span>{option}</span>
-                      </label>
-                    ))}
-                  </div>
-                </fieldset>
+                  <fieldset className="mt-8">
+                    <legend className="text-lg font-semibold">Most valuable keynote or topic</legend>
+                    <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                      {['Global Market Trends', 'Digital Assets and Blockchain', 'Sustainable Investing', 'Regulatory Updates'].map((option) => (
+                        <label key={option} className="survey-option">
+                          <input required type="radio" name="entry.795391864" value={option} className="sr-only peer" />
+                          <span>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
 
-                <fieldset className="mt-8">
-                  <legend className="text-lg font-semibold">What did you enjoy most?</legend>
-                  <label className="survey-option mt-4">
-                    <input type="checkbox" name="entry.1322378946" value="Panel discussions" className="sr-only peer" />
-                    <span>Panel discussions</span>
+                  <fieldset className="mt-8">
+                    <legend className="text-lg font-semibold">What did you enjoy most?</legend>
+                    <label className="survey-option mt-4">
+                      <input type="checkbox" name="entry.1322378946" value="Panel discussions" className="sr-only peer" />
+                      <span>Panel discussions</span>
+                    </label>
+                    <p className="mt-2 text-xs text-white/30">Test mapping currently uses the confirmed “Panel discussions” option.</p>
+                  </fieldset>
+
+                  <fieldset className="mt-8">
+                    <legend className="text-lg font-semibold">Additional rating</legend>
+                    <div className="mt-4 grid grid-cols-5 gap-2">
+                      {[1, 2, 3, 4, 5].map((value) => (
+                        <label key={value} className="survey-choice">
+                          <input required type="radio" name="entry.809343022" value={value} className="sr-only peer" />
+                          <span className="survey-choice-box">{value}</span>
+                        </label>
+                      ))}
+                    </div>
+                    <p className="mt-2 text-xs text-white/30">Question wording will be replaced once we confirm the lower half of the source form.</p>
+                  </fieldset>
+
+                  <label className="mt-8 block">
+                    <span className="text-lg font-semibold">Additional feedback</span>
+                    <textarea required name="entry.239328865" className="field mt-4 min-h-32 resize-none" placeholder="Tell us what you think..." />
                   </label>
-                  <p className="mt-2 text-xs text-white/30">Test mapping currently uses the confirmed “Panel discussions” option.</p>
-                </fieldset>
 
-                <fieldset className="mt-8">
-                  <legend className="text-lg font-semibold">Additional rating</legend>
-                  <div className="mt-4 grid grid-cols-5 gap-2">
-                    {[1, 2, 3, 4, 5].map((value) => (
-                      <label key={value} className="survey-choice">
-                        <input required type="radio" name="entry.809343022" value={value} className="sr-only peer" />
-                        <span className="survey-choice-box">{value}</span>
-                      </label>
-                    ))}
-                  </div>
-                  <p className="mt-2 text-xs text-white/30">Question wording will be replaced once we confirm the lower half of the source form.</p>
-                </fieldset>
-
-                <label className="mt-8 block">
-                  <span className="text-lg font-semibold">Additional feedback</span>
-                  <textarea required name="entry.239328865" className="field mt-4 min-h-32 resize-none" placeholder="Tell us what you think..." />
-                </label>
-
-                <button className="mt-6 min-h-14 w-full rounded-2xl bg-white px-6 font-semibold text-black transition hover:bg-asca-orange" type="submit">
-                  Send feedback
-                </button>
-              </form>
+                  <button className="mt-6 min-h-14 w-full rounded-2xl bg-white px-6 font-semibold text-black transition hover:bg-asca-orange" type="submit">
+                    Send feedback
+                  </button>
+                </form>
+              )}
             </motion.div>
           </div>
         </section>
