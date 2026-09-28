@@ -122,10 +122,10 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,12,.18),rgba(7,9,12,.64)_60%,#07090c_100%)]" />
           <div className="pointer-events-none absolute -bottom-40 right-[8%] size-[38rem] rounded-full bg-asca-toxic/10 blur-[110px]" />
 
-          <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] flex-col px-6 py-7 md:px-10 md:py-9 lg:px-14">
-            <div className="flex items-center justify-between">
-              <span className="hidden items-center gap-2 text-sm font-medium text-white/72 sm:flex">
-                <span className="size-2 rounded-full bg-asca-toxic shadow-[0_0_18px_rgba(199,255,0,.75)]" />
+          <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] flex-col px-6 py-8 md:px-10 md:py-10 lg:px-14">
+            <div className="flex items-center justify-between gap-6">
+              <span className="hidden items-center gap-3 text-base font-semibold text-white/82 sm:flex md:text-lg">
+                <span className="size-2.5 rounded-full bg-asca-toxic shadow-[0_0_20px_rgba(199,255,0,.80)]" />
                 {eventConfig.campaignTitle}
               </span>
               <div className="relative isolate pr-1">
@@ -136,7 +136,7 @@ export default function HomePage() {
                 <img
                   src="/ascalab-logo-official.webp"
                   alt="ASCALab"
-                  className="h-10 w-auto drop-shadow-[0_2px_10px_rgba(0,0,0,.28)] md:h-12"
+                  className="h-12 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,.30)] md:h-14 lg:h-16"
                 />
               </div>
             </div>
@@ -165,10 +165,23 @@ export default function HomePage() {
               </motion.h1>
 
               <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-                <p className="max-w-2xl text-lg leading-8 text-white/68 md:text-xl">
-                  Software. Cloud. QA. Data. Real systems, real users and maybe your next internship.
-                </p>
-                <a href="#statement" className="inline-flex min-h-12 shrink-0 items-center gap-2 text-sm font-semibold text-white/72 transition hover:text-white">
+                <div>
+                  <p className="max-w-2xl text-lg leading-8 text-white/68 md:text-xl">
+                    Software. Cloud. QA. Data. Real systems, real users and maybe your next internship.
+                  </p>
+                  <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-white/34 md:text-sm">
+                    <span className="text-asca-toxic">{'{'} curiosity &gt; buzzwords {'}'}</span>
+                    <span>build</span>
+                    <span className="text-white/18">/</span>
+                    <span>break</span>
+                    <span className="text-white/18">/</span>
+                    <span>learn</span>
+                    <span className="text-white/18">/</span>
+                    <span>ship</span>
+                  </div>
+                </div>
+                <a href="#statement" className="hero-scroll-cue inline-flex min-h-12 shrink-0 items-center gap-3 text-sm font-semibold text-white/76 transition hover:text-white">
+                  <span className="h-px w-8 bg-asca-toxic/70" />
                   Scroll the booth <ArrowDown size={17} />
                 </a>
               </div>
@@ -272,6 +285,9 @@ export default function HomePage() {
             <p className="mt-8 max-w-2xl text-lg leading-8 text-white/48">
               You do not need to arrive knowing everything. Fundamentals, curiosity and enough stubbornness to keep digging are a pretty good start.
             </p>
+            <p className="mt-5 font-mono text-sm text-asca-toxic/85">
+              // no perfect profile required
+            </p>
           </motion.div>
         </section>
 
@@ -292,6 +308,9 @@ export default function HomePage() {
               </h2>
               <p className="mt-5 max-w-2xl text-lg leading-8 text-black/62">
                 5–8 random questions, an AI image challenge, speed scoring and prize tiers. Every session gets a different mix.
+              </p>
+              <p className="mt-4 font-mono text-sm font-semibold text-black/50">
+                friend assistance not guaranteed to help :)
               </p>
             </div>
             <Link
