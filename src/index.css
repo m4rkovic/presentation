@@ -150,41 +150,149 @@ textarea.field {
 }
 
 
-.survey-choice,
-.survey-option {
+.feedback-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,.09);
+  padding: 28px 0;
+}
+
+.feedback-index {
+  font-size: .75rem;
+  line-height: 1rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  color: rgba(247,149,84,.72);
+}
+
+.feedback-title {
+  font-size: 1.05rem;
+  line-height: 1.4;
+  font-weight: 650;
+  letter-spacing: -.015em;
+  color: rgba(255,255,255,.94);
+}
+
+.survey-scale {
   display: block;
   cursor: pointer;
 }
 
-.survey-choice-box,
-.survey-option > span {
-  display: flex;
-  min-height: 52px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255,255,255,.10);
-  border-radius: 14px;
-  background: rgba(255,255,255,.035);
-  padding: 0 14px;
-  color: rgba(255,255,255,.72);
-  transition: border-color .2s ease, background .2s ease, color .2s ease, transform .2s ease;
+.survey-scale > span {
+  display: grid;
+  min-height: 44px;
+  place-items: center;
+  border-bottom: 1px solid rgba(255,255,255,.18);
+  color: rgba(255,255,255,.56);
+  transition: border-color .2s ease, color .2s ease, background .2s ease;
 }
 
-.survey-option > span {
-  justify-content: flex-start;
-}
-
-.survey-choice input:checked + .survey-choice-box,
-.survey-option input:checked + span {
-  border-color: rgba(247,149,84,.85);
-  background: rgba(247,149,84,.16);
+.survey-scale input:checked + span {
+  border-color: #f79554;
+  background: rgba(247,149,84,.08);
   color: #fff;
 }
 
+.survey-line {
+  display: flex;
+  min-height: 50px;
+  cursor: pointer;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,.09);
+  color: rgba(255,255,255,.62);
+  transition: color .2s ease, border-color .2s ease;
+}
+
+.survey-line-dot {
+  display: block;
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(255,255,255,.34);
+  border-radius: 999px;
+  transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.survey-line-square {
+  border-radius: 2px;
+}
+
+.survey-line input:checked + .survey-line-dot {
+  border-color: #f79554;
+  background: #f79554;
+  transform: scale(1.12);
+}
+
+.survey-line:has(input:checked) {
+  border-color: rgba(247,149,84,.45);
+  color: #fff;
+}
+
+.feedback-textarea {
+  width: 100%;
+  min-height: 104px;
+  resize: vertical;
+  border: 0;
+  border-bottom: 1px solid rgba(255,255,255,.16);
+  background: transparent;
+  padding: 12px 0 14px;
+  color: #fff;
+  outline: none;
+  transition: border-color .2s ease;
+}
+
+.feedback-textarea::placeholder {
+  color: rgba(255,255,255,.28);
+}
+
+.feedback-textarea:focus {
+  border-color: #f79554;
+}
+
+.feedback-submit {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid rgba(247,149,84,.62);
+  border-radius: 999px;
+  background: transparent;
+  padding: 0 22px;
+  color: #f79554;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+@media (min-width: 768px) {
+  .feedback-row {
+    grid-template-columns: 62px 1fr;
+    gap: 24px;
+    padding: 30px 0;
+  }
+
+  .feedback-index {
+    padding-top: 3px;
+  }
+}
+
 @media (hover: hover) {
-  .survey-choice:hover .survey-choice-box,
-  .survey-option:hover > span {
-    border-color: rgba(247,149,84,.45);
+  .survey-scale:hover > span {
+    border-color: rgba(247,149,84,.55);
+    color: #fff;
+  }
+
+  .survey-line:hover {
+    border-color: rgba(255,255,255,.22);
+    color: #fff;
+  }
+
+  .feedback-submit:hover {
+    background: #f79554;
+    color: #07090c;
     transform: translateY(-1px);
   }
 }
