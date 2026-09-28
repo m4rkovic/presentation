@@ -72,6 +72,8 @@ const serviceStories = [
   },
 ]
 
+const techStack = ['Java', '.NET', 'React', 'TypeScript', 'Python', 'SQL', 'Azure', 'AWS', 'CI/CD', 'QA Automation', 'Data / AI']
+
 const industryStories = [
   {
     title: 'Banking',
@@ -117,11 +119,15 @@ export default function HomePage() {
             alt=""
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,12,.24),rgba(7,9,12,.64)_60%,#07090c_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,12,.18),rgba(7,9,12,.64)_60%,#07090c_100%)]" />
+          <div className="pointer-events-none absolute -bottom-40 right-[8%] size-[38rem] rounded-full bg-asca-toxic/10 blur-[110px]" />
 
           <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] flex-col px-6 py-7 md:px-10 md:py-9 lg:px-14">
             <div className="flex items-center justify-between">
-              <span className="hidden text-sm font-medium text-white/72 sm:block">{eventConfig.campaignTitle}</span>
+              <span className="hidden items-center gap-2 text-sm font-medium text-white/72 sm:flex">
+                <span className="size-2 rounded-full bg-asca-toxic shadow-[0_0_18px_rgba(199,255,0,.75)]" />
+                {eventConfig.campaignTitle}
+              </span>
               <div className="relative isolate pr-1">
                 <span
                   aria-hidden="true"
@@ -136,6 +142,18 @@ export default function HomePage() {
             </div>
 
             <div className="mt-auto max-w-5xl pb-10 md:pb-16">
+              <motion.div
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: .8, delay: .04, ease: [0.16, 1, 0.3, 1] }}
+                className="mb-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-bold uppercase tracking-[.17em] text-asca-toxic md:text-sm"
+              >
+                <span>Students</span>
+                <span className="text-white/32">/</span>
+                <span>Internships</span>
+                <span className="text-white/32">/</span>
+                <span>Tech quiz</span>
+              </motion.div>
               <motion.h1
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -143,7 +161,7 @@ export default function HomePage() {
                 className="max-w-5xl text-[clamp(3.5rem,8.5vw,8.8rem)] font-semibold leading-[.92] tracking-[-0.045em]"
               >
                 <span className="block">Build things that</span>
-                <span className="block tracking-[-0.03em] text-white/48">actually matter.</span>
+                <span className="block tracking-[-0.03em] text-asca-toxic">actually matter.</span>
               </motion.h1>
 
               <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
@@ -151,7 +169,7 @@ export default function HomePage() {
                   Software. Cloud. QA. Data. Real systems, real users and maybe your next internship.
                 </p>
                 <a href="#statement" className="inline-flex min-h-12 shrink-0 items-center gap-2 text-sm font-semibold text-white/72 transition hover:text-white">
-                  Meet ASCALab <ArrowDown size={17} />
+                  Scroll the booth <ArrowDown size={17} />
                 </a>
               </div>
             </div>
@@ -167,7 +185,7 @@ export default function HomePage() {
               ['9', 'Countries'],
             ].map(([value, label]) => (
               <div key={label} className="md:px-8 md:first:pl-0">
-                <div className="text-4xl font-semibold tracking-[-.05em] md:text-5xl">{value}</div>
+                <div className={`text-4xl font-semibold tracking-[-.05em] md:text-5xl ${label === 'Engineers' ? 'text-asca-toxic' : ''}`}>{value}</div>
                 <div className="mt-2 text-sm text-white/42">{label}</div>
               </div>
             ))}
@@ -183,7 +201,7 @@ export default function HomePage() {
               <h2 className="text-[clamp(3.3rem,7.5vw,8rem)] font-semibold leading-[.92] tracking-[-.06em]">
                 Built to fit.<br />
                 Designed to last.<br />
-                <span className="text-white/38">Less corporate fog.</span>
+                <span className="text-asca-toxic/75">Less corporate fog.</span>
               </h2>
               <p className="mt-10 max-w-2xl text-xl leading-9 text-white/58 md:text-2xl md:leading-10">
                 ASCALab builds practical digital solutions for complex problems, with enough engineering depth to keep them useful after the launch-day screenshots stop being exciting.
@@ -223,6 +241,16 @@ export default function HomePage() {
           </div>
         </section>
 
+        <section className="tech-marquee border-y border-white/8 bg-[#0a0d10] py-5">
+          <div className="tech-marquee-track">
+            {[...techStack, ...techStack].map((item, index) => (
+              <span key={`${item}-${index}`} className="tech-marquee-item">
+                {item}
+              </span>
+            ))}
+          </div>
+        </section>
+
         <section className="overflow-hidden border-y border-white/8 py-16 md:py-24">
           <motion.div
             variants={reveal}
@@ -231,12 +259,12 @@ export default function HomePage() {
             viewport={{ once: true, amount: .35 }}
             className="mx-auto max-w-[1500px] px-6 md:px-10 lg:px-14"
           >
-            <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
+            <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-toxic">
               Where you could fit
             </p>
             <div className="mt-7 flex flex-wrap gap-x-7 gap-y-3 text-[clamp(2.5rem,5.8vw,6.5rem)] font-semibold leading-none tracking-[-.055em] text-white/82">
               {eventConfig.careers.map((career, index) => (
-                <span key={career} className={index % 3 === 1 ? 'text-white/34' : ''}>
+                <span key={career} className={index % 3 === 1 ? 'text-asca-toxic' : 'text-white/82'}>
                   {career}
                 </span>
               ))}
@@ -253,22 +281,22 @@ export default function HomePage() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: .3 }}
-            className="mx-auto grid max-w-[1180px] gap-8 overflow-hidden rounded-[30px] border border-white/10 bg-[#0e1217] p-7 md:rounded-[38px] md:p-10 lg:grid-cols-[1fr_auto] lg:items-end"
+            className="student-quiz-band mx-auto grid max-w-[1180px] gap-8 overflow-hidden rounded-[30px] border border-asca-toxic/35 bg-asca-toxic p-7 text-black md:rounded-[38px] md:p-10 lg:grid-cols-[1fr_auto] lg:items-end"
           >
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
+              <p className="text-sm font-semibold uppercase tracking-[.18em] text-black/55">
                 Production is the final boss.
               </p>
               <h2 className="mt-4 max-w-4xl text-4xl font-semibold leading-[.98] tracking-[-.05em] md:text-6xl">
                 Think you know tech? Prove it before your friend does.
               </h2>
-              <p className="mt-5 max-w-2xl text-lg leading-8 text-white/48">
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-black/62">
                 5–8 random questions, an AI image challenge, speed scoring and prize tiers. Every session gets a different mix.
               </p>
             </div>
             <Link
               to={{ pathname: '/quiz', search: location.search }}
-              className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-asca-orange px-7 font-semibold text-black transition hover:brightness-105"
+              className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-black px-7 font-semibold text-white transition hover:scale-[1.02]"
             >
               Start quiz <ArrowRight size={18} />
             </Link>
@@ -295,7 +323,7 @@ export default function HomePage() {
               <div className={`absolute inset-0 ${index % 2 === 0 ? 'bg-[linear-gradient(90deg,rgba(5,7,10,.9),rgba(5,7,10,.48)_55%,rgba(5,7,10,.14))]' : 'bg-[linear-gradient(270deg,rgba(5,7,10,.9),rgba(5,7,10,.48)_55%,rgba(5,7,10,.14))]'}`} />
               <div className={`relative z-10 flex min-h-[68svh] items-end p-7 md:p-12 ${index % 2 ? 'justify-end text-right' : ''}`}>
                 <div className={`max-w-2xl ${index % 2 ? 'ml-auto' : ''}`}>
-                  <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
+                  <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-toxic">
                     {industry.title}
                   </p>
                   <h3 className="mt-4 text-[clamp(3rem,6.5vw,6.8rem)] font-semibold leading-[.93] tracking-[-.06em]">
@@ -340,7 +368,7 @@ export default function HomePage() {
         <section className="flex min-h-[76svh] items-center px-6 py-24 md:px-10 lg:px-14">
           <div className="mx-auto grid w-full max-w-[1500px] gap-12 lg:grid-cols-[1fr_1fr]">
             <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
-              <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
+              <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-toxic">
                 A useful thing to know
               </p>
               <h2 className="mt-4 max-w-3xl text-5xl font-semibold leading-[.98] tracking-[-.055em] md:text-7xl">
@@ -355,7 +383,7 @@ export default function HomePage() {
                 The work itself teaches the rest: how systems connect, how requirements become software, why testing matters and why production has a talent for finding assumptions nobody wrote down.
               </p>
               <p className="text-white/82">
-                Learn fast. Ask why. Break things somewhere safe. Then make them better.
+                Learn fast. Ask why. Break things somewhere safe. <span className="text-asca-toxic">Then make them better.</span>
               </p>
             </motion.div>
           </div>
@@ -393,7 +421,7 @@ export default function HomePage() {
                 </p>
                 <Link
                   to={{ pathname: '/quiz', search: location.search }}
-                  className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-asca-orange transition hover:text-white"
+                  className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-asca-toxic transition hover:text-white"
                 >
                   Preview the student quiz <ArrowRight size={17} />
                 </Link>
@@ -543,7 +571,7 @@ export default function HomePage() {
           <div className="mx-auto max-w-[1180px]">
             <Link
               to={{ pathname: '/quiz', search: location.search }}
-              className="quiz-cta group relative flex min-h-[27svh] items-end justify-between gap-6 overflow-hidden rounded-[28px] bg-asca-orange p-6 text-black transition duration-500 md:min-h-[30svh] md:rounded-[34px] md:p-9"
+              className="quiz-cta group relative flex min-h-[27svh] items-end justify-between gap-6 overflow-hidden rounded-[28px] bg-asca-toxic p-6 text-black transition duration-500 md:min-h-[30svh] md:rounded-[34px] md:p-9"
             >
             <div className="relative z-10">
               <p className="text-base font-semibold opacity-55">{eventConfig.eventName} · 5–8 random questions · no mercy from the timer</p>
