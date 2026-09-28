@@ -7,6 +7,7 @@
   --color-asca-panel: #0f1318;
   --color-asca-soft: #171c22;
   --color-asca-gray: #8b929b;
+  --color-asca-toxic: #c7ff00;
 }
 
 :root {
@@ -221,5 +222,76 @@ textarea.field {
   .feedback-simple-submit:hover {
     transform: translateY(-1px);
     filter: brightness(1.04);
+  }
+}
+
+
+.tech-marquee {
+  overflow: hidden;
+}
+
+.tech-marquee-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: 0;
+  animation: tech-marquee 26s linear infinite;
+}
+
+.tech-marquee-item {
+  position: relative;
+  padding: 0 2.2rem;
+  font-size: clamp(1.25rem, 2.2vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -.035em;
+  color: rgba(255,255,255,.82);
+  white-space: nowrap;
+}
+
+.tech-marquee-item::after {
+  content: "✦";
+  position: absolute;
+  right: -.35rem;
+  top: 50%;
+  transform: translateY(-48%);
+  color: #c7ff00;
+  font-size: .9rem;
+}
+
+.student-quiz-band {
+  position: relative;
+  isolation: isolate;
+  box-shadow: 0 24px 90px rgba(199,255,0,.10);
+}
+
+.student-quiz-band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(255,255,255,.34), transparent 22%),
+    linear-gradient(115deg, transparent 0 64%, rgba(0,0,0,.05) 64% 66%, transparent 66%);
+  pointer-events: none;
+}
+
+@keyframes tech-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (hover: hover) {
+  .tech-marquee:hover .tech-marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tech-marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: auto;
+    justify-content: center;
+    row-gap: 1rem;
   }
 }
