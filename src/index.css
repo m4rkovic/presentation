@@ -295,3 +295,16 @@ textarea.field {
     row-gap: 1rem;
   }
 }
+
+
+.hero-scroll-cue > span {
+  transform-origin: left center;
+  transition: transform .25s ease, opacity .25s ease;
+}
+
+@media (hover: hover) {
+  .hero-scroll-cue:hover > span {
+    transform: scaleX(1.45);
+    opacity: 1;
+  }
+}
