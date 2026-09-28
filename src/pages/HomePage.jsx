@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ArrowDown, ArrowRight, Check } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Link, useLocation } from 'react-router-dom'
 import { eventConfig } from '../data/eventConfig.js'
 import { trackEvent } from '../lib/analytics.js'
@@ -104,6 +104,7 @@ const industryStories = [
 export default function HomePage() {
   const [formSent, setFormSent] = useState(false)
   const [formStarted, setFormStarted] = useState(false)
+  const [activeIndustry, setActiveIndustry] = useState(0)
   const location = useLocation()
 
   useEffect(() => {
@@ -335,26 +336,103 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="space-y-4 px-4 pb-24 md:space-y-8 md:px-8 md:pb-36">
-          {industryStories.map((industry, index) => (
-            <motion.article key={industry.title} className="industry-cinema relative mx-auto min-h-[68svh] max-w-[1500px] overflow-hidden rounded-[30px] md:rounded-[40px]" variants={index % 2 ? revealRight : revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .16 }}>
-              <motion.img src={industry.image} alt="" className="absolute inset-0 h-full w-full object-cover" variants={imageReveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .2 }} />
-              <div className={`absolute inset-0 ${index % 2 === 0 ? 'bg-[linear-gradient(90deg,rgba(5,7,10,.9),rgba(5,7,10,.48)_55%,rgba(5,7,10,.14))]' : 'bg-[linear-gradient(270deg,rgba(5,7,10,.9),rgba(5,7,10,.48)_55%,rgba(5,7,10,.14))]'}`} />
-              <div className={`relative z-10 flex min-h-[68svh] items-end p-7 md:p-12 ${index % 2 ? 'justify-end text-right' : ''}`}>
-                <div className={`max-w-2xl ${index % 2 ? 'ml-auto' : ''}`}>
-                  <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-toxic">
-                    {industry.title}
+        <section className="relative px-4 pb-24 md:px-8 md:pb-36">
+          <div className="relative h-[400svh]">
+            <div className="sticky top-0 z-10 flex h-[100svh] items-center">
+              <div className="relative mx-auto h-[72svh] w-full max-w-[1500px] overflow-hidden rounded-[30px] bg-[#0b0f13] md:h-[78svh] md:rounded-[40px]">
+                <AnimatePresence initial={false} mode="sync">
+                  <motion.div
+                    key={industryStories[activeIndustry].title}
+                    initial={{
+                      opacity: 0,
+                      x: activeIndustry % 2 === 0 ? -180 : 180,
+                      scale: .985,
+                      filter: 'blur(10px)',
+                    }}
+                    animate={{
+                      opacity: 1,
+                      x: 0,
+                      scale: 1,
+                      filter: 'blur(0px)',
+                    }}
+                    exit={{
+                      opacity: 0,
+                      x: activeIndustry % 2 === 0 ? 90 : -90,
+                      scale: 1.015,
+                      filter: 'blur(6px)',
+                    }}
+                    transition={{ duration: .78, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute inset-0"
+                  >
+                    <motion.img
+                      key={industryStories[activeIndustry].image}
+                      src={industryStories[activeIndustry].image}
+                      alt=""
+                      initial={{ scale: 1.08 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1] }}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+
+                    <div
+                      className={`absolute inset-0 ${
+                        activeIndustry % 2 === 0
+                          ? 'bg-[linear-gradient(90deg,rgba(5,7,10,.92),rgba(5,7,10,.48)_58%,rgba(5,7,10,.12))]'
+                          : 'bg-[linear-gradient(270deg,rgba(5,7,10,.92),rgba(5,7,10,.48)_58%,rgba(5,7,10,.12))]'
+                      }`}
+                    />
+
+                    <div
+                      className={`relative z-10 flex h-full items-end p-7 md:p-12 lg:p-14 ${
+                        activeIndustry % 2 ? 'justify-end text-right' : ''
+                      }`}
+                    >
+                      <div className={`max-w-2xl ${activeIndustry % 2 ? 'ml-auto' : ''}`}>
+                        <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-toxic">
+                          {industryStories[activeIndustry].title}
+                        </p>
+                        <h3 className="mt-4 text-[clamp(3rem,6.5vw,6.8rem)] font-semibold leading-[.93] tracking-[-.06em]">
+                          {industryStories[activeIndustry].headline}
+                        </h3>
+                        <p className={`mt-7 max-w-xl text-lg leading-8 text-white/68 md:text-xl ${activeIndustry % 2 ? 'ml-auto' : ''}`}>
+                          {industryStories[activeIndustry].copy}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+
+                <div className="pointer-events-none absolute left-7 right-7 top-7 z-20 flex items-center justify-between md:left-10 md:right-10 md:top-9">
+                  <p className="text-xs font-semibold uppercase tracking-[.18em] text-white/42">
+                    Scroll to switch
                   </p>
-                  <h3 className="mt-4 text-[clamp(3rem,6.5vw,6.8rem)] font-semibold leading-[.93] tracking-[-.06em]">
-                    {industry.headline}
-                  </h3>
-                  <p className={`mt-7 max-w-xl text-lg leading-8 text-white/68 md:text-xl ${index % 2 ? 'ml-auto' : ''}`}>
-                    {industry.copy}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    {industryStories.map((industry, index) => (
+                      <span
+                        key={industry.title}
+                        className={`h-1 rounded-full transition-all duration-500 ${
+                          index === activeIndustry
+                            ? 'w-8 bg-asca-toxic'
+                            : 'w-3 bg-white/22'
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
-            </motion.article>
-          ))}
+            </div>
+
+            <div className="pointer-events-none absolute inset-0 z-0">
+              {industryStories.map((industry, index) => (
+                <motion.div
+                  key={industry.title}
+                  className="h-[100svh]"
+                  onViewportEnter={() => setActiveIndustry(index)}
+                  viewport={{ amount: .55 }}
+                />
+              ))}
+            </div>
+          </div>
         </section>
 
         <section className="px-6 py-24 md:px-10 md:py-36 lg:px-14">
