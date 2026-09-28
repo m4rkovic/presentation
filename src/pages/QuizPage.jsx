@@ -302,53 +302,45 @@ export default function QuizPage() {
                 {eventConfig.studentIntro}
               </p>
 
-              <div className="mt-10 grid gap-3 sm:grid-cols-3">
-                <div className="rounded-2xl border border-white/10 bg-white/[.03] p-4">
-                  <div className="text-sm text-white/45">Question set</div>
-                  <div className="mt-2 text-xl font-semibold">
-                    {eventConfig.quiz.minQuestions}–{eventConfig.quiz.maxQuestions} random
-                  </div>
+              <div className="mt-10 flex flex-wrap gap-x-8 gap-y-5 text-base">
+                <div>
+                  <span className="text-asca-toxic">{eventConfig.quiz.minQuestions}–{eventConfig.quiz.maxQuestions}</span>
+                  <span className="ml-2 text-white/46">random questions</span>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/[.03] p-4">
-                  <div className="text-sm text-white/45">Challenge modes</div>
-                  <div className="mt-2 text-xl font-semibold">Trivia + AI images</div>
+                <div>
+                  <span className="text-asca-toxic">AI</span>
+                  <span className="ml-2 text-white/46">image challenge</span>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/[.03] p-4">
-                  <div className="text-sm text-white/45">Scoring</div>
-                  <div className="mt-2 text-xl font-semibold">Accuracy + speed</div>
+                <div>
+                  <span className="text-asca-toxic">Speed</span>
+                  <span className="ml-2 text-white/46">counts too</span>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-[26px] border border-white/10 bg-black/20 p-6 md:p-7">
+            <div className="border-l-2 border-asca-toxic/70 pl-6 md:pl-8">
               <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[.16em] text-asca-toxic">
                 <Trophy size={16} /> Prize logic
               </div>
 
-              <div className="mt-5 space-y-4">
-                <div className="rounded-2xl border border-white/10 bg-white/[.025] p-4">
-                  <div className="font-semibold">Tier 1 contender</div>
-                  <div className="mt-1 text-sm leading-6 text-white/50">
-                    Perfect accuracy plus a very fast time.
-                  </div>
+              <div className="mt-6 space-y-6">
+                <div>
+                  <div className="font-semibold text-white">Perfect + fast</div>
+                  <div className="mt-1 text-sm leading-6 text-white/46">Premium reward territory.</div>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/[.025] p-4">
-                  <div className="font-semibold">Tier 2 unlocked</div>
-                  <div className="mt-1 text-sm leading-6 text-white/50">
-                    100% accuracy earns a secondary reward.
-                  </div>
+                <div>
+                  <div className="font-semibold text-white">Perfect</div>
+                  <div className="mt-1 text-sm leading-6 text-white/46">Secondary reward unlocked.</div>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/[.025] p-4">
-                  <div className="font-semibold">Tier 3 unlocked</div>
-                  <div className="mt-1 text-sm leading-6 text-white/50">
-                    Finish the quiz and join the participation giveaway.
-                  </div>
+                <div>
+                  <div className="font-semibold text-white">Finish it</div>
+                  <div className="mt-1 text-sm leading-6 text-white/46">You are still in the giveaway.</div>
                 </div>
               </div>
 
               <button
                 onClick={startQuiz}
-                className="mt-8 min-h-14 w-full rounded-2xl bg-asca-toxic px-6 font-semibold text-black transition hover:brightness-105"
+                className="mt-8 min-h-14 rounded-xl bg-asca-toxic px-7 font-semibold text-black transition hover:translate-y-[-1px]"
               >
                 Start quiz
               </button>
