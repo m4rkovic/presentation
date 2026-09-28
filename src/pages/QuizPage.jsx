@@ -267,9 +267,10 @@ export default function QuizPage() {
           initial={{ opacity: 0, y: 26, filter: 'blur(8px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: .85, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full max-w-5xl rounded-[30px] border border-white/10 bg-asca-panel p-6 shadow-2xl shadow-black/30 md:p-10"
+          className="relative w-full max-w-5xl overflow-hidden rounded-[30px] border border-white/10 bg-asca-panel p-6 shadow-2xl shadow-black/30 md:p-10"
         >
-          <div className="flex items-start justify-between gap-4">
+          <div className="pointer-events-none absolute -right-28 -top-28 size-80 rounded-full bg-asca-toxic/10 blur-[90px]" />
+          <div className="relative flex items-start justify-between gap-4">
             <button
               onClick={() => navigate('/')}
               className="inline-flex items-center gap-2 text-sm font-medium text-white/50 transition hover:text-white"
@@ -291,11 +292,11 @@ export default function QuizPage() {
 
           <div className="mt-10 grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-end">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[.2em] text-asca-orange">
+              <p className="text-sm font-semibold uppercase tracking-[.2em] text-asca-toxic">
                 {eventConfig.campaignTitle}
               </p>
               <h1 className="mt-4 max-w-3xl text-5xl font-semibold leading-[.92] tracking-[-.055em] md:text-7xl">
-                Test your tech instincts.
+                Test your <span className="text-asca-toxic">tech instincts.</span>
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-white/60">
                 {eventConfig.studentIntro}
@@ -320,7 +321,7 @@ export default function QuizPage() {
             </div>
 
             <div className="rounded-[26px] border border-white/10 bg-black/20 p-6 md:p-7">
-              <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[.16em] text-asca-orange">
+              <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[.16em] text-asca-toxic">
                 <Trophy size={16} /> Prize logic
               </div>
 
@@ -347,7 +348,7 @@ export default function QuizPage() {
 
               <button
                 onClick={startQuiz}
-                className="mt-8 min-h-14 w-full rounded-2xl bg-asca-orange px-6 font-semibold text-black transition hover:brightness-105"
+                className="mt-8 min-h-14 w-full rounded-2xl bg-asca-toxic px-6 font-semibold text-black transition hover:brightness-105"
               >
                 Start quiz
               </button>
@@ -377,7 +378,7 @@ export default function QuizPage() {
               <div className="grid size-20 place-items-center rounded-full bg-emerald-500/12 text-emerald-400">
                 <Check size={42} strokeWidth={2.5} />
               </div>
-              <p className="mt-7 text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
+              <p className="mt-7 text-sm font-semibold uppercase tracking-[.18em] text-asca-toxic">
                 {resultMeta.outcome.label}
               </p>
               <h1 className="mt-3 text-4xl font-semibold tracking-[-.045em] md:text-6xl">
@@ -438,7 +439,7 @@ export default function QuizPage() {
             </button>
             <button
               onClick={resetAndGoHome}
-              className="min-h-14 flex-1 rounded-2xl bg-asca-orange px-6 font-semibold text-black transition hover:brightness-105"
+              className="min-h-14 flex-1 rounded-2xl bg-asca-toxic px-6 font-semibold text-black transition hover:brightness-105"
             >
               Done
             </button>
@@ -453,7 +454,7 @@ export default function QuizPage() {
       <div className="w-full max-w-5xl">
         <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <div className="text-sm font-semibold uppercase tracking-[.16em] text-asca-orange">
+            <div className="text-sm font-semibold uppercase tracking-[.16em] text-asca-toxic">
               {eventConfig.eventName}
             </div>
             <div className="mt-2 text-sm font-semibold text-white/55">
@@ -481,7 +482,7 @@ export default function QuizPage() {
 
         <div className="mb-3 h-1 overflow-hidden rounded-full bg-white/8">
           <div
-            className="h-full bg-asca-orange transition-all"
+            className="h-full bg-asca-toxic transition-all"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -510,7 +511,7 @@ export default function QuizPage() {
                 <button
                   key={answer}
                   onClick={() => handleAnswer(index)}
-                  className="min-h-20 rounded-2xl border border-white/10 bg-white/[.035] px-5 py-4 text-left font-medium text-white/82 transition hover:border-asca-orange/60 hover:bg-asca-orange hover:text-black active:scale-[.99]"
+                  className="min-h-20 rounded-2xl border border-white/10 bg-white/[.035] px-5 py-4 text-left font-medium text-white/82 transition hover:border-asca-toxic/60 hover:bg-asca-toxic hover:text-black active:scale-[.99]"
                 >
                   {answer}
                 </button>
@@ -525,7 +526,7 @@ export default function QuizPage() {
                 <button
                   key={image.label}
                   onClick={() => handleAnswer(image.value)}
-                  className="group overflow-hidden rounded-[24px] border border-white/10 bg-black/20 text-left transition hover:border-asca-orange/60"
+                  className="group overflow-hidden rounded-[24px] border border-white/10 bg-black/20 text-left transition hover:border-asca-toxic/60"
                 >
                   <div className="overflow-hidden">
                     <img
