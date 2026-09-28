@@ -74,6 +74,8 @@ const serviceStories = [
 
 const techStack = ['Java', '.NET', 'React', 'TypeScript', 'Python', 'SQL', 'Azure', 'AWS', 'CI/CD', 'QA Automation', 'Data / AI']
 
+const serviceNextTargets = ['#service-devops', '#service-testing', '#career-paths']
+
 const industryStories = [
   {
     title: 'Banking',
@@ -100,6 +102,26 @@ const industryStories = [
     copy: 'Subscriber systems, self-service platforms and integrations live under constant change. The challenge is shipping that change without turning production into an experiment.',
   },
 ]
+
+function SectionJump({ href, label, variant = 'line' }) {
+  const variants = {
+    line: 'group inline-flex items-center gap-3 text-sm font-semibold text-white/62 transition hover:text-white',
+    orb: 'group inline-flex size-14 items-center justify-center rounded-full border border-white/16 bg-white/[.03] text-white transition hover:border-asca-toxic/70 hover:text-asca-toxic',
+    bracket: 'group inline-flex items-center gap-3 border-l-2 border-asca-toxic pl-4 text-sm font-semibold text-white/74 transition hover:pl-5 hover:text-white',
+    ghost: 'group inline-flex min-h-12 items-center gap-3 rounded-full border border-white/12 px-5 text-sm font-semibold text-white/70 transition hover:border-white/30 hover:bg-white/[.04] hover:text-white',
+    square: 'group inline-flex min-h-12 items-center gap-3 rounded-lg bg-white px-5 text-sm font-semibold text-black transition hover:bg-asca-toxic',
+    toxic: 'group inline-flex min-h-12 items-center gap-3 rounded-full bg-asca-toxic px-5 text-sm font-bold text-black transition hover:scale-[1.02]',
+    text: 'group inline-flex items-center gap-2 text-sm font-semibold text-asca-toxic transition hover:text-white',
+  }
+
+  return (
+    <a href={href} className={variants[variant]}>
+      {variant === 'line' ? <span className="h-px w-8 bg-asca-toxic/70 transition group-hover:w-11" /> : null}
+      {variant === 'orb' ? <ArrowDown size={20} /> : <span>{label}</span>}
+      {variant === 'orb' ? null : <ArrowDown size={16} className="transition group-hover:translate-y-1" />}
+    </a>
+  )
+}
 
 export default function HomePage() {
   const [formSent, setFormSent] = useState(false)
@@ -206,7 +228,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="statement" className="flex min-h-[86svh] items-center px-6 py-24 md:px-10 lg:px-14">
+        <section id="statement" className="section-screen flex min-h-[100svh] items-center px-6 py-20 md:px-10 lg:px-14">
           <div className="mx-auto w-full max-w-[1500px]">
             <motion.div className="max-w-6xl" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .35 }}>
               <p className="mb-8 text-xl font-medium text-asca-orange md:text-2xl">
@@ -220,20 +242,31 @@ export default function HomePage() {
               <p className="mt-10 max-w-2xl text-xl leading-9 text-white/58 md:text-2xl md:leading-10">
                 ASCALab builds practical digital solutions for complex problems, with enough engineering depth to keep them useful after the launch-day screenshots stop being exciting.
               </p>
+              <div className="mt-12">
+                <SectionJump href="#services" label="See what we build" variant="bracket" />
+              </div>
             </motion.div>
           </div>
         </section>
 
-        <section className="pb-24 md:pb-36">
-          <motion.div className="mx-auto max-w-[1500px] px-6 md:px-10 lg:px-14" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .35 }}>
+        <section id="services" className="section-screen flex min-h-[62svh] items-center py-16 md:py-20">
+          <motion.div className="mx-auto w-full max-w-[1500px] px-6 md:px-10 lg:px-14" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .35 }}>
             <h2 className="max-w-4xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
               Three ways to get very good at solving real problems.
             </h2>
+            <div className="mt-10">
+              <SectionJump href="#service-development" label="Start with Development" variant="line" />
+            </div>
           </motion.div>
+        </section>
 
-          <div className="mt-16 space-y-4 md:mt-24 md:space-y-8">
+        <section className="pb-8 md:pb-16">
+          <div className="space-y-0">
             {serviceStories.map((service, index) => (
-              <motion.article key={service.title} className="mx-auto max-w-[1500px] px-4 md:px-8" variants={index % 2 ? revealRight : revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .18 }}>
+              <motion.article
+                key={service.title}
+                id={`service-${service.title.toLowerCase()}`}
+                className="section-screen mx-auto flex min-h-[100svh] max-w-[1500px] items-center px-4 py-8 md:px-8 md:py-10" variants={index % 2 ? revealRight : revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .18 }}>
                 <div className={`grid min-h-[72svh] overflow-hidden rounded-[30px] bg-[#0e1217] md:rounded-[40px] lg:grid-cols-2 ${index % 2 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
                   <div className="relative min-h-[42svh] lg:min-h-full">
                     <motion.img src={service.image} alt="" className="absolute inset-0 h-full w-full object-cover" variants={imageReveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }} />
@@ -248,6 +281,13 @@ export default function HomePage() {
                     </h3>
                     <p className="mt-8 max-w-xl text-lg leading-8 text-white/66">{service.copy}</p>
                     <p className="mt-6 max-w-xl leading-7 text-white/40">{service.detail}</p>
+                    <div className="mt-9">
+                      <SectionJump
+                        href={serviceNextTargets[index]}
+                        label={index === 0 ? 'Next: DevOps' : index === 1 ? 'Next: Testing' : 'Find your lane'}
+                        variant={index === 0 ? 'square' : index === 1 ? 'ghost' : 'toxic'}
+                      />
+                    </div>
                   </div>
                 </div>
               </motion.article>
@@ -265,7 +305,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="overflow-hidden border-y border-white/8 py-16 md:py-24">
+        <section id="career-paths" className="section-screen flex min-h-[100svh] items-center overflow-hidden border-y border-white/8 py-16 md:py-20">
           <motion.div
             variants={reveal}
             initial="hidden"
@@ -289,10 +329,13 @@ export default function HomePage() {
             <p className="mt-5 font-mono text-sm text-asca-toxic/85">
               // no perfect profile required
             </p>
+            <div className="mt-10">
+              <SectionJump href="#quiz-teaser" label="Try something less corporate" variant="orb" />
+            </div>
           </motion.div>
         </section>
 
-        <section className="px-4 py-10 md:px-8 md:py-16">
+        <section id="quiz-teaser" className="section-screen flex min-h-[100svh] items-center px-4 py-10 md:px-8 md:py-16">
           <motion.div
             variants={reveal}
             initial="hidden"
@@ -314,16 +357,21 @@ export default function HomePage() {
                 friend assistance not guaranteed to help :)
               </p>
             </div>
-            <Link
-              to={{ pathname: '/quiz', search: location.search }}
-              className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-black px-7 font-semibold text-white transition hover:scale-[1.02]"
-            >
-              Start quiz <ArrowRight size={18} />
-            </Link>
+            <div className="flex flex-col items-start gap-4 lg:items-end">
+              <Link
+                to={{ pathname: '/quiz', search: location.search }}
+                className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-black px-7 font-semibold text-white transition hover:scale-[1.02]"
+              >
+                Start quiz <ArrowRight size={18} />
+              </Link>
+              <a href="#industries" className="group inline-flex items-center gap-2 text-sm font-semibold text-black/55 transition hover:text-black">
+                Keep exploring <ArrowDown size={16} className="transition group-hover:translate-y-1" />
+              </a>
+            </div>
           </motion.div>
         </section>
 
-        <section className="px-6 py-24 md:px-10 md:py-36 lg:px-14">
+        <section id="industries" className="section-screen flex min-h-[100svh] items-center px-6 py-20 md:px-10 lg:px-14">
           <div className="mx-auto max-w-[1500px]">
             <motion.div className="max-w-5xl" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .4 }}>
               <h2 className="text-[clamp(3.3rem,6.8vw,7rem)] font-semibold leading-[.95] tracking-[-.06em]">
@@ -332,14 +380,17 @@ export default function HomePage() {
               <p className="mt-8 max-w-2xl text-xl leading-9 text-white/48">
                 Money, policies, energy and connectivity all create different problems. The common bit is that people notice when the software gets them wrong.
               </p>
+              <div className="mt-12">
+                <SectionJump href="#industry-story" label="Enter the real-world problems" variant="ghost" />
+              </div>
             </motion.div>
           </div>
         </section>
 
-        <section className="relative px-4 pb-24 md:px-8 md:pb-36">
+        <section id="industry-story" className="relative px-4 pb-16 md:px-8 md:pb-24">
           <div className="relative h-[400svh]">
-            <div className="sticky top-0 z-10 flex h-[100svh] items-center">
-              <div className="relative mx-auto h-[72svh] w-full max-w-[1500px] overflow-hidden rounded-[30px] bg-[#0b0f13] md:h-[78svh] md:rounded-[40px]">
+            <div className="sticky top-0 z-10 flex h-[100svh] items-start pt-[4svh] md:pt-[5svh]">
+              <div className="relative mx-auto h-[88svh] w-full max-w-[1500px] overflow-hidden rounded-[30px] bg-[#0b0f13] md:h-[86svh] md:rounded-[40px]">
                 <AnimatePresence initial={false} mode="sync">
                   <motion.div
                     key={industryStories[activeIndustry].title}
@@ -419,6 +470,20 @@ export default function HomePage() {
                     ))}
                   </div>
                 </div>
+
+                <AnimatePresence>
+                  {activeIndustry === industryStories.length - 1 ? (
+                    <motion.a
+                      href="#myqabee"
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 12 }}
+                      className="absolute bottom-7 right-7 z-30 inline-flex min-h-12 items-center gap-2 rounded-full bg-asca-toxic px-5 text-sm font-bold text-black transition hover:scale-[1.02] md:bottom-10 md:right-10"
+                    >
+                      Next chapter <ArrowDown size={16} />
+                    </motion.a>
+                  ) : null}
+                </AnimatePresence>
               </div>
             </div>
 
@@ -435,8 +500,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="px-6 py-24 md:px-10 md:py-36 lg:px-14">
-          <div className="mx-auto grid max-w-[1500px] gap-14 lg:grid-cols-[1fr_1fr] lg:items-center">
+        <section id="myqabee" className="section-screen flex min-h-[100svh] items-center px-6 py-16 md:px-10 lg:px-14">
+          <div className="mx-auto grid w-full max-w-[1500px] gap-14 lg:grid-cols-[1fr_1fr] lg:items-center">
             <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
               <h2 className="text-5xl font-semibold leading-[.98] tracking-[-.055em] md:text-7xl">
                 Sometimes the internal tool becomes the product.
@@ -447,6 +512,9 @@ export default function HomePage() {
               <p className="mt-6 max-w-xl leading-7 text-white/38">
                 Product thinking is not reserved for product companies. Sometimes the most useful idea starts as a problem your own team is tired of solving manually.
               </p>
+              <div className="mt-9">
+                <SectionJump href="#mindset" label="One more thing" variant="text" />
+              </div>
             </motion.div>
             <motion.div className="relative min-h-[58svh] overflow-hidden rounded-[34px]" variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }}>
               <img
@@ -462,7 +530,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="flex min-h-[76svh] items-center px-6 py-24 md:px-10 lg:px-14">
+        <section id="mindset" className="section-screen flex min-h-[100svh] items-center px-6 py-20 md:px-10 lg:px-14">
           <div className="mx-auto grid w-full max-w-[1500px] gap-12 lg:grid-cols-[1fr_1fr]">
             <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
               <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-toxic">
@@ -482,12 +550,15 @@ export default function HomePage() {
               <p className="text-white/82">
                 Learn fast. Ask why. Break things somewhere safe. <span className="text-asca-toxic">Then make them better.</span>
               </p>
+              <div className="pt-2">
+                <SectionJump href="#student-path" label="See where you could start" variant="square" />
+              </div>
             </motion.div>
           </div>
         </section>
 
-        <section className="px-6 py-24 md:px-10 md:py-32 lg:px-14">
-          <div className="mx-auto max-w-[1500px]">
+        <section id="student-path" className="section-screen flex min-h-[100svh] items-center px-6 py-20 md:px-10 lg:px-14">
+          <div className="mx-auto w-full max-w-[1500px]">
             <motion.div
               variants={reveal}
               initial="hidden"
@@ -516,19 +587,22 @@ export default function HomePage() {
                 <p className="mt-6 max-w-xl leading-7 text-white/42">
                   Leave your details below for now, then take the event quiz. Each session gets a different mix, so standing next to the smartest person in your group is less useful than you hoped.
                 </p>
-                <Link
-                  to={{ pathname: '/quiz', search: location.search }}
-                  className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-asca-toxic transition hover:text-white"
-                >
-                  Preview the student quiz <ArrowRight size={17} />
-                </Link>
+                <div className="mt-7 flex flex-wrap items-center gap-5">
+                  <Link
+                    to={{ pathname: '/quiz', search: location.search }}
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-asca-toxic transition hover:text-white"
+                  >
+                    Preview the student quiz <ArrowRight size={17} />
+                  </Link>
+                  <SectionJump href="#feedback" label="Or leave feedback first" variant="bracket" />
+                </div>
               </div>
             </motion.div>
           </div>
         </section>
 
-        <section className="px-6 py-24 md:px-10 md:py-32 lg:px-14">
-          <div className="mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-start">
+        <section id="feedback" className="section-screen flex min-h-[100svh] items-center px-6 py-16 md:px-10 lg:px-14">
+          <div className="mx-auto grid w-full max-w-[1500px] gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-start">
             <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
               <h2 className="max-w-xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
                 Event feedback prototype.
@@ -536,6 +610,9 @@ export default function HomePage() {
               <p className="mt-5 max-w-md text-lg leading-8 text-white/46">
                 We are keeping the current Google Form integration here until the final student lead form is available. The interface is ours; the answers still submit to the published form in the background.
               </p>
+              <div className="mt-8">
+                <SectionJump href="#final-quiz" label="Skip to the quiz" variant="text" />
+              </div>
             </motion.div>
 
             <motion.div className="min-h-[760px]" variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }}>
@@ -664,7 +741,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="px-4 pb-4 md:px-8 md:pb-8">
+        <section id="final-quiz" className="section-screen flex min-h-[72svh] items-center px-4 py-10 md:px-8 md:py-14">
           <div className="mx-auto max-w-[1180px]">
             <Link
               to={{ pathname: '/quiz', search: location.search }}
