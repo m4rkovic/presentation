@@ -122,8 +122,16 @@ export default function HomePage() {
           <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] flex-col px-6 py-7 md:px-10 md:py-9 lg:px-14">
             <div className="flex items-center justify-between">
               <span className="hidden text-sm font-medium text-white/72 sm:block">{eventConfig.campaignTitle}</span>
-              <div className="rounded-2xl bg-white/92 px-4 py-3 shadow-[0_14px_44px_rgba(0,0,0,.20)] backdrop-blur-md md:px-5 md:py-3.5">
-                <img src="/ascalab-logo-official.webp" alt="ASCALab" className="h-10 w-auto md:h-12" />
+              <div className="relative isolate pr-1">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -inset-x-8 -inset-y-5 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,.72)_0%,rgba(255,255,255,.34)_38%,rgba(255,255,255,.10)_58%,transparent_76%)] blur-xl"
+                />
+                <img
+                  src="/ascalab-logo-official.webp"
+                  alt="ASCALab"
+                  className="h-10 w-auto drop-shadow-[0_2px_10px_rgba(0,0,0,.28)] md:h-12"
+                />
               </div>
             </div>
 
