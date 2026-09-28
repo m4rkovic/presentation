@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowDown, ArrowRight, Check } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { eventConfig } from '../data/eventConfig.js'
+import { trackEvent } from '../lib/analytics.js'
 
 const reveal = {
   hidden: { opacity: 0, y: 72, filter: 'blur(10px)' },
@@ -95,6 +97,12 @@ const industryStories = [
 
 export default function HomePage() {
   const [formSent, setFormSent] = useState(false)
+  const [formStarted, setFormStarted] = useState(false)
+  const location = useLocation()
+
+  useEffect(() => {
+    trackEvent('page_view', { eventSlug: eventConfig.slug })
+  }, [])
 
   return (
     <div className="min-h-screen bg-asca-bg text-white">
@@ -109,7 +117,7 @@ export default function HomePage() {
 
           <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] flex-col px-6 py-7 md:px-10 md:py-9 lg:px-14">
             <div className="flex items-center justify-between">
-              <span className="hidden text-sm text-white/48 sm:block">Belgrade · Niš · Europe</span>
+              <span className="hidden text-sm font-medium text-white/52 sm:block">{eventConfig.campaignTitle}</span>
               <img src="/ascalab-logo-official.webp" alt="ASCALab" className="h-9 w-auto md:h-11" />
             </div>
 
@@ -126,7 +134,7 @@ export default function HomePage() {
 
               <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
                 <p className="max-w-2xl text-lg leading-8 text-white/68 md:text-xl">
-                  Software engineering, quality and infrastructure for organisations where technology is part of the business, not decoration around it.
+                  Software engineering, quality and infrastructure for organisations where technology is part of the business, plus an event experience built for students who want to test their tech instincts.
                 </p>
                 <a href="#statement" className="inline-flex min-h-12 shrink-0 items-center gap-2 text-sm font-semibold text-white/72 transition hover:text-white">
                   Explore <ArrowDown size={17} />
@@ -280,6 +288,47 @@ export default function HomePage() {
         </section>
 
         <section className="px-6 py-24 md:px-10 md:py-32 lg:px-14">
+          <div className="mx-auto max-w-[1500px]">
+            <motion.div
+              variants={reveal}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: .3 }}
+              className="grid gap-12 lg:grid-cols-[1.1fr_.9fr] lg:items-end"
+            >
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
+                  {eventConfig.campaignTitle}
+                </p>
+                <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[.96] tracking-[-.055em] md:text-7xl">
+                  Build the serious stuff with us.
+                </h2>
+                <p className="mt-7 max-w-2xl text-xl leading-9 text-white/52">
+                  We are interested in students across software, infrastructure, testing and data. Internships and future roles can start from very different technical paths.
+                </p>
+              </div>
+
+              <div>
+                <div className="flex flex-wrap gap-x-6 gap-y-4 border-y border-white/10 py-7 text-xl font-medium text-white/78 md:text-2xl">
+                  {eventConfig.careers.map((career) => (
+                    <span key={career}>{career}</span>
+                  ))}
+                </div>
+                <p className="mt-6 max-w-xl leading-7 text-white/42">
+                  Leave your details below for now, then try the event quiz. Each session gets a different mix of questions, including an AI image challenge.
+                </p>
+                <Link
+                  to={{ pathname: '/quiz', search: location.search }}
+                  className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-asca-orange transition hover:text-white"
+                >
+                  Preview the student quiz <ArrowRight size={17} />
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        <section className="px-6 py-24 md:px-10 md:py-32 lg:px-14">
           <div className="mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-start">
             <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
               <h2 className="max-w-xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
@@ -323,9 +372,16 @@ export default function HomePage() {
                   method="POST"
                   target="google-form-target"
                   className="min-h-[760px] rounded-[28px] border border-white/9 bg-asca-panel p-5 md:p-7"
+                  onFocusCapture={() => {
+                    if (!formStarted) {
+                      setFormStarted(true)
+                      trackEvent('form_started', { eventSlug: eventConfig.slug })
+                    }
+                  }}
                   onSubmit={(event) => {
                     const form = event.currentTarget
                     setFormSent(false)
+                    trackEvent('form_completed', { eventSlug: eventConfig.slug })
                     window.setTimeout(() => {
                       form.reset()
                       setFormSent(true)
@@ -396,14 +452,17 @@ export default function HomePage() {
         <section className="px-4 pb-4 md:px-8 md:pb-8">
           <div className="mx-auto max-w-[1180px]">
             <Link
-              to="/quiz"
+              to={{ pathname: '/quiz', search: location.search }}
               className="quiz-cta group relative flex min-h-[27svh] items-end justify-between gap-6 overflow-hidden rounded-[28px] bg-asca-orange p-6 text-black transition duration-500 md:min-h-[30svh] md:rounded-[34px] md:p-9"
             >
             <div className="relative z-10">
-              <p className="text-base font-semibold opacity-55">One more thing.</p>
+              <p className="text-base font-semibold opacity-55">{eventConfig.eventName} · 5–8 random questions</p>
               <h2 className="mt-3 text-[clamp(2.7rem,6vw,6.5rem)] font-semibold leading-[.9] tracking-[-.06em]">
-                Take the quiz.
+                Take the student quiz.
               </h2>
+              <p className="mt-4 max-w-xl text-sm font-medium opacity-55 md:text-base">
+                Accuracy + speed · AI image challenge · prize tiers
+              </p>
             </div>
             <span className="quiz-sheen" aria-hidden="true" />
             <div className="quiz-arrow mb-1 hidden size-16 shrink-0 place-items-center rounded-full bg-black text-white transition duration-500 md:grid">
