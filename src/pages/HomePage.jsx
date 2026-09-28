@@ -51,47 +51,51 @@ const imageReveal = {
 const serviceStories = [
   {
     title: 'Development',
-    headline: 'Build the thing that has to keep working.',
+    headline: 'You build it. People actually use it.',
     image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1800&q=88',
-    copy: 'We design and deliver software for organisations where the product has to survive real users, real integrations, real regulations and years of change. That can mean customer portals, internal platforms, data-heavy applications, core-system extensions or a new product sitting on top of an old estate.',
-    detail: 'The work starts with understanding the business process and the systems already in the room. From there, we shape the architecture, build in sensible increments and keep the result maintainable enough for the next team to understand.',
+    copy: 'Customer apps, internal platforms, integrations and data-heavy systems. The interesting part is not making a demo work once. It is making software survive real users, real rules and years of change.',
+    detail: 'You learn how product thinking, architecture and implementation connect when the thing on your screen becomes part of somebody else\'s working day.',
   },
   {
     title: 'DevOps',
-    headline: 'Make delivery boring. In the best possible way.',
+    headline: 'Code is useless if nobody can ship it.',
     image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1800&q=88',
-    copy: 'Cloud environments, deployment pipelines, observability and infrastructure are part of the product. We help teams replace fragile manual steps with repeatable delivery across Azure, AWS and GCP.',
-    detail: 'Infrastructure as code, CI/CD, migration, monitoring and release discipline are not the glamorous part of software. They are the part everyone suddenly cares about when a release fails on Friday afternoon. We prefer to make that moment less interesting.',
+    copy: 'Cloud, deployment pipelines, infrastructure, monitoring and releases. DevOps is the part that turns “works on my machine” into something the rest of the world can actually run.',
+    detail: 'The goal is simple: make delivery repeatable, observable and boring enough that Friday afternoon stops being a horror genre.',
   },
   {
     title: 'Testing',
-    headline: 'Confidence before production, not explanations after it.',
+    headline: 'Find the bug before the customer does.',
     image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1800&q=88',
-    copy: 'Quality engineering is treated as a continuous part of delivery. We combine manual testing, automation, device coverage and repeatable validation so teams can move quickly without turning production into an experiment.',
-    detail: 'That same experience led to myQAbee, our codeless QA automation product. It is built around a simple idea: broad, repeatable test coverage should not require every team to maintain its own mountain of scripts.',
+    copy: 'Quality engineering mixes curiosity, systems thinking, automation and a slightly suspicious attitude toward anything claiming to be “done”.',
+    detail: 'That experience also became myQAbee, ASCALab\'s codeless QA automation product for repeatable testing across environments and devices.',
   },
 ]
 
 const industryStories = [
   {
     title: 'Banking',
+    headline: 'Millions of transactions. Zero appetite for guessing.',
     image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=88',
-    copy: 'Core platforms, data warehouses, reporting, customer applications and integrations often span years of accumulated technology. We modernise around the parts that already work instead of treating every programme as an excuse for a heroic rewrite.',
+    copy: 'Core platforms, reporting, customer applications and integrations. When money moves, “close enough” is not an engineering strategy.',
   },
   {
     title: 'Insurance',
+    headline: 'One small rule can change an entire outcome.',
     image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=88',
-    copy: 'Policy administration, claims, billing, reporting and risk logic are dense with business rules. Small changes can have very non-small consequences, so analysis, traceability and controlled delivery matter as much as code.',
+    copy: 'Claims, policies, billing and risk logic turn business rules into software. Tiny details can have very non-tiny consequences.',
   },
   {
     title: 'Energy',
+    headline: 'A lot of data. All the time. It still has to add up.',
     image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=2000&q=88',
-    copy: 'Metering, billing, operational data and reporting demand systems that remain dependable under volume. We work with the constraints: large datasets, critical integrations, legacy estates and the need to explain exactly what happened.',
+    copy: 'Metering, billing and operational data push systems hard. Reliability matters because the real world does not pause while your service restarts.',
   },
   {
     title: 'Telecom',
+    headline: 'People notice very quickly when the connection stops.',
     image: 'https://images.unsplash.com/photo-1516321165247-4aa89a48be28?auto=format&fit=crop&w=2000&q=88',
-    copy: 'Subscriber systems, self-service platforms, integrations and operational data create constant change. The job is not to stop that change. It is to make it safer, clearer and easier to ship.',
+    copy: 'Subscriber systems, self-service platforms and integrations live under constant change. The challenge is shipping that change without turning production into an experiment.',
   },
 ]
 
@@ -128,16 +132,16 @@ export default function HomePage() {
                 transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
                 className="max-w-5xl text-[clamp(3.5rem,8.5vw,8.8rem)] font-semibold leading-[.89] tracking-[-0.065em]"
               >
-                Built to fit.<br />
-                <span className="text-white/48">Designed to last.</span>
+                Build things that<br />
+                <span className="text-white/48">actually matter.</span>
               </motion.h1>
 
               <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
                 <p className="max-w-2xl text-lg leading-8 text-white/68 md:text-xl">
-                  Software engineering, quality and infrastructure for organisations where technology is part of the business, plus an event experience built for students who want to test their tech instincts.
+                  Software. Cloud. QA. Data. Real systems, real users and maybe your next internship.
                 </p>
                 <a href="#statement" className="inline-flex min-h-12 shrink-0 items-center gap-2 text-sm font-semibold text-white/72 transition hover:text-white">
-                  Explore <ArrowDown size={17} />
+                  Meet ASCALab <ArrowDown size={17} />
                 </a>
               </div>
             </div>
@@ -167,12 +171,12 @@ export default function HomePage() {
                 Technology built around business
               </p>
               <h2 className="text-[clamp(3.3rem,7.5vw,8rem)] font-semibold leading-[.92] tracking-[-.06em]">
-                Clear thinking.<br />
-                Better software.<br />
+                Built to fit.<br />
+                Designed to last.<br />
                 <span className="text-white/38">Less corporate fog.</span>
               </h2>
               <p className="mt-10 max-w-2xl text-xl leading-9 text-white/58 md:text-2xl md:leading-10">
-                ASCALab designs and delivers practical digital solutions for complex business problems.
+                ASCALab builds practical digital solutions for complex problems, with enough engineering depth to keep them useful after the launch-day screenshots stop being exciting.
               </p>
             </motion.div>
           </div>
@@ -181,7 +185,7 @@ export default function HomePage() {
         <section className="pb-24 md:pb-36">
           <motion.div className="mx-auto max-w-[1500px] px-6 md:px-10 lg:px-14" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .35 }}>
             <h2 className="max-w-4xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-              We do three things. We prefer to do them properly.
+              Three ways to get very good at solving real problems.
             </h2>
           </motion.div>
 
@@ -209,14 +213,66 @@ export default function HomePage() {
           </div>
         </section>
 
+        <section className="overflow-hidden border-y border-white/8 py-16 md:py-24">
+          <motion.div
+            variants={reveal}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: .35 }}
+            className="mx-auto max-w-[1500px] px-6 md:px-10 lg:px-14"
+          >
+            <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
+              Where you could fit
+            </p>
+            <div className="mt-7 flex flex-wrap gap-x-7 gap-y-3 text-[clamp(2.5rem,5.8vw,6.5rem)] font-semibold leading-none tracking-[-.055em] text-white/82">
+              {eventConfig.careers.map((career, index) => (
+                <span key={career} className={index % 3 === 1 ? 'text-white/34' : ''}>
+                  {career}
+                </span>
+              ))}
+            </div>
+            <p className="mt-8 max-w-2xl text-lg leading-8 text-white/48">
+              You do not need to arrive knowing everything. Fundamentals, curiosity and enough stubbornness to keep digging are a pretty good start.
+            </p>
+          </motion.div>
+        </section>
+
+        <section className="px-4 py-10 md:px-8 md:py-16">
+          <motion.div
+            variants={reveal}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: .3 }}
+            className="mx-auto grid max-w-[1180px] gap-8 overflow-hidden rounded-[30px] border border-white/10 bg-[#0e1217] p-7 md:rounded-[38px] md:p-10 lg:grid-cols-[1fr_auto] lg:items-end"
+          >
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
+                Production is the final boss.
+              </p>
+              <h2 className="mt-4 max-w-4xl text-4xl font-semibold leading-[.98] tracking-[-.05em] md:text-6xl">
+                Think you know tech? Prove it before your friend does.
+              </h2>
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-white/48">
+                5–8 random questions, an AI image challenge, speed scoring and prize tiers. Every session gets a different mix.
+              </p>
+            </div>
+            <Link
+              to={{ pathname: '/quiz', search: location.search }}
+              className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-asca-orange px-7 font-semibold text-black transition hover:brightness-105"
+            >
+              Start quiz <ArrowRight size={18} />
+            </Link>
+          </motion.div>
+        </section>
+
         <section className="px-6 py-24 md:px-10 md:py-36 lg:px-14">
           <div className="mx-auto max-w-[1500px]">
             <motion.div className="max-w-5xl" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .4 }}>
               <h2 className="text-[clamp(3.3rem,6.8vw,7rem)] font-semibold leading-[.95] tracking-[-.06em]">
-                Software gets serious when somebody's money, policy, power or connection depends on it.
+                This is where “it works” stops being enough.
               </h2>
               <p className="mt-8 max-w-2xl text-xl leading-9 text-white/48">
-                That is the environment we know. Four industries, different rules, same expectation: the system has to be trustworthy.
+                Money, policies, energy and connectivity all create different problems. The common bit is that people notice when the software gets them wrong.
               </p>
             </motion.div>
           </div>
@@ -229,10 +285,13 @@ export default function HomePage() {
               <div className={`absolute inset-0 ${index % 2 === 0 ? 'bg-[linear-gradient(90deg,rgba(5,7,10,.9),rgba(5,7,10,.48)_55%,rgba(5,7,10,.14))]' : 'bg-[linear-gradient(270deg,rgba(5,7,10,.9),rgba(5,7,10,.48)_55%,rgba(5,7,10,.14))]'}`} />
               <div className={`relative z-10 flex min-h-[68svh] items-end p-7 md:p-12 ${index % 2 ? 'justify-end text-right' : ''}`}>
                 <div className={`max-w-2xl ${index % 2 ? 'ml-auto' : ''}`}>
-                  <h3 className="text-[clamp(3.5rem,8vw,8rem)] font-semibold leading-none tracking-[-.065em]">
+                  <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
                     {industry.title}
+                  </p>
+                  <h3 className="mt-4 text-[clamp(3rem,6.5vw,6.8rem)] font-semibold leading-[.93] tracking-[-.06em]">
+                    {industry.headline}
                   </h3>
-                  <p className={`mt-7 text-lg leading-8 text-white/68 md:text-xl ${index % 2 ? 'ml-auto' : ''}`}>
+                  <p className={`mt-7 max-w-xl text-lg leading-8 text-white/68 md:text-xl ${index % 2 ? 'ml-auto' : ''}`}>
                     {industry.copy}
                   </p>
                 </div>
@@ -245,13 +304,13 @@ export default function HomePage() {
           <div className="mx-auto grid max-w-[1500px] gap-14 lg:grid-cols-[1fr_1fr] lg:items-center">
             <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
               <h2 className="text-5xl font-semibold leading-[.98] tracking-[-.055em] md:text-7xl">
-                Quality became a product.
+                Sometimes the internal tool becomes the product.
               </h2>
               <p className="mt-7 max-w-xl text-xl leading-9 text-white/56">
-                myQAbee grew out of the testing work itself: a codeless way to automate broad scenarios across environments and devices without asking every team to become an automation framework company on the side.
+                myQAbee grew out of real testing work: a codeless way to automate scenarios across environments and devices. It is a good example of what happens when engineers stop accepting a repetitive problem as “just how things are”.
               </p>
               <p className="mt-6 max-w-xl leading-7 text-white/38">
-                This block will eventually carry real product screenshots, features and event-specific messaging. For now it holds the rhythm and space the final content will need.
+                Product thinking is not reserved for product companies. Sometimes the most useful idea starts as a problem your own team is tired of solving manually.
               </p>
             </motion.div>
             <motion.div className="relative min-h-[58svh] overflow-hidden rounded-[34px]" variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }}>
@@ -270,18 +329,23 @@ export default function HomePage() {
 
         <section className="flex min-h-[76svh] items-center px-6 py-24 md:px-10 lg:px-14">
           <div className="mx-auto grid w-full max-w-[1500px] gap-12 lg:grid-cols-[1fr_1fr]">
-            <motion.h2 className="max-w-2xl text-5xl font-semibold leading-[.98] tracking-[-.055em] md:text-7xl" variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
-              Enough process to stay in control. Not enough to hide behind it.
-            </motion.h2>
+            <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
+              <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
+                A useful thing to know
+              </p>
+              <h2 className="mt-4 max-w-3xl text-5xl font-semibold leading-[.98] tracking-[-.055em] md:text-7xl">
+                You do not need to know everything.
+              </h2>
+            </motion.div>
             <motion.div className="space-y-8 self-end text-lg leading-8 text-white/56" variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
               <p>
-                We start with the system as it exists, not the version of it living in a PowerPoint diagram. That means talking to the people who use it, tracing dependencies and understanding which parts of the business cannot simply stop while a new solution is being built.
+                Nobody serious expects a student to arrive as a finished engineer. Strong fundamentals, curiosity and the habit of asking good questions matter more than pretending you have seen every framework already.
               </p>
               <p>
-                Delivery then moves in pieces that can be understood and validated early. Analysis, architecture, implementation, testing and operations stay close enough together that important details are not lost in a chain of handovers.
+                The work itself teaches the rest: how systems connect, how requirements become software, why testing matters and why production has a talent for finding assumptions nobody wrote down.
               </p>
-              <p>
-                The engagement model can change. The expectation does not: clear ownership, visible progress and fewer surprises in production.
+              <p className="text-white/82">
+                Learn fast. Ask why. Break things somewhere safe. Then make them better.
               </p>
             </motion.div>
           </div>
@@ -301,10 +365,10 @@ export default function HomePage() {
                   {eventConfig.campaignTitle}
                 </p>
                 <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[.96] tracking-[-.055em] md:text-7xl">
-                  Build the serious stuff with us.
+                  Your first serious project has to start somewhere.
                 </h2>
                 <p className="mt-7 max-w-2xl text-xl leading-9 text-white/52">
-                  We are interested in students across software, infrastructure, testing and data. Internships and future roles can start from very different technical paths.
+                  Internships and future roles can start from very different technical paths. The point is not to fit one perfect profile. It is to find where your brain gets curious enough to keep going.
                 </p>
               </div>
 
@@ -315,7 +379,7 @@ export default function HomePage() {
                   ))}
                 </div>
                 <p className="mt-6 max-w-xl leading-7 text-white/42">
-                  Leave your details below for now, then try the event quiz. Each session gets a different mix of questions, including an AI image challenge.
+                  Leave your details below for now, then take the event quiz. Each session gets a different mix, so standing next to the smartest person in your group is less useful than you hoped.
                 </p>
                 <Link
                   to={{ pathname: '/quiz', search: location.search }}
@@ -332,10 +396,10 @@ export default function HomePage() {
           <div className="mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-start">
             <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
               <h2 className="max-w-xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-                Conference feedback.
+                Event feedback prototype.
               </h2>
               <p className="mt-5 max-w-md text-lg leading-8 text-white/46">
-                This is the first live Google Forms integration test. The interface is ours; the answers are submitted straight into the published form in the background.
+                We are keeping the current Google Form integration here until the final student lead form is available. The interface is ours; the answers still submit to the published form in the background.
               </p>
             </motion.div>
 
@@ -456,7 +520,7 @@ export default function HomePage() {
               className="quiz-cta group relative flex min-h-[27svh] items-end justify-between gap-6 overflow-hidden rounded-[28px] bg-asca-orange p-6 text-black transition duration-500 md:min-h-[30svh] md:rounded-[34px] md:p-9"
             >
             <div className="relative z-10">
-              <p className="text-base font-semibold opacity-55">{eventConfig.eventName} · 5–8 random questions</p>
+              <p className="text-base font-semibold opacity-55">{eventConfig.eventName} · 5–8 random questions · no mercy from the timer</p>
               <h2 className="mt-3 text-[clamp(2.7rem,6vw,6.5rem)] font-semibold leading-[.9] tracking-[-.06em]">
                 Take the student quiz.
               </h2>
