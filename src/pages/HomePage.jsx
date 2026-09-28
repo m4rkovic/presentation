@@ -418,21 +418,24 @@ export default function HomePage() {
 
               {formSent ? (
                 <motion.div
-                  initial={{ opacity: 0, scale: .96, y: 14 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  transition={{ duration: .45, ease: [0.22, 1, 0.36, 1] }}
-                  className="grid min-h-[760px] place-items-center rounded-[28px] border border-emerald-400/15 bg-[radial-gradient(circle_at_50%_35%,rgba(16,185,129,.11),transparent_44%),#0f1318] p-8 text-center"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: .5, ease: [0.22, 1, 0.36, 1] }}
+                  className="grid min-h-[760px] place-items-center border-y border-white/10 py-16"
                 >
-                  <div>
+                  <div className="max-w-xl text-center">
                     <motion.div
-                      initial={{ scale: .6, rotate: -10 }}
+                      initial={{ scale: .72, rotate: -8 }}
                       animate={{ scale: 1, rotate: 0 }}
-                      transition={{ delay: .08, type: 'spring', stiffness: 220, damping: 16 }}
-                      className="mx-auto grid size-24 place-items-center rounded-full border border-emerald-300/25 bg-emerald-400/10 text-emerald-300 shadow-[0_0_70px_rgba(16,185,129,.12)]"
+                      transition={{ delay: .08, type: 'spring', stiffness: 220, damping: 17 }}
+                      className="mx-auto grid size-20 place-items-center rounded-full border border-emerald-300/30 text-emerald-300"
                     >
-                      <Check size={48} strokeWidth={2.4} />
+                      <Check size={38} strokeWidth={2.25} />
                     </motion.div>
-                    <h3 className="mt-8 text-4xl font-semibold tracking-[-.045em] md:text-5xl">
+                    <p className="mt-8 text-sm font-semibold uppercase tracking-[.18em] text-emerald-300/80">
+                      Submitted
+                    </p>
+                    <h3 className="mt-3 text-4xl font-semibold tracking-[-.045em] md:text-5xl">
                       Form sent successfully.
                     </h3>
                     <p className="mx-auto mt-4 max-w-md text-lg leading-8 text-white/46">
@@ -445,7 +448,7 @@ export default function HomePage() {
                   action="https://docs.google.com/forms/d/e/1FAIpQLScRy8VVrCMWDZgcmKenHgR-Y1sjB5TLlBj_fuN_3n2xxLdgBw/formResponse"
                   method="POST"
                   target="google-form-target"
-                  className="min-h-[760px] rounded-[28px] border border-white/9 bg-asca-panel p-5 md:p-7"
+                  className="min-h-[760px] border-y border-white/10"
                   onFocusCapture={() => {
                     if (!formStarted) {
                       setFormStarted(true)
@@ -462,61 +465,95 @@ export default function HomePage() {
                     }, 650)
                   }}
                 >
-                  <fieldset>
-                    <legend className="text-lg font-semibold">Overall quality</legend>
-                    <p className="mt-1 text-sm text-white/38">Poor → Excellent</p>
-                    <div className="mt-4 grid grid-cols-5 gap-2">
-                      {[1, 2, 3, 4, 5].map((value) => (
-                        <label key={value} className="survey-choice">
-                          <input required type="radio" name="entry.1080979567" value={value} className="sr-only peer" />
-                          <span className="survey-choice-box">{value}</span>
-                        </label>
-                      ))}
+                  <fieldset className="feedback-row">
+                    <div className="feedback-index">01</div>
+                    <div>
+                      <legend className="feedback-title">Overall quality</legend>
+                      <div className="mt-5 flex items-end justify-between gap-4">
+                        <span className="text-xs text-white/34">Poor</span>
+                        <div className="grid flex-1 grid-cols-5 gap-1.5 md:gap-3">
+                          {[1, 2, 3, 4, 5].map((value) => (
+                            <label key={value} className="survey-scale">
+                              <input required type="radio" name="entry.1080979567" value={value} className="sr-only" />
+                              <span>{value}</span>
+                            </label>
+                          ))}
+                        </div>
+                        <span className="text-xs text-white/34">Excellent</span>
+                      </div>
                     </div>
                   </fieldset>
 
-                  <fieldset className="mt-8">
-                    <legend className="text-lg font-semibold">Most valuable keynote or topic</legend>
-                    <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                      {['Global Market Trends', 'Digital Assets and Blockchain', 'Sustainable Investing', 'Regulatory Updates'].map((option) => (
-                        <label key={option} className="survey-option">
-                          <input required type="radio" name="entry.795391864" value={option} className="sr-only peer" />
-                          <span>{option}</span>
-                        </label>
-                      ))}
+                  <fieldset className="feedback-row">
+                    <div className="feedback-index">02</div>
+                    <div>
+                      <legend className="feedback-title">Most valuable keynote or topic</legend>
+                      <div className="mt-4 grid sm:grid-cols-2 sm:gap-x-8">
+                        {['Global Market Trends', 'Digital Assets and Blockchain', 'Sustainable Investing', 'Regulatory Updates'].map((option) => (
+                          <label key={option} className="survey-line">
+                            <input required type="radio" name="entry.795391864" value={option} className="sr-only" />
+                            <span className="survey-line-dot" />
+                            <span>{option}</span>
+                          </label>
+                        ))}
+                      </div>
                     </div>
                   </fieldset>
 
-                  <fieldset className="mt-8">
-                    <legend className="text-lg font-semibold">What did you enjoy most?</legend>
-                    <label className="survey-option mt-4">
-                      <input type="checkbox" name="entry.1322378946" value="Panel discussions" className="sr-only peer" />
-                      <span>Panel discussions</span>
+                  <fieldset className="feedback-row">
+                    <div className="feedback-index">03</div>
+                    <div>
+                      <legend className="feedback-title">What did you enjoy most?</legend>
+                      <label className="survey-line mt-4">
+                        <input type="checkbox" name="entry.1322378946" value="Panel discussions" className="sr-only" />
+                        <span className="survey-line-dot survey-line-square" />
+                        <span>Panel discussions</span>
+                      </label>
+                      <p className="mt-3 text-xs leading-5 text-white/25">
+                        Test mapping currently uses the confirmed “Panel discussions” option.
+                      </p>
+                    </div>
+                  </fieldset>
+
+                  <fieldset className="feedback-row">
+                    <div className="feedback-index">04</div>
+                    <div>
+                      <legend className="feedback-title">Additional rating</legend>
+                      <div className="mt-5 flex items-center gap-2 md:gap-3">
+                        {[1, 2, 3, 4, 5].map((value) => (
+                          <label key={value} className="survey-scale flex-1">
+                            <input required type="radio" name="entry.809343022" value={value} className="sr-only" />
+                            <span>{value}</span>
+                          </label>
+                        ))}
+                      </div>
+                      <p className="mt-3 text-xs leading-5 text-white/25">
+                        Question wording will be replaced once we confirm the lower half of the source form.
+                      </p>
+                    </div>
+                  </fieldset>
+
+                  <div className="feedback-row">
+                    <div className="feedback-index">05</div>
+                    <label className="block">
+                      <span className="feedback-title">Additional feedback</span>
+                      <textarea
+                        required
+                        name="entry.239328865"
+                        className="feedback-textarea mt-4"
+                        placeholder="Tell us what you think..."
+                      />
                     </label>
-                    <p className="mt-2 text-xs text-white/30">Test mapping currently uses the confirmed “Panel discussions” option.</p>
-                  </fieldset>
+                  </div>
 
-                  <fieldset className="mt-8">
-                    <legend className="text-lg font-semibold">Additional rating</legend>
-                    <div className="mt-4 grid grid-cols-5 gap-2">
-                      {[1, 2, 3, 4, 5].map((value) => (
-                        <label key={value} className="survey-choice">
-                          <input required type="radio" name="entry.809343022" value={value} className="sr-only peer" />
-                          <span className="survey-choice-box">{value}</span>
-                        </label>
-                      ))}
-                    </div>
-                    <p className="mt-2 text-xs text-white/30">Question wording will be replaced once we confirm the lower half of the source form.</p>
-                  </fieldset>
-
-                  <label className="mt-8 block">
-                    <span className="text-lg font-semibold">Additional feedback</span>
-                    <textarea required name="entry.239328865" className="field mt-4 min-h-32 resize-none" placeholder="Tell us what you think..." />
-                  </label>
-
-                  <button className="mt-6 min-h-14 w-full rounded-2xl bg-white px-6 font-semibold text-black transition hover:bg-asca-orange" type="submit">
-                    Send feedback
-                  </button>
+                  <div className="flex items-center justify-between gap-6 py-7 pl-0 md:pl-[86px]">
+                    <p className="hidden max-w-sm text-sm leading-6 text-white/28 sm:block">
+                      Five quick answers. No account, no ceremony.
+                    </p>
+                    <button className="feedback-submit" type="submit">
+                      Send feedback <ArrowRight size={17} />
+                    </button>
+                  </div>
                 </form>
               )}
             </motion.div>
