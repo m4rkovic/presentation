@@ -90,10 +90,15 @@ export const questionPool = [
   {
     id: 8,
     type: 'multipleChoice',
-    category: 'Tech History',
-    question: "What was Amazon's original company name when Jeff Bezos founded it in 1994?",
-    answers: ['BookWorld', 'Cadabra', 'EverythingStore', 'WebMart'],
-    correctAnswer: 1,
+    category: 'Networking',
+    question: 'What is the main job of DNS?',
+    answers: [
+      'Translate domain names into IP addresses',
+      'Encrypt files stored on a server',
+      'Compress web pages before download',
+      'Assign permissions inside a database',
+    ],
+    correctAnswer: 0,
     timeLimit: 12,
   },
   {
