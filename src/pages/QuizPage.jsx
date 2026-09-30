@@ -339,7 +339,7 @@ export default function QuizPage() {
     return (
       <main className="grid min-h-[100svh] place-items-center bg-asca-bg px-5 text-white">
         <div className="text-center">
-          <div className="mx-auto size-12 animate-pulse rounded-full border border-asca-toxic/40 bg-asca-toxic/10 shadow-[0_0_35px_rgba(66,184,219,.12)]" />
+          <div className="mx-auto size-12 animate-pulse rounded-full border border-asca-toxic/40 bg-asca-toxic/10 shadow-[0_0_35px_rgba(199,255,0,.12)]" />
           <p className="mt-5 font-mono text-xs font-bold uppercase tracking-[.24em] text-asca-toxic">
             Initializing quiz
           </p>
@@ -410,7 +410,7 @@ export default function QuizPage() {
 
           <button
             onClick={resetAndGoHome}
-            className="mt-8 min-h-14 w-full rounded-2xl bg-asca-orange px-6 font-semibold text-black transition hover:brightness-105"
+            className="mt-8 min-h-14 w-full rounded-2xl bg-asca-toxic px-6 font-semibold text-black transition hover:brightness-105"
           >
             Done
           </button>
@@ -475,7 +475,7 @@ export default function QuizPage() {
                 <button
                   key={answer}
                   onClick={() => handleAnswer(index)}
-                  className="min-h-20 rounded-2xl border border-white/10 bg-white/[.035] px-5 py-4 text-left font-medium text-white/88 transition hover:border-asca-orange/70 hover:bg-asca-orange hover:text-black active:scale-[.99]"
+                  className="min-h-20 rounded-2xl border border-white/10 bg-white/[.035] px-5 py-4 text-left font-medium text-white/88 transition hover:border-asca-toxic/70 hover:bg-asca-toxic hover:text-black active:scale-[.99]"
                 >
                   {answer}
                 </button>
@@ -487,7 +487,7 @@ export default function QuizPage() {
                 <button
                   key={image.label}
                   onClick={() => handleAnswer(image.value)}
-                  className="group overflow-hidden rounded-[24px] border border-white/10 bg-black/20 text-left transition hover:border-asca-orange/70"
+                  className="group overflow-hidden rounded-[24px] border border-white/10 bg-black/20 text-left transition hover:border-asca-toxic/70"
                 >
                   <div className="overflow-hidden">
                     <img
