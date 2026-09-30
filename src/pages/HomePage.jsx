@@ -173,9 +173,11 @@ export default function HomePage() {
                 {eventConfig.campaignTitle}
               </span>
 
-              <div className="welcome-logo-text" aria-label="ASCALab">
-                <span className="welcome-logo-asca">ASCA</span><span className="welcome-logo-lab">Lab</span>
-              </div>
+              <img
+                src="/ascalab-logo-official.webp"
+                alt="ASCALab"
+                className="welcome-logo-official h-11 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,.32)] md:h-13"
+              />
             </header>
 
             <div className="welcome-content mt-auto max-w-5xl pb-3">
