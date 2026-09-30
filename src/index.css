@@ -830,3 +830,55 @@ select.field option {
     animation-iteration-count: 1 !important;
   }
 }
+
+
+/* Hero brand refinements */
+.welcome-kicker {
+  color: #c7ff00;
+}
+
+.welcome-logo-text {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+  font-size: clamp(2rem, 2.45vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.055em;
+}
+
+.welcome-logo-asca {
+  color: #f28c52;
+}
+
+.welcome-logo-lab {
+  color: #fff;
+  font-weight: 650;
+}
+
+@media (min-width: 1181px) {
+  .welcome-content {
+    max-width: none;
+    width: 100%;
+  }
+
+  .welcome-bottom {
+    width: 100%;
+  }
+
+  .welcome-bottom .section-orbit {
+    margin-left: auto;
+    padding-left: 3rem;
+  }
+
+  .welcome-bottom .section-orbit > span:last-child {
+    background: #c7ff00;
+    border-color: rgba(199,255,0,.58);
+    color: #111;
+    box-shadow: 0 0 0 0 rgba(199,255,0,.16);
+  }
+
+  .welcome-bottom .section-orbit:hover > span:last-child {
+    box-shadow: 0 0 0 10px rgba(199,255,0,.08);
+  }
+}
