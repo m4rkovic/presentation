@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowLeft, ArrowRight, Check } from 'lucide-react'
+import { ArrowRight, Check } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { eventConfig } from '../data/eventConfig.js'
@@ -109,7 +109,7 @@ export default function QuizPage() {
   const autoStartHandled = useRef(false)
   const autoStartRequested = new URLSearchParams(location.search).get('autostart') === '1'
 
-  const [stage, setStage] = useState(autoStartRequested ? 'launching' : 'intro')
+  const [stage, setStage] = useState('launching')
   const [sessionQuestions, setSessionQuestions] = useState([])
   const [questionIndex, setQuestionIndex] = useState(0)
   const [correctCount, setCorrectCount] = useState(0)
@@ -149,11 +149,20 @@ export default function QuizPage() {
   }, [])
 
   useEffect(() => {
-    if (!autoStartRequested || autoStartHandled.current) return
+    if (autoStartHandled.current) return
+
+    if (!autoStartRequested) {
+      autoStartHandled.current = true
+      navigate(
+        { pathname: '/', search: location.search, hash: '#quiz' },
+        { replace: true },
+      )
+      return
+    }
 
     autoStartHandled.current = true
     startQuiz()
-  }, [autoStartRequested])
+  }, [autoStartRequested, location.search, navigate])
 
   useEffect(() => {
     if (stage !== 'active' || !currentQuestion) return
@@ -222,7 +231,7 @@ export default function QuizPage() {
   }
 
   function resetAndGoHome() {
-    setStage('intro')
+    setStage('launching')
     setSessionQuestions([])
     setQuestionIndex(0)
     setCorrectCount(0)
@@ -334,99 +343,6 @@ export default function QuizPage() {
           <p className="mt-5 font-mono text-xs font-bold uppercase tracking-[.24em] text-asca-toxic">
             Initializing quiz
           </p>
-        </div>
-      </main>
-    )
-  }
-
-  if (stage === 'intro') {
-    return (
-      <main className="quiz-intro-page min-h-[100svh] bg-asca-bg px-5 py-7 text-white md:px-8 md:py-10">
-        <div className="quiz-intro-shell mx-auto flex min-h-[calc(100svh-3.5rem)] w-full max-w-6xl flex-col">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => navigate('/')}
-              className="inline-flex items-center gap-2 text-sm font-medium text-white/58 transition hover:text-white"
-            >
-              <ArrowLeft size={16} /> Back
-            </button>
-
-            <img
-              src="/ascalab-logo-orange-white.webp"
-              alt="ASCALab"
-              className="h-9 w-auto opacity-90 md:h-11"
-            />
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: .7, ease: [0.16, 1, 0.3, 1] }}
-            className="quiz-intro-grid my-auto grid gap-12 py-14 lg:grid-cols-[1.35fr_.65fr] lg:items-stretch"
-          >
-            <div className="flex flex-col justify-center">
-              <p className="text-sm font-semibold text-asca-orange md:text-base">
-                ASCALab @ Arena Tehnologij
-              </p>
-
-              <h1 className="quiz-intro-title mt-5 max-w-4xl text-[clamp(3.9rem,8vw,7.8rem)] font-semibold leading-[.9] tracking-[-.065em]">
-                Test your<br />
-                <span className="text-asca-toxic">tech</span>{' '}
-                <span className="text-asca-orange">instincts.</span>
-              </h1>
-
-              <p className="mt-7 max-w-2xl text-lg leading-8 text-white/62 md:text-xl">
-                {eventConfig.studentIntro}
-              </p>
-
-              <div className="mt-10 flex flex-wrap gap-x-7 gap-y-3 text-sm font-medium text-white/56 md:text-base">
-                <span><b className="font-semibold text-white">{eventConfig.quiz.minQuestions}–{eventConfig.quiz.maxQuestions}</b> random questions</span>
-                <span className="text-asca-orange">•</span>
-                <span><b className="font-semibold text-white">1</b> AI image challenge</span>
-                <span className="text-asca-orange">•</span>
-                <span><b className="font-semibold text-white">Speed</b> matters</span>
-              </div>
-
-              <p className="mt-6 text-sm text-white/44">
-                Answer order changes every run. On-screen prize status is provisional.
-              </p>
-            </div>
-
-            <div className="quiz-orange-panel flex min-h-[430px] flex-col justify-between bg-asca-orange p-7 text-black md:p-9">
-              <div>
-                <p className="text-sm font-semibold">THE QUICK VERSION</p>
-                <h2 className="mt-4 text-4xl font-semibold leading-[.98] tracking-[-.045em] md:text-5xl">
-                  Got a minute?<br />Make it count.
-                </h2>
-                <p className="mt-5 max-w-sm text-base leading-7 text-black/68">
-                  No sign-up before the quiz. Pick answers fast, do not trust your friend blindly, and see where you land.
-                </p>
-              </div>
-
-              <button
-                onClick={startQuiz}
-                className="group mt-10 flex min-h-16 w-full items-center justify-between bg-black px-6 text-left text-base font-bold text-white transition hover:bg-[#111]"
-              >
-                <span>Start quiz</span>
-                <ArrowRight size={20} className="transition group-hover:translate-x-1.5" />
-              </button>
-            </div>
-          </motion.div>
-
-          <div className="grid gap-5 border-t border-white/10 py-6 sm:grid-cols-3">
-            <div>
-              <div className="text-sm font-semibold text-asca-orange">Perfect + fast</div>
-              <p className="mt-1 text-sm text-white/48">Premium reward contender.</p>
-            </div>
-            <div>
-              <div className="text-sm font-semibold text-white">Perfect</div>
-              <p className="mt-1 text-sm text-white/48">Secondary reward contender.</p>
-            </div>
-            <div>
-              <div className="text-sm font-semibold text-asca-toxic">Finish it</div>
-              <p className="mt-1 text-sm text-white/48">Participation track.</p>
-            </div>
-          </div>
         </div>
       </main>
     )
