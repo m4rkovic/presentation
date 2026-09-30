@@ -329,7 +329,7 @@ export default function QuizPage() {
             </button>
 
             <img
-              src="/ascalab-logo-official.webp"
+              src="/ascalab-logo-orange-white.webp"
               alt="ASCALab"
               className="h-9 w-auto opacity-90 md:h-11"
             />
