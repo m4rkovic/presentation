@@ -837,26 +837,12 @@ select.field option {
   color: #c7ff00;
 }
 
-.welcome-logo-text {
-  display: inline-flex;
-  align-items: baseline;
-  white-space: nowrap;
-  font-size: clamp(2rem, 2.45vw, 3.25rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -.055em;
-}
-
-.welcome-logo-asca {
-  color: #f28c52;
-}
-
-.welcome-logo-lab {
-  color: #fff;
-  font-weight: 650;
-}
 
 @media (min-width: 1181px) {
+  .welcome-logo-official {
+    height: clamp(3.7rem, 4.1vw, 4.8rem);
+  }
+
   .welcome-content {
     max-width: none;
     width: 100%;
