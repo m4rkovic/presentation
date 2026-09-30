@@ -19,19 +19,19 @@ export const eventConfig = {
       label: 'Tier 1 contender',
       title: 'Top score + speed',
       description:
-        'Perfect accuracy with a fast time. Show this screen to the ASCALab team for final leaderboard validation.',
+        'Perfect accuracy with a fast time. This is a provisional result; ASCALab staff confirms prize eligibility.',
       reward: 'ASCALab premium reward',
     },
     tier2: {
       label: 'Tier 2 unlocked',
       title: '100% accuracy',
-      description: 'Perfect accuracy achieved. You qualify for the secondary reward pool.',
+      description: 'Perfect accuracy achieved. This is a provisional result; ASCALab staff confirms prize eligibility.',
       reward: 'ASCALab notebook or similar reward',
     },
     tier3: {
       label: 'Tier 3 unlocked',
       title: 'Participation reward',
-      description: 'Thanks for taking part. You are in the general giveaway pool.',
+      description: 'Thanks for taking part. This is a participation result; ASCALab staff confirms any giveaway eligibility.',
       reward: 'Stickers, pens or similar swag',
     },
   },
