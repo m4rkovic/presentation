@@ -11,7 +11,7 @@
   /* Keep the old toxic green here for an instant rollback if we want it back. */
   --color-asca-toxic-legacy: #c7ff00;
 
-  /* Existing "toxic" utility now maps to the new cyan accent. */
+  /* Active CTA accent: restored toxic green. */
   --color-asca-toxic: #c7ff00;
 
   --color-asca-dark: #314770;
