@@ -118,15 +118,15 @@ function SectionJump({ href, label, variant = 'line' }) {
           : 'line'
 
   const classes = {
-    line: 'group inline-flex items-center gap-3 text-sm font-semibold text-white/72 transition hover:text-white',
-    orb: 'group inline-flex size-14 items-center justify-center rounded-full border border-white/22 bg-white/[.04] text-white transition hover:border-asca-toxic/70 hover:text-asca-toxic',
-    outline: 'group inline-flex min-h-12 items-center gap-3 rounded-full border border-white/18 px-5 text-sm font-semibold text-white/78 transition hover:border-white/38 hover:bg-white/[.04] hover:text-white',
-    filled: 'group inline-flex min-h-12 items-center gap-3 rounded-xl bg-asca-toxic px-5 text-sm font-bold text-black transition hover:translate-y-[-1px]',
+    line: 'group inline-flex items-center gap-3 text-sm font-semibold text-white/72 transition hover:text-asca-orange',
+    orb: 'group inline-flex size-14 items-center justify-center rounded-full border border-white/22 bg-white/[.04] text-white transition hover:border-asca-orange/70 hover:text-asca-orange',
+    outline: 'group inline-flex min-h-12 items-center gap-3 rounded-full border border-white/18 px-5 text-sm font-semibold text-white/78 transition hover:border-asca-orange/55 hover:bg-asca-orange/[.05] hover:text-white',
+    filled: 'group inline-flex min-h-12 items-center gap-3 rounded-xl bg-asca-orange px-5 text-sm font-bold text-black transition hover:translate-y-[-1px]',
   }
 
   return (
     <a href={href} className={classes[family]}>
-      {family === 'line' ? <span className="h-px w-8 bg-asca-toxic/70 transition group-hover:w-11" /> : null}
+      {family === 'line' ? <span className="h-px w-8 bg-asca-orange/75 transition group-hover:w-11" /> : null}
       {family === 'orb' ? <ArrowDown size={20} /> : <span>{label}</span>}
       {family === 'orb' ? null : <ArrowDown size={16} className="transition group-hover:translate-y-1" />}
     </a>
@@ -184,7 +184,7 @@ export default function HomePage() {
           <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] flex-col px-6 py-8 md:px-10 md:py-10 lg:px-14">
             <div className="flex items-center justify-between gap-6">
               <span className="hidden items-center gap-3 text-base font-semibold text-white/82 sm:flex md:text-lg">
-                <span className="size-2.5 rounded-full bg-asca-toxic shadow-[0_0_20px_rgba(199,255,0,.80)]" />
+                <span className="size-2.5 rounded-full bg-asca-orange shadow-[0_0_20px_rgba(247,149,84,.72)]" />
                 {eventConfig.campaignTitle}
               </span>
               <div className="relative isolate pr-1">
@@ -242,12 +242,12 @@ export default function HomePage() {
                 <div className="flex shrink-0 flex-wrap items-center gap-4">
                   <Link
                     to={{ pathname: '/quiz', search: location.search }}
-                    className="inline-flex min-h-12 items-center gap-2 rounded-full bg-asca-toxic px-5 text-sm font-bold text-black transition hover:scale-[1.02]"
+                    className="inline-flex min-h-12 items-center gap-2 rounded-full bg-asca-orange px-5 text-sm font-bold text-black transition hover:scale-[1.02]"
                   >
                     Start quiz <ArrowRight size={17} />
                   </Link>
                   <a href="#statement" className="hero-scroll-cue inline-flex min-h-12 items-center gap-3 text-sm font-semibold text-white/76 transition hover:text-white">
-                    <span className="h-px w-8 bg-asca-toxic/70" />
+                    <span className="h-px w-8 bg-asca-orange/75" />
                     Scroll the booth <ArrowDown size={17} />
                   </a>
                 </div>
@@ -341,7 +341,7 @@ export default function HomePage() {
             viewport={{ once: true, amount: .35 }}
             className="mx-auto max-w-[1500px] px-6 md:px-10 lg:px-14"
           >
-            <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-toxic">
+            <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
               Where you could fit
             </p>
             <div className="mt-7 flex flex-wrap gap-x-7 gap-y-3 text-[clamp(2.5rem,5.8vw,6.5rem)] font-semibold leading-none tracking-[-.055em] text-white/82">
@@ -470,7 +470,7 @@ export default function HomePage() {
                       }`}
                     >
                       <div className={`max-w-2xl ${activeIndustry % 2 ? 'ml-auto' : ''}`}>
-                        <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-toxic">
+                        <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
                           {industryStories[activeIndustry].title}
                         </p>
                         <h3 className="mt-4 text-[clamp(3rem,6.5vw,6.8rem)] font-semibold leading-[.93] tracking-[-.06em]">
@@ -509,7 +509,7 @@ export default function HomePage() {
                       initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 12 }}
-                      className="absolute bottom-7 right-7 z-30 inline-flex min-h-12 items-center gap-2 rounded-full bg-asca-toxic px-5 text-sm font-bold text-black transition hover:scale-[1.02] md:bottom-10 md:right-10"
+                      className="absolute bottom-7 right-7 z-30 inline-flex min-h-12 items-center gap-2 rounded-full bg-asca-orange px-5 text-sm font-bold text-black transition hover:scale-[1.02] md:bottom-10 md:right-10"
                     >
                       Next chapter <ArrowDown size={16} />
                     </motion.a>
@@ -568,7 +568,7 @@ export default function HomePage() {
         <section id="mindset" className="section-screen flex min-h-[100svh] items-center px-6 py-20 md:px-10 lg:px-14">
           <div className="mx-auto grid w-full max-w-[1500px] gap-12 lg:grid-cols-[1fr_1fr]">
             <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
-              <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-toxic">
+              <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
                 A useful thing to know
               </p>
               <h2 className="mt-4 max-w-3xl text-5xl font-semibold leading-[.98] tracking-[-.055em] md:text-7xl">
@@ -625,7 +625,7 @@ export default function HomePage() {
                 <div className="mt-7 flex flex-wrap items-center gap-5">
                   <Link
                     to={{ pathname: '/quiz', search: location.search }}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-asca-toxic transition hover:text-white"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-asca-orange transition hover:text-white"
                   >
                     Preview the student quiz <ArrowRight size={17} />
                   </Link>
@@ -639,7 +639,7 @@ export default function HomePage() {
         <section id="contact" className="section-screen flex min-h-[100svh] items-center px-6 py-16 md:px-10 lg:px-14">
           <div className="mx-auto grid w-full max-w-[1500px] gap-12 lg:grid-cols-[.78fr_1.22fr] lg:items-center">
             <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
-              <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-toxic">
+              <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
                 Stay in touch
               </p>
               <h2 className="mt-4 max-w-xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
@@ -806,7 +806,7 @@ export default function HomePage() {
 
                   <button
                     disabled={leadStatus === 'sending'}
-                    className="inline-flex min-h-14 items-center gap-2 rounded-xl bg-asca-toxic px-7 font-bold text-black transition hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
+                    className="inline-flex min-h-14 items-center gap-2 rounded-xl bg-asca-orange px-7 font-bold text-black transition hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
                     type="submit"
                   >
                     {leadStatus === 'sending' ? 'Saving…' : 'Leave my details'} <ArrowRight size={17} />
@@ -821,7 +821,7 @@ export default function HomePage() {
           <div className="mx-auto max-w-[1180px]">
             <Link
               to={{ pathname: '/quiz', search: location.search }}
-              className="quiz-cta group relative flex min-h-[27svh] items-end justify-between gap-6 overflow-hidden rounded-[28px] bg-asca-toxic p-6 text-black transition duration-500 md:min-h-[30svh] md:rounded-[34px] md:p-9"
+              className="quiz-cta group relative flex min-h-[27svh] items-end justify-between gap-6 overflow-hidden rounded-[28px] bg-asca-orange p-6 text-black transition duration-500 md:min-h-[30svh] md:rounded-[34px] md:p-9"
             >
             <div className="relative z-10">
               <p className="text-base font-semibold opacity-55">{eventConfig.eventName} · 5–8 random questions · no mercy from the timer</p>
