@@ -55,21 +55,21 @@ const serviceStories = [
   {
     title: 'Development',
     headline: 'You build it. People actually use it.',
-    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80',
+    image: '/media/development.webp',
     copy: 'Customer apps, internal platforms, integrations and data-heavy systems. The interesting part is not making a demo work once. It is making software survive real users, real rules and years of change.',
     detail: 'You learn how product thinking, architecture and implementation connect when the thing on your screen becomes part of somebody else\'s working day.',
   },
   {
     title: 'DevOps',
     headline: 'Code is useless if nobody can ship it.',
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1400&q=80',
+    image: '/media/devops.webp',
     copy: 'Cloud, deployment pipelines, infrastructure, monitoring and releases. DevOps is the part that turns “works on my machine” into something the rest of the world can actually run.',
     detail: 'The goal is simple: make delivery repeatable, observable and boring enough that Friday afternoon stops being a horror genre.',
   },
   {
     title: 'Testing',
     headline: 'Find the bug before the customer does.',
-    image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1400&q=80',
+    image: '/media/testing.webp',
     copy: 'Quality engineering mixes curiosity, systems thinking, automation and a slightly suspicious attitude toward anything claiming to be “done”.',
     detail: 'That experience also became myQAbee, ASCALab\'s codeless QA automation product for repeatable testing across environments and devices.',
   },
@@ -83,25 +83,25 @@ const industryStories = [
   {
     title: 'Banking',
     headline: 'Millions of transactions. Zero appetite for guessing.',
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=80',
+    image: '/media/hero.webp',
     copy: 'Core platforms, reporting, customer applications and integrations. When money moves, “close enough” is not an engineering strategy.',
   },
   {
     title: 'Insurance',
     headline: 'One small rule can change an entire outcome.',
-    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80',
+    image: '/media/insurance.webp',
     copy: 'Claims, policies, billing and risk logic turn business rules into software. Tiny details can have very non-tiny consequences.',
   },
   {
     title: 'Energy',
     headline: 'A lot of data. All the time. It still has to add up.',
-    image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1400&q=80',
+    image: '/media/energy.webp',
     copy: 'Metering, billing and operational data push systems hard. Reliability matters because the real world does not pause while your service restarts.',
   },
   {
     title: 'Telecom',
     headline: 'People notice very quickly when the connection stops.',
-    image: 'https://images.unsplash.com/photo-1516321165247-4aa89a48be28?auto=format&fit=crop&w=1400&q=80',
+    image: '/media/telecom.webp',
     copy: 'Subscriber systems, self-service platforms and integrations live under constant change. The challenge is shipping that change without turning production into an experiment.',
   },
 ]
@@ -161,7 +161,7 @@ export default function HomePage() {
       <main>
         <section className="relative min-h-[100svh] overflow-hidden">
           <img
-            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80"
+            src="/media/hero.webp"
             alt=""
             width="1600"
             height="1000"
@@ -540,7 +540,7 @@ export default function HomePage() {
             </motion.div>
             <motion.div className="relative min-h-[58svh] overflow-hidden rounded-[34px]" variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }}>
               <img
-                src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1400&q=80"
+                src="/media/myqabee.webp"
                 alt=""
                 width="1400"
                 height="900"
