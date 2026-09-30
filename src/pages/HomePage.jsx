@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react'
-import { ArrowDown, ArrowRight, Check } from 'lucide-react'
+import { ArrowDown, ArrowLeft, ArrowRight, Check } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Link, useLocation } from 'react-router-dom'
 import { eventConfig } from '../data/eventConfig.js'
-import { exportLocalAnalyticsCsv, flushAnalytics, getEventSource, getLocalAnalytics, trackEvent } from '../lib/analytics.js'
+import {
+  exportLocalAnalyticsCsv,
+  flushAnalytics,
+  getEventSource,
+  getLocalAnalytics,
+  trackEvent,
+} from '../lib/analytics.js'
 import { isEventApiConfigured } from '../lib/eventApi.js'
 import {
   exportLocalLeadsCsv,
@@ -13,176 +19,100 @@ import {
 } from '../lib/leadCapture.js'
 import { exportLocalQuizResultsCsv, getLocalResults } from '../lib/quizSession.js'
 
-const reveal = {
-  hidden: { opacity: 0, y: 56 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: .85, ease: [0.16, 1, 0.3, 1] },
-  },
-}
+const techStack = [
+  'Java',
+  '.NET',
+  'React',
+  'TypeScript',
+  'Python',
+  'SQL',
+  'Azure',
+  'AWS',
+  'CI/CD',
+  'QA Automation',
+  'Data / AI',
+]
 
-const revealLeft = {
-  hidden: { opacity: 0, x: -84, rotateZ: -.6 },
-  show: {
-    opacity: 1,
-    x: 0,
-    rotateZ: 0,
-    transition: { duration: .9, ease: [0.16, 1, 0.3, 1] },
-  },
-}
-
-const revealRight = {
-  hidden: { opacity: 0, x: 84, rotateZ: .6 },
-  show: {
-    opacity: 1,
-    x: 0,
-    rotateZ: 0,
-    transition: { duration: .9, ease: [0.16, 1, 0.3, 1] },
-  },
-}
-
-const imageReveal = {
-  hidden: { opacity: 0, scale: 1.08, y: 20 },
-  show: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { duration: 1.05, ease: [0.16, 1, 0.3, 1] },
-  },
-}
-
-const serviceStories = [
+const workSlides = [
   {
-    title: 'Development',
-    headline: 'You build it. People actually use it.',
+    eyebrow: 'What we build',
+    title: 'Development that survives real users.',
+    body:
+      'Customer applications, internal platforms, integrations and data-heavy systems. The interesting part starts after the demo works.',
     image: '/media/development.webp',
-    copy: 'Customer apps, internal platforms, integrations and data-heavy systems. The interesting part is not making a demo work once. It is making software survive real users, real rules and years of change.',
-    detail: 'You learn how product thinking, architecture and implementation connect when the thing on your screen becomes part of somebody else\'s working day.',
+    items: ['Backend', 'Frontend', 'Embedded / Firmware', 'Integrations'],
+    accent: 'orange',
   },
   {
-    title: 'DevOps',
-    headline: 'Code is useless if nobody can ship it.',
-    image: '/media/devops.webp',
-    copy: 'Cloud, deployment pipelines, infrastructure, monitoring and releases. DevOps is the part that turns “works on my machine” into something the rest of the world can actually run.',
-    detail: 'The goal is simple: make delivery repeatable, observable and boring enough that Friday afternoon stops being a horror genre.',
-  },
-  {
-    title: 'Testing',
-    headline: 'Find the bug before the customer does.',
-    image: '/media/testing.webp',
-    copy: 'Quality engineering mixes curiosity, systems thinking, automation and a slightly suspicious attitude toward anything claiming to be “done”.',
-    detail: 'That experience also became myQAbee, ASCALab\'s codeless QA automation product for repeatable testing across environments and devices.',
-  },
-]
-
-const techStack = ['Java', '.NET', 'React', 'TypeScript', 'Python', 'SQL', 'Azure', 'AWS', 'CI/CD', 'QA Automation', 'Data / AI']
-
-const serviceNextTargets = ['#service-devops', '#service-testing', '#career-paths']
-
-const industryStories = [
-  {
-    title: 'Banking',
-    headline: 'Millions of transactions. Zero appetite for guessing.',
-    image: '/media/hero.webp',
-    copy: 'Core platforms, reporting, customer applications and integrations. When money moves, “close enough” is not an engineering strategy.',
-  },
-  {
-    title: 'Insurance',
-    headline: 'One small rule can change an entire outcome.',
+    eyebrow: 'Client environments',
+    title: 'Serious systems. Different rules.',
+    body:
+      'Our work lives in industries where software is tied directly to the business and reliability is not a decorative requirement.',
     image: '/media/insurance.webp',
-    copy: 'Claims, policies, billing and risk logic turn business rules into software. Tiny details can have very non-tiny consequences.',
+    items: ['Banking', 'Insurance', 'Energy', 'Telecom'],
+    accent: 'green',
   },
   {
-    title: 'Energy',
-    headline: 'A lot of data. All the time. It still has to add up.',
-    image: '/media/energy.webp',
-    copy: 'Metering, billing and operational data push systems hard. Reliability matters because the real world does not pause while your service restarts.',
-  },
-  {
-    title: 'Telecom',
-    headline: 'People notice very quickly when the connection stops.',
-    image: '/media/telecom.webp',
-    copy: 'Subscriber systems, self-service platforms and integrations live under constant change. The challenge is shipping that change without turning production into an experiment.',
+    eyebrow: 'Engineering around delivery',
+    title: 'Build it, ship it, prove it works.',
+    body:
+      'Development, DevOps and QA stay close together so delivery does not become a relay race made entirely of handovers and crossed fingers.',
+    image: '/media/devops.webp',
+    items: ['Development', 'DevOps', 'Testing', 'Automation'],
+    accent: 'orange',
   },
 ]
 
-function SectionJump({ href, label, variant = 'line' }) {
-  const classes = {
-    line: 'section-jump section-jump-line group inline-flex items-center gap-3 text-sm font-semibold text-white/74',
-    orb: 'section-jump section-jump-orb group inline-grid size-24 place-items-center rounded-full bg-asca-toxic text-black md:size-28',
-    bracket: 'section-jump section-jump-bracket group inline-flex min-h-12 items-center gap-4 text-sm font-semibold text-white/82',
-    ghost: 'section-jump section-jump-ghost group inline-flex min-h-12 items-center gap-3 rounded-full border border-white/18 px-5 text-sm font-semibold text-white/80',
-    square: 'section-jump section-jump-square group inline-flex min-h-13 items-center gap-4 bg-white px-5 text-sm font-bold text-black',
-    toxic: 'section-jump section-jump-toxic group inline-flex min-h-13 items-center gap-5 rounded-2xl bg-asca-toxic px-6 text-sm font-bold text-black',
-    text: 'section-jump section-jump-text group inline-flex items-center gap-2 text-sm font-semibold text-asca-orange',
-  }
+const offers = [
+  {
+    title: 'Internships',
+    copy: 'A place to turn fundamentals into real project experience with people who already ship production software.',
+  },
+  {
+    title: 'Employment',
+    copy: 'A path into engineering, QA, DevOps, data and adjacent roles when the fit is right.',
+  },
+  {
+    title: 'Modern technology',
+    copy: 'Work with current stacks, cloud platforms, automation and systems that have real users and real constraints.',
+  },
+  {
+    title: 'Agile development',
+    copy: 'Short feedback loops, visible work and teams close enough together to fix assumptions before production does it for them.',
+  },
+]
 
-  if (variant === 'orb') {
-    return (
-      <a href={href} className={classes.orb} aria-label={label}>
-        <ArrowDown size={30} strokeWidth={2.2} className="transition duration-300 group-hover:translate-y-1.5" />
-      </a>
-    )
-  }
+const reveal = {
+  hidden: { opacity: 0, y: 34 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: .72, ease: [0.16, 1, 0.3, 1] },
+  },
+}
 
-  if (variant === 'line') {
-    return (
-      <a href={href} className={classes.line}>
-        <span className="h-px w-8 bg-asca-orange/80 transition-all duration-300 group-hover:w-12" />
-        <span>{label}</span>
-        <ArrowDown size={16} className="transition duration-300 group-hover:translate-y-1" />
-      </a>
-    )
-  }
-
-  if (variant === 'bracket') {
-    return (
-      <a href={href} className={classes.bracket}>
-        <span>{label}</span>
-        <span className="grid size-9 place-items-center border border-asca-orange/55 text-asca-orange transition duration-300 group-hover:rotate-6 group-hover:bg-asca-orange group-hover:text-black">
-          <ArrowDown size={16} />
-        </span>
-      </a>
-    )
-  }
-
-  if (variant === 'square') {
-    return (
-      <a href={href} className={classes.square}>
-        <span>{label}</span>
-        <span className="grid size-8 place-items-center bg-black text-white transition duration-300 group-hover:translate-y-1">
-          <ArrowDown size={15} />
-        </span>
-      </a>
-    )
-  }
-
-  if (variant === 'toxic') {
-    return (
-      <a href={href} className={classes.toxic}>
-        <span>{label}</span>
-        <span className="grid size-9 place-items-center rounded-full bg-black text-white transition duration-300 group-hover:translate-y-1">
-          <ArrowDown size={16} />
-        </span>
-      </a>
-    )
-  }
+function SectionArrow({ href, label, tone = 'orange' }) {
+  const toneClass =
+    tone === 'green'
+      ? 'border-asca-toxic/55 bg-asca-toxic text-black'
+      : 'border-asca-orange/55 bg-asca-orange text-black'
 
   return (
-    <a href={href} className={classes[variant] || classes.text}>
-      {variant === 'ghost' ? <span className="size-2 rounded-full bg-asca-orange" /> : null}
-      <span>{label}</span>
-      <ArrowDown size={16} className="transition duration-300 group-hover:translate-y-1" />
+    <a href={href} className="section-orbit group inline-flex items-center gap-4">
+      <span className="text-sm font-semibold text-white/72 transition group-hover:text-white">{label}</span>
+      <span className={`grid size-14 place-items-center rounded-full border transition duration-300 group-hover:scale-105 md:size-16 ${toneClass}`}>
+        <ArrowDown size={20} className="transition duration-300 group-hover:translate-y-1" />
+      </span>
     </a>
   )
 }
 
 export default function HomePage() {
+  const [workSlide, setWorkSlide] = useState(0)
   const [formStarted, setFormStarted] = useState(false)
   const [leadStatus, setLeadStatus] = useState('idle')
   const [localLeadCount, setLocalLeadCount] = useState(() => getLocalLeads().length)
-  const [activeIndustry, setActiveIndustry] = useState(0)
+
   const location = useLocation()
   const backendConfigured = isEventApiConfigured()
   const isStaffView = new URLSearchParams(location.search).get('staff') === '1'
@@ -210,10 +140,21 @@ export default function HomePage() {
     return () => window.removeEventListener('online', flush)
   }, [])
 
+  const activeWork = workSlides[workSlide]
+
+  const goWork = (direction) => {
+    setWorkSlide((current) => {
+      const next = current + direction
+      if (next < 0) return workSlides.length - 1
+      if (next >= workSlides.length) return 0
+      return next
+    })
+  }
+
   return (
-    <div className="min-h-screen bg-asca-bg text-white">
+    <div className="event-site bg-asca-bg text-white">
       <main>
-        <section className="site-hero relative min-h-[100svh] overflow-hidden">
+        <section id="welcome" className="event-section welcome-section relative overflow-hidden">
           <img
             src="/media/hero.webp"
             alt=""
@@ -223,531 +164,249 @@ export default function HomePage() {
             decoding="async"
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,12,.18),rgba(7,9,12,.64)_60%,#07090c_100%)]" />
-          <div className="hero-toxic-glow pointer-events-none absolute -bottom-40 right-[8%] size-[38rem] rounded-full bg-asca-toxic/10 blur-[110px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,12,.16),rgba(7,9,12,.58)_58%,#07090c_100%)]" />
+          <div className="pointer-events-none absolute -bottom-36 right-[8%] size-[32rem] rounded-full bg-asca-toxic/10 blur-[90px]" />
 
-          <div className="site-hero-shell relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] flex-col px-6 py-8 md:px-10 md:py-10 lg:px-14">
-            <div className="site-hero-header flex items-center justify-between gap-6">
-              <span className="hidden items-center gap-3 text-base font-semibold text-white/82 sm:flex md:text-lg">
-                <span className="size-2.5 rounded-full bg-asca-orange shadow-[0_0_20px_rgba(247,149,84,.72)]" />
+          <div className="event-shell relative z-10 flex h-full flex-col">
+            <header className="flex items-center justify-between gap-6">
+              <span className="hidden items-center gap-3 text-base font-semibold text-white/82 sm:flex">
+                <span className="size-2.5 rounded-full bg-asca-orange shadow-[0_0_20px_rgba(247,149,84,.65)]" />
                 {eventConfig.campaignTitle}
               </span>
-              <div className="relative isolate pr-1">
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -inset-x-8 -inset-y-5 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,.72)_0%,rgba(255,255,255,.34)_38%,rgba(255,255,255,.10)_58%,transparent_76%)] blur-xl"
-                />
-                <img
-                  src="/ascalab-logo-official.webp"
-                  alt="ASCALab"
-                  className="h-12 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,.30)] md:h-14 lg:h-16"
-                />
-              </div>
-            </div>
 
-            <div className="site-hero-content mt-auto max-w-5xl pb-10 md:pb-16">
-              <motion.div
-                initial={{ opacity: 0, y: 18 }}
+              <img
+                src="/ascalab-logo-official.webp"
+                alt="ASCALab"
+                className="h-11 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,.32)] md:h-13"
+              />
+            </header>
+
+            <div className="mt-auto max-w-5xl pb-3">
+              <motion.p
+                initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: .8, delay: .04, ease: [0.16, 1, 0.3, 1] }}
-                className="mb-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-bold uppercase tracking-[.17em] text-asca-toxic md:text-sm"
+                className="mb-4 text-xs font-bold uppercase tracking-[.17em] text-asca-toxic md:text-sm"
               >
-                <span>Students</span>
-                <span className="text-white/50">/</span>
-                <span>Internships</span>
-                <span className="text-white/50">/</span>
-                <span>Tech quiz</span>
-              </motion.div>
+                Students · internships · real engineering
+              </motion.p>
+
               <motion.h1
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 22 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
-                className="site-hero-title max-w-5xl text-[clamp(3.5rem,8.5vw,8.8rem)] font-semibold leading-[.92] tracking-[-0.045em]"
+                transition={{ duration: .9, ease: [0.16, 1, 0.3, 1] }}
+                className="welcome-title font-semibold leading-[.9] tracking-[-.055em]"
               >
-                <span className="block">Build things that</span>
-                <span className="block tracking-[-0.03em] text-asca-toxic">actually matter.</span>
+                Build things that<br />
+                <span className="text-asca-toxic">actually matter.</span>
               </motion.h1>
 
-              <div className="site-hero-bottom mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+              <div className="mt-6 flex items-end justify-between gap-8">
                 <div>
-                  <p className="max-w-2xl text-lg leading-8 text-white/68 md:text-xl">
+                  <p className="max-w-2xl text-base leading-7 text-white/70 md:text-lg">
                     Software. Cloud. QA. Data. Real systems, real users and maybe your next internship.
                   </p>
-                  <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-white/52 md:text-sm">
-                    <span className="text-asca-toxic">{'{'} curiosity &gt; buzzwords {'}'}</span>
-                    <span>build</span>
-                    <span className="text-white/18">/</span>
-                    <span>break</span>
-                    <span className="text-white/18">/</span>
-                    <span>learn</span>
-                    <span className="text-white/18">/</span>
-                    <span>ship</span>
-                  </div>
+                  <p className="mt-3 font-mono text-xs text-white/46 md:text-sm">
+                    build / break / learn / ship
+                  </p>
                 </div>
-                <a href="#statement" className="hero-scroll-orbit group inline-flex shrink-0 items-center gap-4">
-                  <span className="text-sm font-semibold text-white/80 transition group-hover:text-white">
-                    Scroll the booth
-                  </span>
-                  <span className="grid size-20 place-items-center rounded-full border border-asca-orange/70 bg-asca-orange text-black shadow-[0_0_0_0_rgba(247,149,84,.25)] transition duration-300 group-hover:scale-105 group-hover:shadow-[0_0_0_10px_rgba(247,149,84,.10)] md:size-24">
-                    <ArrowDown size={25} strokeWidth={2.2} className="transition duration-300 group-hover:translate-y-1.5" />
-                  </span>
-                </a>
+
+                <SectionArrow href="#work" label="Explore ASCALab" />
               </div>
             </div>
           </div>
         </section>
 
-        <section id="statement" className="statement-section section-screen flex min-h-[78svh] items-center px-6 py-16 md:min-h-[82svh] md:px-10 md:py-20 lg:px-14">
-          <div className="mx-auto w-full max-w-[1500px]">
-            <motion.div className="max-w-6xl" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .35 }}>
-              <p className="mb-8 text-xl font-medium text-asca-orange md:text-2xl">
-                Technology built around business
-              </p>
-              <h2 className="text-[clamp(3.3rem,7.5vw,8rem)] font-semibold leading-[.92] tracking-[-.06em]">
-                Built to fit.<br />
-                Designed to last.<br />
-                <span className="text-asca-toxic/75">Less corporate fog.</span>
-              </h2>
-              <p className="mt-10 max-w-2xl text-xl leading-9 text-white/58 md:text-2xl md:leading-10">
-                ASCALab builds practical digital solutions for complex problems, with enough engineering depth to keep them useful after the launch-day screenshots stop being exciting.
-              </p>
-              <div className="mt-12">
-                <SectionJump href="#services" label="See what we build" variant="bracket" />
+        <section id="work" className="event-section work-section">
+          <div className="event-shell flex h-full flex-col">
+            <div className="flex items-start justify-between gap-8">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[.16em] text-asca-orange">What we do</p>
+                <h2 className="mt-3 max-w-3xl text-4xl font-semibold leading-[.96] tracking-[-.045em] md:text-5xl">
+                  Technology, clients and the work between them.
+                </h2>
               </div>
-            </motion.div>
-          </div>
-        </section>
 
-        <section id="services" className="services-intro section-screen flex items-center py-14 md:py-18">
-          <motion.div className="mx-auto w-full max-w-[1500px] px-6 md:px-10 lg:px-14" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .35 }}>
-            <h2 className="max-w-4xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-              Three ways to get very good at solving real problems.
-            </h2>
-            <div className="mt-10">
-              <SectionJump href="#service-development" label="Start with Development" variant="line" />
+              <div className="hidden items-center gap-2 md:flex">
+                {workSlides.map((slide, index) => (
+                  <button
+                    key={slide.title}
+                    type="button"
+                    onClick={() => setWorkSlide(index)}
+                    aria-label={`Show ${slide.eyebrow}`}
+                    className={`size-3 rounded-full transition ${index === workSlide ? 'bg-asca-orange' : 'bg-white/20'}`}
+                  />
+                ))}
+              </div>
             </div>
-          </motion.div>
-        </section>
 
-        <section className="pb-10 md:pb-16">
-          <div className="space-y-5 md:space-y-8">
-            {serviceStories.map((service, index) => (
-              <motion.article
-                key={service.title}
-                id={`service-${service.title.toLowerCase()}`}
-                className="service-chapter section-screen mx-auto flex max-w-[1500px] items-center px-4 py-3 md:px-8 md:py-5" variants={index % 2 ? revealRight : revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .18 }}>
-                <div className={`service-card grid min-h-[70svh] w-full overflow-hidden rounded-[30px] bg-[#0e1217] md:min-h-[74svh] md:rounded-[40px] lg:grid-cols-2 ${index % 2 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
-                  <div className="service-media relative min-h-[42svh] lg:min-h-full">
-                    <motion.img src={service.image} alt="" width="1400" height="900" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" variants={imageReveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }} />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,12,.05),rgba(7,9,12,.35))]" />
-                    <div className="absolute left-6 top-6 rounded-full bg-black/45 px-4 py-2 text-sm font-medium text-white/80 backdrop-blur-md md:left-8 md:top-8">
-                      {service.title}
-                    </div>
-                  </div>
-                  <div className="service-copy flex flex-col justify-center p-7 md:p-12 lg:p-14">
-                    <h3 className="service-title max-w-xl text-4xl font-semibold leading-[1.02] tracking-[-.05em] md:text-6xl">
-                      {service.headline}
-                    </h3>
-                    <p className="mt-8 max-w-xl text-lg leading-8 text-white/66">{service.copy}</p>
-                    <p className="mt-6 max-w-xl leading-7 text-white/54">{service.detail}</p>
-                    <div className="mt-9">
-                      <SectionJump
-                        href={serviceNextTargets[index]}
-                        label={index === 0 ? 'Next: DevOps' : index === 1 ? 'Next: Testing' : 'Find your lane'}
-                        variant={index === 0 ? 'square' : index === 1 ? 'ghost' : 'toxic'}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-        </section>
-
-        <section className="tech-marquee border-y border-white/8 bg-[#0a0d10] py-5">
-          <div className="tech-marquee-track">
-            {[...techStack, ...techStack].map((item, index) => (
-              <span key={`${item}-${index}`} className="tech-marquee-item">
-                {item}
-              </span>
-            ))}
-          </div>
-        </section>
-
-        <section id="career-paths" className="career-section section-screen flex min-h-[100svh] items-center overflow-hidden border-y border-white/8 py-16 md:py-20">
-          <motion.div
-            variants={reveal}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: .35 }}
-            className="relative mx-auto w-full max-w-[1500px] px-6 md:px-10 lg:px-14"
-          >
-            <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
-              Where you could fit
-            </p>
-            <div className="career-cloud mt-7 flex flex-wrap gap-x-7 gap-y-3 text-[clamp(2.5rem,5.8vw,6.5rem)] font-semibold leading-none tracking-[-.055em] text-white/82">
-              {eventConfig.careers.map((career, index) => (
-                <span
-                  key={career}
-                  className={career === 'Frontend' || career === 'QA' ? 'text-asca-orange' : 'text-white/82'}
+            <div className="work-carousel relative mt-6 min-h-0 flex-1 overflow-hidden">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.article
+                  key={activeWork.title}
+                  initial={{ opacity: 0, x: 52 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -52 }}
+                  transition={{ duration: .42, ease: [0.16, 1, 0.3, 1] }}
+                  className="grid h-full overflow-hidden rounded-[28px] bg-[#0e1217] md:grid-cols-[1.05fr_.95fr]"
                 >
-                  {career}
-                </span>
-              ))}
-            </div>
-            <p className="mt-8 max-w-2xl text-lg leading-8 text-white/60">
-              You do not need to arrive knowing everything. Fundamentals, curiosity and enough stubbornness to keep digging are a pretty good start.
-            </p>
-            <p className="mt-5 font-mono text-sm text-asca-toxic/85">
-              // no perfect profile required
-            </p>
-            <div className="mt-10 flex justify-end md:absolute md:bottom-0 md:right-10 md:mt-0 lg:right-14">
-              <SectionJump href="#quiz-teaser" label="Try something less corporate" variant="orb" />
-            </div>
-          </motion.div>
-        </section>
-
-        <section id="quiz-teaser" className="quiz-teaser-section section-screen flex min-h-[100svh] items-center px-4 py-10 md:px-8 md:py-16">
-          <motion.div
-            variants={reveal}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: .3 }}
-            className="student-quiz-band mx-auto grid max-w-[1180px] gap-8 overflow-hidden rounded-[30px] border border-asca-toxic/35 bg-asca-toxic p-7 text-black md:rounded-[38px] md:p-10 lg:grid-cols-[1fr_auto] lg:items-end"
-          >
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[.18em] text-black/55">
-                Production is the final boss.
-              </p>
-              <h2 className="mt-4 max-w-4xl text-4xl font-semibold leading-[.98] tracking-[-.05em] md:text-6xl">
-                Think you know tech? Prove it before your friend does.
-              </h2>
-              <p className="mt-5 max-w-2xl text-lg leading-8 text-black/62">
-                5–8 random questions, an AI image challenge, speed scoring and prize tiers. Every session gets a different mix.
-              </p>
-              <p className="mt-4 font-mono text-sm font-semibold text-black/50">
-                friend assistance not guaranteed to help :)
-              </p>
-            </div>
-            <div className="flex flex-col items-start gap-4 lg:items-end">
-              <Link
-                to={{ pathname: '/quiz', search: location.search }}
-                className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-black px-7 font-semibold text-white transition hover:scale-[1.02]"
-              >
-                Start quiz <ArrowRight size={18} />
-              </Link>
-              <a href="#industries" className="group inline-flex items-center gap-2 text-sm font-semibold text-black/55 transition hover:text-black">
-                Keep exploring <ArrowDown size={16} className="transition group-hover:translate-y-1" />
-              </a>
-            </div>
-          </motion.div>
-        </section>
-
-        <section id="industries" className="industries-intro section-screen flex min-h-[100svh] items-center px-6 py-20 md:px-10 lg:px-14">
-          <div className="mx-auto max-w-[1500px]">
-            <motion.div className="max-w-5xl" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .4 }}>
-              <h2 className="text-[clamp(3.3rem,6.8vw,7rem)] font-semibold leading-[.95] tracking-[-.06em]">
-                This is where “it works” stops being enough.
-              </h2>
-              <p className="mt-8 max-w-2xl text-xl leading-9 text-white/60">
-                Money, policies, energy and connectivity all create different problems. The common bit is that people notice when the software gets them wrong.
-              </p>
-              <div className="mt-12">
-                <SectionJump href="#industry-story" label="Enter the real-world problems" variant="ghost" />
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        <section id="industry-story" className="industry-story-wrap relative px-4 pb-16 md:px-8 md:pb-24">
-          <div className="relative h-[360svh]">
-            <div className="industry-sticky sticky top-0 z-10 flex h-[100svh] items-start pt-[4svh] md:pt-[5svh]">
-              <div className="industry-card relative mx-auto h-[88svh] w-full max-w-[1500px] overflow-hidden rounded-[30px] bg-[#0b0f13] md:h-[86svh] md:rounded-[40px]">
-                <AnimatePresence initial={false} mode="sync">
-                  <motion.div
-                    key={industryStories[activeIndustry].title}
-                    initial={{
-                      opacity: 0,
-                      x: activeIndustry % 2 === 0 ? -180 : 180,
-                      scale: .985,
-                      filter: 'blur(10px)',
-                    }}
-                    animate={{
-                      opacity: 1,
-                      x: 0,
-                      scale: 1,
-                                          }}
-                    exit={{
-                      opacity: 0,
-                      x: activeIndustry % 2 === 0 ? 90 : -90,
-                      scale: 1.015,
-                      filter: 'blur(6px)',
-                    }}
-                    transition={{ duration: .78, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute inset-0"
-                  >
-                    <motion.img
-                      key={industryStories[activeIndustry].image}
-                      src={industryStories[activeIndustry].image}
+                  <div className="relative min-h-[14rem] overflow-hidden md:min-h-0">
+                    <img
+                      src={activeWork.image}
                       alt=""
                       width="1400"
                       height="900"
                       loading="lazy"
                       decoding="async"
-                      initial={{ scale: 1.06 }}
-                      animate={{ scale: 1 }}
-                      transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1] }}
                       className="absolute inset-0 h-full w-full object-cover"
                     />
-
-                    <div
-                      className={`absolute inset-0 ${
-                        activeIndustry % 2 === 0
-                          ? 'bg-[linear-gradient(90deg,rgba(5,7,10,.92),rgba(5,7,10,.48)_58%,rgba(5,7,10,.12))]'
-                          : 'bg-[linear-gradient(270deg,rgba(5,7,10,.92),rgba(5,7,10,.48)_58%,rgba(5,7,10,.12))]'
-                      }`}
-                    />
-
-                    <div
-                      className={`relative z-10 flex h-full items-end p-7 md:p-12 lg:p-14 ${
-                        activeIndustry % 2 ? 'justify-end text-right' : ''
-                      }`}
-                    >
-                      <div className={`max-w-2xl ${activeIndustry % 2 ? 'ml-auto' : ''}`}>
-                        <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
-                          {industryStories[activeIndustry].title}
-                        </p>
-                        <h3 className="industry-title mt-4 text-[clamp(3rem,6.5vw,6.8rem)] font-semibold leading-[.93] tracking-[-.06em]">
-                          {industryStories[activeIndustry].headline}
-                        </h3>
-                        <p className={`mt-7 max-w-xl text-lg leading-8 text-white/68 md:text-xl ${activeIndustry % 2 ? 'ml-auto' : ''}`}>
-                          {industryStories[activeIndustry].copy}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-
-                <div className="pointer-events-none absolute left-7 right-7 top-7 z-20 flex items-center justify-between md:left-10 md:right-10 md:top-9">
-                  <p className="text-xs font-semibold uppercase tracking-[.18em] text-white/56">
-                    Scroll to switch
-                  </p>
-                  <div className="flex items-center gap-2">
-                    {industryStories.map((industry, index) => (
-                      <span
-                        key={industry.title}
-                        className={`h-1 rounded-full transition-all duration-500 ${
-                          index === activeIndustry
-                            ? 'w-8 bg-asca-toxic'
-                            : 'w-3 bg-white/22'
-                        }`}
-                      />
-                    ))}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
                   </div>
-                </div>
 
-                <AnimatePresence>
-                  {activeIndustry === industryStories.length - 1 ? (
-                    <motion.a
-                      href="#myqabee"
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 12 }}
-                      className="absolute bottom-7 right-7 z-30 inline-flex min-h-12 items-center gap-2 rounded-full bg-asca-orange px-5 text-sm font-bold text-black transition hover:scale-[1.02] md:bottom-10 md:right-10"
-                    >
-                      Next chapter <ArrowDown size={16} />
-                    </motion.a>
-                  ) : null}
-                </AnimatePresence>
+                  <div className="flex min-h-0 flex-col justify-center p-6 md:p-8 lg:p-10">
+                    <p className={`text-sm font-semibold uppercase tracking-[.16em] ${activeWork.accent === 'green' ? 'text-asca-toxic' : 'text-asca-orange'}`}>
+                      {activeWork.eyebrow}
+                    </p>
+                    <h3 className="mt-3 text-3xl font-semibold leading-[.98] tracking-[-.045em] md:text-4xl lg:text-5xl">
+                      {activeWork.title}
+                    </h3>
+                    <p className="mt-5 max-w-xl text-base leading-7 text-white/62 md:text-lg">
+                      {activeWork.body}
+                    </p>
+                    <div className="mt-6 flex flex-wrap gap-2.5">
+                      {activeWork.items.map((item) => (
+                        <span key={item} className="rounded-full border border-white/12 px-3.5 py-2 text-sm text-white/76">
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.article>
+              </AnimatePresence>
+
+              <div className="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-3 md:px-4">
+                <button
+                  type="button"
+                  onClick={() => goWork(-1)}
+                  className="pointer-events-auto grid size-11 place-items-center rounded-full bg-black/65 text-white backdrop-blur transition hover:bg-asca-orange hover:text-black"
+                  aria-label="Previous slide"
+                >
+                  <ArrowLeft size={19} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => goWork(1)}
+                  className="pointer-events-auto grid size-11 place-items-center rounded-full bg-black/65 text-white backdrop-blur transition hover:bg-asca-orange hover:text-black"
+                  aria-label="Next slide"
+                >
+                  <ArrowRight size={19} />
+                </button>
               </div>
             </div>
 
-            <div className="pointer-events-none absolute inset-0 z-0">
-              {industryStories.map((industry, index) => (
-                <motion.div
-                  key={industry.title}
-                  className="h-[90svh]"
-                  onViewportEnter={() => setActiveIndustry(index)}
-                  viewport={{ amount: .55 }}
-                />
-              ))}
+            <div className="tech-marquee mt-5 border-y border-white/8 py-3">
+              <div className="tech-marquee-track">
+                {[...techStack, ...techStack].map((item, index) => (
+                  <span key={`${item}-${index}`} className="tech-marquee-item">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-4 flex justify-end">
+              <SectionArrow href="#offer" label="What we offer" tone="green" />
             </div>
           </div>
         </section>
 
-        <section id="myqabee" className="myqabee-section section-screen flex min-h-[100svh] items-center px-6 py-16 md:px-10 lg:px-14">
-          <div className="mx-auto grid w-full max-w-[1500px] gap-14 lg:grid-cols-[1fr_1fr] lg:items-center">
-            <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
-              <h2 className="text-5xl font-semibold leading-[.98] tracking-[-.055em] md:text-7xl">
-                Sometimes the internal tool becomes the product.
-              </h2>
-              <p className="mt-7 max-w-xl text-xl leading-9 text-white/56">
-                myQAbee grew out of real testing work: a codeless way to automate scenarios across environments and devices. It is a good example of what happens when engineers stop accepting a repetitive problem as “just how things are”.
-              </p>
-              <p className="mt-6 max-w-xl leading-7 text-white/54">
-                Product thinking is not reserved for product companies. Sometimes the most useful idea starts as a problem your own team is tired of solving manually.
-              </p>
-              <div className="mt-9">
-                <SectionJump href="#mindset" label="One more thing" variant="text" />
-              </div>
-            </motion.div>
-            <motion.div className="relative min-h-[58svh] overflow-hidden rounded-[34px]" variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }}>
-              <img
-                src="/media/myqabee.webp"
-                alt=""
-                width="1400"
-                height="900"
-                loading="lazy"
-                decoding="async"
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
-              <div className="absolute bottom-7 left-7 text-3xl font-semibold tracking-[-.04em] md:bottom-10 md:left-10 md:text-5xl">
-                myQAbee
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        <section id="mindset" className="mindset-section section-screen flex min-h-[100svh] items-center px-6 py-20 md:px-10 lg:px-14">
-          <div className="mx-auto grid w-full max-w-[1500px] gap-12 lg:grid-cols-[1fr_1fr]">
-            <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
-              <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
-                A useful thing to know
-              </p>
-              <h2 className="mt-4 max-w-3xl text-5xl font-semibold leading-[.98] tracking-[-.055em] md:text-7xl">
-                You do not need to know everything.
-              </h2>
-            </motion.div>
-            <motion.div className="space-y-8 self-end text-lg leading-8 text-white/56" variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
-              <p>
-                Nobody serious expects a student to arrive as a finished engineer. Strong fundamentals, curiosity and the habit of asking good questions matter more than pretending you have seen every framework already.
-              </p>
-              <p>
-                The work itself teaches the rest: how systems connect, how requirements become software, why testing matters and why production has a talent for finding assumptions nobody wrote down.
-              </p>
-              <p className="text-white/82">
-                Learn fast. Ask why. Break things somewhere safe. <span className="text-asca-toxic">Then make them better.</span>
-              </p>
-              <div className="pt-2">
-                <SectionJump href="#student-path" label="See where you could start" variant="square" />
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        <section id="student-path" className="student-path-section section-screen flex min-h-[100svh] items-center px-6 py-20 md:px-10 lg:px-14">
-          <div className="mx-auto w-full max-w-[1500px]">
-            <motion.div
-              variants={reveal}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: .3 }}
-              className="grid gap-12 lg:grid-cols-[1.1fr_.9fr] lg:items-end"
-            >
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
-                  {eventConfig.campaignTitle}
-                </p>
-                <h2 className="mt-4 max-w-4xl text-5xl font-semibold leading-[.96] tracking-[-.055em] md:text-7xl">
-                  Your first serious project has to start somewhere.
+        <section id="offer" className="event-section offer-section">
+          <div className="event-shell flex h-full flex-col">
+            <div className="grid flex-1 items-center gap-8 lg:grid-cols-[.82fr_1.18fr]">
+              <motion.div variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .35 }}>
+                <p className="text-sm font-semibold uppercase tracking-[.16em] text-asca-orange">What we offer</p>
+                <h2 className="mt-4 max-w-2xl text-5xl font-semibold leading-[.94] tracking-[-.05em] md:text-6xl">
+                  Start somewhere real.
                 </h2>
-                <p className="mt-7 max-w-2xl text-xl leading-9 text-white/52">
-                  Internships and future roles can start from very different technical paths. The point is not to fit one perfect profile. It is to find where your brain gets curious enough to keep going.
+                <p className="mt-6 max-w-xl text-lg leading-8 text-white/60">
+                  Practice, employment and the chance to learn how modern software is actually built with a team around you.
                 </p>
-              </div>
+              </motion.div>
 
-              <div>
-                <div className="flex flex-wrap gap-x-6 gap-y-4 border-y border-white/10 py-7 text-xl font-medium text-white/78 md:text-2xl">
-                  {eventConfig.careers.map((career) => (
-                    <span key={career}>{career}</span>
-                  ))}
-                </div>
-                <p className="mt-6 max-w-xl leading-7 text-white/52">
-                  Interested in an internship or future role? Leave your contact details, choose the area you care about, then take the event quiz. Each session gets a different mix.
-                </p>
-                <div className="mt-7 flex flex-wrap items-center gap-5">
-                  <Link
-                    to={{ pathname: '/quiz', search: location.search }}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-asca-orange transition hover:text-white"
+              <div className="offer-grid grid gap-3 sm:grid-cols-2">
+                {offers.map((offer, index) => (
+                  <motion.article
+                    key={offer.title}
+                    variants={reveal}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, amount: .3 }}
+                    className={`offer-card p-5 md:p-6 ${index === 0 || index === 3 ? 'bg-asca-orange text-black' : 'bg-white/[.035] text-white'}`}
                   >
-                    Preview the student quiz <ArrowRight size={17} />
-                  </Link>
-                  <SectionJump href="#contact" label="Leave your details" variant="bracket" />
-                </div>
+                    <h3 className="text-xl font-semibold tracking-[-.025em] md:text-2xl">{offer.title}</h3>
+                    <p className={`mt-3 text-sm leading-6 md:text-base ${index === 0 || index === 3 ? 'text-black/65' : 'text-white/56'}`}>
+                      {offer.copy}
+                    </p>
+                  </motion.article>
+                ))}
               </div>
-            </motion.div>
+            </div>
+
+            <div className="flex justify-end">
+              <SectionArrow href="#contact" label="Leave your details" />
+            </div>
           </div>
         </section>
 
-        <section id="contact" className="contact-section section-screen flex min-h-[100svh] items-center px-6 py-16 md:px-10 lg:px-14">
-          <div className="mx-auto grid w-full max-w-[1500px] gap-12 lg:grid-cols-[.78fr_1.22fr] lg:items-center">
-            <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
-              <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
-                Stay in touch
-              </p>
-              <h2 className="mt-4 max-w-xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
+        <section id="contact" className="event-section funnel-section">
+          <div className="event-shell grid h-full items-center gap-8 lg:grid-cols-[.72fr_1.28fr]">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[.16em] text-asca-orange">Stay in touch</p>
+              <h2 className="mt-4 max-w-xl text-4xl font-semibold leading-[.96] tracking-[-.045em] md:text-5xl">
                 Interested in building with us?
               </h2>
-              <p className="mt-5 max-w-md text-lg leading-8 text-white/58">
-                Leave your name, email and the area you are curious about so the ASCALab team can follow up about student opportunities.
+              <p className="mt-5 max-w-md text-base leading-7 text-white/58 md:text-lg">
+                Leave your contact details and tell us what kind of work you are curious about.
               </p>
 
               {!backendConfigured && isStaffView ? (
-                <p className="mt-6 max-w-md rounded-xl border border-amber-300/20 bg-amber-300/8 p-4 text-sm leading-6 text-amber-100/80">
-                  Staff note: central event storage is not connected. Entries on this kiosk are staying local, so export them before clearing browser data.
+                <p className="mt-5 max-w-md rounded-xl border border-amber-300/20 bg-amber-300/8 p-3.5 text-xs leading-5 text-amber-100/80">
+                  Staff note: central event storage is not connected. Export local data before clearing browser storage.
                 </p>
               ) : null}
 
               {isStaffView ? (
-                <div className="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold">
-                  <button
-                    type="button"
-                    onClick={() => exportLocalLeadsCsv()}
-                    className="text-asca-toxic underline decoration-asca-toxic/35 underline-offset-4"
-                  >
-                    Export {localLeadCount} local lead{localLeadCount === 1 ? '' : 's'}
+                <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-semibold">
+                  <button type="button" onClick={() => exportLocalLeadsCsv()} className="text-asca-orange underline underline-offset-4">
+                    Export {localLeadCount} leads
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => exportLocalQuizResultsCsv()}
-                    className="text-white/72 underline decoration-white/20 underline-offset-4 hover:text-white"
-                  >
-                    Export {getLocalResults().length} quiz result{getLocalResults().length === 1 ? '' : 's'}
+                  <button type="button" onClick={() => exportLocalQuizResultsCsv()} className="text-white/70 underline underline-offset-4">
+                    Export {getLocalResults().length} quiz results
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => exportLocalAnalyticsCsv()}
-                    className="text-white/72 underline decoration-white/20 underline-offset-4 hover:text-white"
-                  >
-                    Export {getLocalAnalytics().length} analytics event{getLocalAnalytics().length === 1 ? '' : 's'}
+                  <button type="button" onClick={() => exportLocalAnalyticsCsv()} className="text-white/70 underline underline-offset-4">
+                    Export {getLocalAnalytics().length} analytics events
                   </button>
                 </div>
               ) : null}
+            </div>
 
-              <div className="mt-8">
-                <SectionJump href="#final-quiz" label="Skip to the quiz" variant="text" />
-              </div>
-            </motion.div>
-
-            <motion.div variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }}>
+            <div>
               {leadStatus === 'sent' || leadStatus === 'queued' || leadStatus === 'local-only' ? (
                 <motion.div
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="rounded-[28px] border border-white/10 bg-white/[.025] p-8 md:p-10"
+                  className="rounded-[24px] border border-white/10 bg-white/[.025] p-7"
                 >
-                  <div className="grid size-16 place-items-center rounded-full bg-asca-toxic/10 text-asca-toxic">
-                    <Check size={32} strokeWidth={2.2} />
+                  <div className="grid size-14 place-items-center rounded-full bg-asca-toxic/10 text-asca-toxic">
+                    <Check size={28} strokeWidth={2.2} />
                   </div>
-                  <h3 className="mt-7 text-3xl font-semibold tracking-[-.04em] md:text-4xl">
+                  <h3 className="mt-5 text-3xl font-semibold tracking-[-.04em]">
                     {leadStatus === 'sent'
                       ? 'Details sent.'
                       : leadStatus === 'queued'
                         ? 'Saved. We will retry.'
                         : 'Saved on this device.'}
                   </h3>
-                  <p className="mt-4 max-w-lg text-base leading-7 text-white/58">
+                  <p className="mt-3 max-w-lg text-sm leading-6 text-white/58">
                     {leadStatus === 'sent'
                       ? 'Your contact details reached the event backend.'
                       : leadStatus === 'queued'
@@ -757,14 +416,14 @@ export default function HomePage() {
                   <button
                     type="button"
                     onClick={() => setLeadStatus('idle')}
-                    className="mt-7 min-h-12 rounded-xl bg-white px-5 font-semibold text-black transition hover:bg-asca-toxic"
+                    className="mt-6 min-h-11 rounded-xl bg-white px-5 font-semibold text-black transition hover:bg-asca-toxic"
                   >
                     Add another
                   </button>
                 </motion.div>
               ) : (
                 <form
-                  className="space-y-7"
+                  className="funnel-form grid gap-4"
                   onFocusCapture={() => {
                     if (!formStarted) {
                       setFormStarted(true)
@@ -796,53 +455,36 @@ export default function HomePage() {
                     })
                   }}
                 >
-                  <div className="grid gap-6 sm:grid-cols-2">
-                    <label className="block">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <label>
                       <span className="text-sm font-semibold text-white/80">Name</span>
-                      <input
-                        required
-                        name="name"
-                        autoComplete="name"
-                        className="field mt-2"
-                        placeholder="Your name"
-                      />
+                      <input required name="name" autoComplete="name" className="field mt-2" placeholder="Your name" />
                     </label>
-                    <label className="block">
+                    <label>
                       <span className="text-sm font-semibold text-white/80">Email</span>
-                      <input
-                        required
-                        type="email"
-                        name="email"
-                        autoComplete="email"
-                        className="field mt-2"
-                        placeholder="you@example.com"
-                      />
+                      <input required type="email" name="email" autoComplete="email" className="field mt-2" placeholder="you@example.com" />
                     </label>
                   </div>
 
-                  <label className="block">
-                    <span className="text-sm font-semibold text-white/80">School / faculty / field</span>
-                    <input
-                      required
-                      name="studyField"
-                      className="field mt-2"
-                      placeholder="e.g. Computer Science, ETF, Elektronski..."
-                    />
-                  </label>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <label>
+                      <span className="text-sm font-semibold text-white/80">School / faculty / field</span>
+                      <input required name="studyField" className="field mt-2" placeholder="Computer Science, ETF..." />
+                    </label>
+                    <label>
+                      <span className="text-sm font-semibold text-white/80">Interested in</span>
+                      <select required name="interest" className="field mt-2">
+                        <option value="">Choose an area</option>
+                        {eventConfig.careers.map((career) => (
+                          <option key={career} value={career}>{career}</option>
+                        ))}
+                        <option value="Not sure yet">Not sure yet</option>
+                      </select>
+                    </label>
+                  </div>
 
-                  <label className="block">
-                    <span className="text-sm font-semibold text-white/80">What are you interested in?</span>
-                    <select required name="interest" className="field mt-2">
-                      <option value="">Choose an area</option>
-                      {eventConfig.careers.map((career) => (
-                        <option key={career} value={career}>{career}</option>
-                      ))}
-                      <option value="Not sure yet">Not sure yet</option>
-                    </select>
-                  </label>
-
-                  <label className="flex items-start gap-3 text-sm leading-6 text-white/60">
-                    <input required type="checkbox" name="consent" value="yes" className="mt-1 size-4 accent-[#c7ff00]" />
+                  <label className="flex items-start gap-3 text-xs leading-5 text-white/58 md:text-sm">
+                    <input required type="checkbox" name="consent" value="yes" className="mt-1 size-4 accent-[#f79554]" />
                     <span>
                       I agree that ASCALab may use these details to contact me about internships, student opportunities or relevant roles.
                     </span>
@@ -850,46 +492,46 @@ export default function HomePage() {
 
                   <button
                     disabled={leadStatus === 'sending'}
-                    className="inline-flex min-h-14 items-center gap-2 rounded-xl bg-asca-orange px-7 font-bold text-black transition hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
+                    className="inline-flex min-h-12 w-fit items-center gap-2 rounded-xl bg-asca-orange px-6 font-bold text-black transition hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
                     type="submit"
                   >
                     {leadStatus === 'sending' ? 'Saving…' : 'Leave my details'} <ArrowRight size={17} />
                   </button>
                 </form>
               )}
-            </motion.div>
+
+              <div className="mt-5 flex justify-end">
+                <SectionArrow href="#quiz" label="Finish with the quiz" tone="green" />
+              </div>
+            </div>
           </div>
         </section>
 
-        <section id="final-quiz" className="final-quiz-section section-screen flex min-h-[72svh] items-center px-4 py-10 md:px-8 md:py-14">
-          <div className="mx-auto max-w-[1180px]">
+        <section id="quiz" className="event-section quiz-final-section">
+          <div className="event-shell flex h-full items-center">
             <Link
               to={{ pathname: '/quiz', search: location.search }}
-              className="quiz-cta group relative flex min-h-[27svh] items-end justify-between gap-6 overflow-hidden rounded-[28px] bg-asca-orange p-6 text-black transition duration-500 md:min-h-[30svh] md:rounded-[34px] md:p-9"
+              className="final-quiz-card group grid w-full overflow-hidden bg-asca-orange text-black md:grid-cols-[1fr_auto]"
             >
-            <div className="relative z-10">
-              <p className="text-base font-semibold opacity-55">{eventConfig.eventName} · 5–8 random questions · no mercy from the timer</p>
-              <h2 className="mt-3 text-[clamp(2.7rem,6vw,6.5rem)] font-semibold leading-[.9] tracking-[-.06em]">
-                Take the student quiz.
-              </h2>
-              <p className="mt-4 max-w-xl text-sm font-medium opacity-55 md:text-base">
-                Accuracy + speed · AI image challenge · prize tiers
-              </p>
-            </div>
-            <span className="quiz-sheen" aria-hidden="true" />
-            <div className="quiz-arrow mb-1 hidden size-16 shrink-0 place-items-center rounded-full bg-black text-white transition duration-500 md:grid">
-              <ArrowRight size={32} />
-            </div>
+              <div className="p-7 md:p-10">
+                <p className="text-sm font-semibold uppercase tracking-[.16em] text-black/55">
+                  Final stop
+                </p>
+                <h2 className="mt-3 max-w-4xl text-5xl font-semibold leading-[.9] tracking-[-.055em] md:text-7xl">
+                  Take the student quiz.
+                </h2>
+                <p className="mt-5 max-w-xl text-base font-medium text-black/60 md:text-lg">
+                  5–8 random questions · AI image challenge · speed matters
+                </p>
+              </div>
+              <div className="grid min-h-40 place-items-center bg-black px-10 text-white md:min-h-full md:min-w-52">
+                <div className="grid size-20 place-items-center rounded-full border border-white/20 transition duration-300 group-hover:translate-x-2 group-hover:bg-asca-toxic group-hover:text-black">
+                  <ArrowRight size={34} />
+                </div>
+              </div>
             </Link>
           </div>
         </section>
-
-        <footer className="px-6 py-8 text-sm text-white/52 md:px-10 lg:px-14">
-          <div className="mx-auto flex max-w-[1500px] flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <span>ASCALab d.o.o.</span>
-            <span>Development · DevOps · Testing</span>
-          </div>
-        </footer>
       </main>
     </div>
   )
