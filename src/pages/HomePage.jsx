@@ -168,20 +168,17 @@ export default function HomePage() {
           <div className="pointer-events-none absolute -bottom-36 right-[8%] size-[32rem] rounded-full bg-asca-toxic/10 blur-[90px]" />
 
           <div className="event-shell relative z-10 flex h-full flex-col">
-            <header className="flex items-center justify-between gap-6">
-              <span className="hidden items-center gap-3 text-base font-semibold text-white/82 sm:flex">
-                <span className="size-2.5 rounded-full bg-asca-orange shadow-[0_0_20px_rgba(242,140,82,.65)]" />
+            <header className="welcome-header flex items-center justify-between gap-6">
+              <span className="welcome-kicker hidden text-base font-semibold sm:flex">
                 {eventConfig.campaignTitle}
               </span>
 
-              <img
-                src="/ascalab-logo-official.webp"
-                alt="ASCALab"
-                className="h-11 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,.32)] md:h-13"
-              />
+              <div className="welcome-logo-text" aria-label="ASCALab">
+                <span className="welcome-logo-asca">ASCA</span><span className="welcome-logo-lab">Lab</span>
+              </div>
             </header>
 
-            <div className="mt-auto max-w-5xl pb-3">
+            <div className="welcome-content mt-auto max-w-5xl pb-3">
               <motion.p
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -197,10 +194,10 @@ export default function HomePage() {
                 className="welcome-title font-semibold leading-[.9] tracking-[-.055em]"
               >
                 Build things that<br />
-                <span className="text-asca-toxic">actually matter.</span>
+                <span className="text-asca-orange">actually matter.</span>
               </motion.h1>
 
-              <div className="mt-6 flex items-end justify-between gap-8">
+              <div className="welcome-bottom mt-6 flex items-end justify-between gap-8">
                 <div>
                   <p className="max-w-2xl text-base leading-7 text-white/70 md:text-lg">
                     Software. Cloud. QA. Data. Real systems, real users and maybe your next internship.
@@ -210,7 +207,7 @@ export default function HomePage() {
                   </p>
                 </div>
 
-                <SectionArrow href="#work" label="Explore ASCALab" />
+                <SectionArrow href="#work" label="Explore ASCALab" tone="green" />
               </div>
             </div>
           </div>
