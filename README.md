@@ -52,18 +52,22 @@ SPA fallbacks are included for both Vercel (`vercel.json`) and Netlify (`public/
 
 ## Offline behavior
 
-The production service worker precaches the application shell, official logo and event media under `/media/`. A completely fresh device still needs one successful production load so the service worker can install; after that, the cached shell and quiz images can be served without the third-party image hosts.
+The production service worker warms the application shell, official logo and event media under `/media/` on a best-effort basis. A missing asset no longer aborts the whole service-worker installation. A completely fresh device still needs one successful production load before offline use can be relied on.
 
 ## Media
 
-`npm run dev` and `npm run build` both run `npm run prepare:media` first. That script downloads the current licensed/reference media into `public/media/` and requests WebP from Unsplash where supported. Runtime pages then use only local `/media/...` paths.
+`npm run dev` and `npm run build` both run `npm run prepare:media` first. The script downloads missing reference media into `public/media/` and requests WebP from Unsplash where supported. Runtime pages use only local `/media/...` paths.
 
-If the event artwork changes, update `scripts/fetch-media.mjs`, delete the corresponding generated file locally and run `npm run prepare:media` again.
+Remote download failures now warn instead of aborting the build. For the fair, the strongest setup is to generate the media once and commit the resulting `public/media/` files so production deployment no longer depends on third-party image hosts at build time. `public/media/` is intentionally no longer ignored by Git.
+
+If the event artwork changes, update `scripts/fetch-media.mjs`, replace the corresponding local file and commit the final event media.
 
 ## Staff checklist
 
 1. Configure `VITE_EVENT_API_URL` and verify leads, quiz results and analytics arrive centrally. Without this, staff-mode CSV export is the only central collection fallback.
 2. Confirm prize rules and reward names with the event team.
-3. Test the production URL on the actual tablet and at least one mid-range phone.
-4. Load the site once on the kiosk while online so the service worker warms its cache.
-5. Run the production build once before the fair and verify every self-hosted image under `/media/` is present.
+3. Test the production URL at 1024×768 on the actual iPad Air 2 in landscape, plus 1366×768 desktop and one mid-range phone.
+4. Confirm carousel arrows, keyboard focus and horizontal swipe all move between work slides.
+5. Load the site once on the kiosk while online so the service worker warms its cache.
+6. Generate and commit the final `public/media/` assets before the fair.
+7. Submit a real lead from a second device and confirm it arrives centrally; if it does not, fix `VITE_EVENT_API_URL` before relying on the form.
