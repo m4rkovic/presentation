@@ -646,12 +646,12 @@ export default function HomePage() {
                 Interested in building with us?
               </h2>
               <p className="mt-5 max-w-md text-lg leading-8 text-white/58">
-                Leave your name, email and the area you are curious about. This replaces the unrelated conference feedback form that used to live here.
+                Leave your name, email and the area you are curious about so the ASCALab team can follow up about student opportunities.
               </p>
 
-              {!backendConfigured ? (
+              {!backendConfigured && isStaffView ? (
                 <p className="mt-6 max-w-md rounded-xl border border-amber-300/20 bg-amber-300/8 p-4 text-sm leading-6 text-amber-100/80">
-                  Event backend is not configured on this deployment. Entries are saved only in this browser until <code>VITE_EVENT_API_URL</code> is connected.
+                  Staff note: central event storage is not connected. Entries on this kiosk are staying local, so export them before clearing browser data.
                 </p>
               ) : null}
 
@@ -708,7 +708,7 @@ export default function HomePage() {
                       ? 'Your contact details reached the event backend.'
                       : leadStatus === 'queued'
                         ? 'The connection failed, so this entry is queued locally and will retry when the browser comes back online.'
-                        : 'There is no central event backend configured yet, so this entry exists only in this browser. Staff can export local entries from staff mode.'}
+                        : 'Your details were saved on this event device for the ASCALab team.'}
                   </p>
                   <button
                     type="button"
