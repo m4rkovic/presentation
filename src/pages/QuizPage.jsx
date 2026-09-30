@@ -339,7 +339,7 @@ export default function QuizPage() {
     return (
       <main className="grid min-h-[100svh] place-items-center bg-asca-bg px-5 text-white">
         <div className="text-center">
-          <div className="mx-auto size-12 animate-pulse rounded-full border border-asca-toxic/40 bg-asca-toxic/10 shadow-[0_0_35px_rgba(199,255,0,.12)]" />
+          <div className="mx-auto size-12 animate-pulse rounded-full border border-asca-toxic/40 bg-asca-toxic/10 shadow-[0_0_35px_rgba(66,184,219,.12)]" />
           <p className="mt-5 font-mono text-xs font-bold uppercase tracking-[.24em] text-asca-toxic">
             Initializing quiz
           </p>
@@ -434,7 +434,7 @@ export default function QuizPage() {
                   key={question.id}
                   className={`block size-3 rounded-full transition-all duration-300 ${
                     index <= questionIndex
-                      ? 'bg-asca-orange shadow-[0_0_12px_rgba(247,149,84,.34)]'
+                      ? 'bg-asca-orange shadow-[0_0_12px_rgba(246,133,35,.34)]'
                       : 'bg-white/18'
                   }`}
                 />
