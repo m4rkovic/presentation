@@ -169,9 +169,11 @@ export default function HomePage() {
 
           <div className="event-shell relative z-10 flex h-full flex-col">
             <header className="welcome-header flex items-center justify-between gap-6">
-              <span className="welcome-kicker hidden text-base font-semibold sm:flex">
-                {eventConfig.campaignTitle}
-              </span>
+              <img
+                src="/arena-tehnologij-logo-white.png"
+                alt="Arena Tehnologij"
+                className="hidden h-10 w-auto object-contain sm:block md:h-12 lg:h-14"
+              />
 
               <img
                 src="/ascalab-logo-official.webp"
