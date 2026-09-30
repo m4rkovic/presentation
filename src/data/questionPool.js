@@ -206,12 +206,12 @@ export const questionPool = [
     media: {
       left: {
         label: 'Image A',
-        src: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=84',
+        src: '/media/portrait-real.webp',
         alt: 'Portrait candidate',
       },
       right: {
         label: 'Image B',
-        src: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/This_AI-generated_woman_does_not_exist.png?width=1200',
+        src: '/media/portrait-ai.png',
         alt: 'Portrait candidate',
       },
     },
