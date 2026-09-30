@@ -52,11 +52,13 @@ SPA fallbacks are included for both Vercel (`vercel.json`) and Netlify (`public/
 
 ## Offline behavior
 
-The production service worker caches the application shell and warms the current remote media assets after the first successful online load. A completely fresh device still needs network access for its first load.
+The production service worker precaches the application shell, official logo and event media under `/media/`. A completely fresh device still needs one successful production load so the service worker can install; after that, the cached shell and quiz images can be served without the third-party image hosts.
 
 ## Media
 
-The current landing-page photography is externally hosted and bandwidth-reduced. Before the fair, the final licensed image set should be downloaded, converted to WebP/AVIF and placed under `public/media/` so the event does not depend on third-party image CDNs.
+`npm run dev` and `npm run build` both run `npm run prepare:media` first. That script downloads the current licensed/reference media into `public/media/` and requests WebP from Unsplash where supported. Runtime pages then use only local `/media/...` paths.
+
+If the event artwork changes, update `scripts/fetch-media.mjs`, delete the corresponding generated file locally and run `npm run prepare:media` again.
 
 ## Staff checklist
 
@@ -64,4 +66,4 @@ The current landing-page photography is externally hosted and bandwidth-reduced.
 2. Confirm prize rules and reward names with the event team.
 3. Test the production URL on the actual tablet and at least one mid-range phone.
 4. Load the site once on the kiosk while online so the service worker warms its cache.
-5. Replace external photography with self-hosted final media.
+5. Run the production build once before the fair and verify every self-hosted image under `/media/` is present.
