@@ -62,7 +62,7 @@ If the event artwork changes, update `scripts/fetch-media.mjs`, delete the corre
 
 ## Staff checklist
 
-1. Configure `VITE_EVENT_API_URL` and verify leads/results arrive centrally.
+1. Configure `VITE_EVENT_API_URL` and verify leads, quiz results and analytics arrive centrally. Without this, staff-mode CSV export is the only central collection fallback.
 2. Confirm prize rules and reward names with the event team.
 3. Test the production URL on the actual tablet and at least one mid-range phone.
 4. Load the site once on the kiosk while online so the service worker warms its cache.
