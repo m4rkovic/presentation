@@ -40,11 +40,11 @@ The endpoint receives POST requests with this shape:
 }
 ```
 
-If `VITE_EVENT_API_URL` is not configured, the UI does **not** claim that anything synced. Quiz results, analytics and student leads are kept only in that browser's local storage. Staff can open the landing page with `?staff=1` to export locally captured leads as CSV.
+If `VITE_EVENT_API_URL` is not configured, the UI does **not** claim that anything synced. Quiz results, analytics and student leads are kept only in that browser's local storage. Staff can open the landing page with `?staff=1` to export local leads, quiz results and analytics as separate CSV files. This fallback is useful for a single kiosk, but it is not central reporting for visitors using their own phones.
 
 ## Quiz integrity
 
-Answer order and the AI-image left/right order are shuffled on every run. Prize status shown by the client is provisional and must be confirmed by ASCALab staff. Client-side scoring is not a security boundary; move validation server-side before using the quiz for high-value prizes.
+Answer order and the AI-image left/right order are shuffled on every run. Prize status shown by the client is provisional and must be confirmed by ASCALab staff. Client-side scoring is not a security boundary. The client sends original selected-answer indices to the configured event backend, so a future backend can independently validate results. Until that validation exists, the UI treats prize status as provisional and staff confirmation is required.
 
 ## Routing
 
