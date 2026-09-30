@@ -107,12 +107,12 @@ select.field option {
   font-size: clamp(1.15rem, 1.6vw, 1.7rem);
   font-weight: 700;
   letter-spacing: -.035em;
-  color: #c7ff00;
+  color: rgba(255,255,255,.88);
   white-space: nowrap;
 }
 
 .tech-marquee-item::after {
-  content: "✦";
+  content: "◆";
   position: absolute;
   right: -.35rem;
   top: 50%;
@@ -905,13 +905,7 @@ select.field option {
 }
 
 .quiz-launch-panel::after {
-  width: 9rem;
-  height: 1px;
-  right: -1.75rem;
-  top: 2.25rem;
-  background: rgba(0,0,0,.42);
-  transform: rotate(-45deg);
-  transform-origin: center;
+  display: none;
 }
 
 .quiz-launch-panel > * {
@@ -1085,6 +1079,256 @@ select.field option {
 @media (prefers-reduced-motion: reduce) {
   .cyber-go-button,
   .cyber-go-button::after {
+    transition: none;
+  }
+}
+
+
+/* Biometric quiz scanner */
+.cyber-go-button::before,
+.cyber-go-button::after {
+  display: none;
+}
+
+.cyber-go-button {
+  --charge: 0;
+  overflow: visible;
+  background: transparent;
+  border: 0;
+  color: white;
+  cursor: pointer;
+  isolation: isolate;
+}
+
+.cyber-go-charge-ring,
+.cyber-go-shell,
+.cyber-go-core,
+.cyber-go-halo,
+.cyber-go-scan,
+.cyber-go-root {
+  position: absolute;
+  pointer-events: none;
+}
+
+.cyber-go-charge-ring {
+  inset: 0;
+  border-radius: 999px;
+  filter: drop-shadow(0 0 10px rgba(199,255,0,.12));
+  transition: filter .15s ease;
+}
+
+.cyber-go-shell {
+  inset: 7px;
+  z-index: 1;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.10);
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255,255,255,.035), transparent 42%),
+    linear-gradient(150deg, #0c0f10 0%, #050707 56%, #020303 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.025),
+    inset 0 0 44px rgba(199,255,0,.025),
+    0 18px 38px rgba(0,0,0,.25);
+}
+
+.cyber-go-core {
+  inset: 22px;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.07);
+  background:
+    linear-gradient(rgba(199,255,0,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(199,255,0,.018) 1px, transparent 1px),
+    radial-gradient(circle at 50% 45%, #101414, #030505 70%);
+  background-size: 11px 11px, 11px 11px, auto;
+  box-shadow:
+    inset 0 0 34px rgba(0,0,0,.58),
+    0 0 0 1px rgba(199,255,0,.035);
+}
+
+.cyber-go-halo {
+  z-index: 0;
+  inset: -10px;
+  border-radius: 999px;
+  border: 1px solid rgba(199,255,0,.18);
+  opacity: calc(var(--charge) * .55);
+  transform: scale(calc(.88 + var(--charge) * .22));
+  transition: opacity .08s linear, transform .08s linear;
+}
+
+.cyber-go-halo.halo-two {
+  inset: -25px;
+  border-color: rgba(199,255,0,.10);
+  opacity: calc(var(--charge) * .32);
+  transform: scale(calc(.82 + var(--charge) * .34));
+}
+
+.cyber-go-fingerprint {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  width: 51%;
+  height: 51%;
+  place-items: center;
+  filter: drop-shadow(0 0 0 rgba(199,255,0,0));
+  transition: transform .14s ease, filter .14s ease;
+}
+
+.cyber-go-fingerprint svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.cyber-go-fingerprint path {
+  fill: none;
+  stroke: rgba(255,255,255,.94);
+  stroke-width: 2.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke .14s ease, opacity .14s ease;
+}
+
+.cyber-go-button.is-charging .cyber-go-fingerprint {
+  transform: scale(1.055);
+  filter:
+    drop-shadow(0 0 5px rgba(199,255,0,.48))
+    drop-shadow(0 0 14px rgba(199,255,0,.20));
+}
+
+.cyber-go-button.is-charging .cyber-go-fingerprint path {
+  stroke: #c7ff00;
+}
+
+.cyber-go-scan {
+  z-index: 4;
+  left: 27%;
+  right: 27%;
+  top: 28%;
+  height: 1px;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, #c7ff00 25%, #fff 50%, #c7ff00 75%, transparent);
+  box-shadow: 0 0 12px rgba(199,255,0,.42);
+}
+
+.cyber-go-button.is-charging .cyber-go-scan {
+  opacity: .8;
+  animation: biometric-scan 1.05s ease-in-out infinite alternate;
+}
+
+@keyframes biometric-scan {
+  from { transform: translateY(0); }
+  to { transform: translateY(66px); }
+}
+
+.cyber-go-root {
+  --angle: 0deg;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  width: 86px;
+  height: 2px;
+  opacity: calc(var(--charge) * .9);
+  transform-origin: 0 50%;
+  transform:
+    rotate(var(--angle))
+    translateX(71px)
+    scaleX(var(--charge));
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(199,255,0,.78), rgba(199,255,0,.05));
+  box-shadow: 0 0 10px rgba(199,255,0,.12);
+}
+
+.cyber-go-root::before,
+.cyber-go-root::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  width: 30px;
+  height: 1px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(199,255,0,.56), rgba(199,255,0,.02));
+  transform-origin: right center;
+}
+
+.cyber-go-root::before {
+  top: -8px;
+  transform: rotate(28deg) scaleX(var(--charge));
+}
+
+.cyber-go-root::after {
+  bottom: -8px;
+  transform: rotate(-28deg) scaleX(var(--charge));
+}
+
+.root-n  { --angle: -90deg; }
+.root-ne { --angle: -45deg; }
+.root-e  { --angle: 0deg; }
+.root-se { --angle: 45deg; }
+.root-s  { --angle: 90deg; }
+.root-sw { --angle: 135deg; }
+.root-w  { --angle: 180deg; }
+.root-nw { --angle: 225deg; }
+
+.cyber-go-status {
+  margin-top: 1.35rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,.58);
+}
+
+.cyber-go-status-dot {
+  display: inline-block;
+  width: .42rem;
+  height: .42rem;
+  margin-right: .55rem;
+  border-radius: 999px;
+  background: #c7ff00;
+  box-shadow: 0 0 10px rgba(199,255,0,.34);
+  vertical-align: .02em;
+}
+
+.cyber-go-button.is-charging .cyber-go-charge-ring {
+  filter:
+    drop-shadow(0 0 6px rgba(199,255,0,.35))
+    drop-shadow(0 0 18px rgba(199,255,0,.18));
+}
+
+.cyber-go-button.is-charging .cyber-go-shell {
+  box-shadow:
+    inset 0 0 0 1px rgba(199,255,0,.08),
+    inset 0 0 48px rgba(199,255,0,.07),
+    0 18px 42px rgba(0,0,0,.28);
+}
+
+@media (max-width: 1180px) {
+  .cyber-go-root {
+    width: 64px;
+    transform:
+      rotate(var(--angle))
+      translateX(58px)
+      scaleX(var(--charge));
+  }
+
+  .cyber-go-root::before,
+  .cyber-go-root::after {
+    width: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cyber-go-button.is-charging .cyber-go-scan {
+    animation: none;
+  }
+
+  .cyber-go-halo,
+  .cyber-go-root,
+  .cyber-go-fingerprint,
+  .cyber-go-charge-ring {
     transition: none;
   }
 }
