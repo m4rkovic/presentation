@@ -4,7 +4,10 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "prepare:media": "node scripts/fetch-media.mjs",
+    "predev": "npm run prepare:media",
     "dev": "vite",
+    "prebuild": "npm run prepare:media",
     "build": "vite build",
     "preview": "vite preview"
   },
