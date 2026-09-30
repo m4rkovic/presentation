@@ -50,7 +50,7 @@ const workSlides = [
       'Our work lives in industries where software is tied directly to the business and reliability is not a decorative requirement.',
     image: '/media/insurance.webp',
     items: ['Banking', 'Insurance', 'Energy', 'Telecom'],
-    accent: 'green',
+    accent: 'cyan',
   },
   {
     eyebrow: 'Engineering around delivery',
@@ -59,7 +59,7 @@ const workSlides = [
       'Development, DevOps and QA stay close together so delivery does not become a relay race made entirely of handovers and crossed fingers.',
     image: '/media/devops.webp',
     items: ['Development', 'DevOps', 'Testing', 'Automation'],
-    accent: 'orange',
+    accent: 'yellow',
   },
 ]
 
@@ -337,7 +337,15 @@ export default function HomePage() {
                   </div>
 
                   <div className="flex min-h-0 flex-col justify-center p-6 md:p-8 lg:p-10">
-                    <p className={`text-sm font-semibold uppercase tracking-[.16em] ${activeWork.accent === 'green' ? 'text-asca-toxic' : 'text-asca-orange'}`}>
+                    <p
+                      className={`text-sm font-semibold uppercase tracking-[.16em] ${
+                        activeWork.accent === 'cyan'
+                          ? 'text-asca-cyan'
+                          : activeWork.accent === 'yellow'
+                            ? 'text-asca-yellow'
+                            : 'text-asca-orange'
+                      }`}
+                    >
                       {activeWork.eyebrow}
                     </p>
                     <h3 className="mt-3 text-3xl font-semibold leading-[.98] tracking-[-.045em] md:text-4xl lg:text-5xl">
@@ -414,10 +422,22 @@ export default function HomePage() {
                     initial="hidden"
                     whileInView="show"
                     viewport={{ once: true, amount: .3 }}
-                    className={`offer-card p-5 md:p-6 ${index === 0 || index === 3 ? 'bg-asca-orange text-black' : 'bg-white/[.035] text-white'}`}
+                    className={`offer-card p-5 md:p-6 ${
+                      index === 0
+                        ? 'bg-asca-orange text-black'
+                        : index === 1
+                          ? 'bg-asca-navy text-white'
+                          : index === 2
+                            ? 'bg-asca-yellow text-black'
+                            : 'bg-asca-red text-white'
+                    }`}
                   >
                     <h3 className="text-xl font-semibold tracking-[-.025em] md:text-2xl">{offer.title}</h3>
-                    <p className={`mt-3 text-sm leading-6 md:text-base ${index === 0 || index === 3 ? 'text-black/65' : 'text-white/56'}`}>
+                    <p
+                      className={`mt-3 text-sm leading-6 md:text-base ${
+                        index === 0 || index === 2 ? 'text-black/65' : 'text-white/72'
+                      }`}
+                    >
                       {offer.copy}
                     </p>
                   </motion.article>
@@ -576,7 +596,7 @@ export default function HomePage() {
                   </div>
 
                   <label className="flex items-start gap-3 text-xs leading-5 text-white/58 md:text-sm">
-                    <input required type="checkbox" name="consent" value="yes" className="mt-1 size-4 accent-[#f28c52]" />
+                    <input required type="checkbox" name="consent" value="yes" className="mt-1 size-4 accent-[#f68523]" />
                     <span>
                       I agree that ASCALab may use these details to contact me about internships, student opportunities or relevant roles.
                     </span>
@@ -689,10 +709,10 @@ export default function HomePage() {
                     <span
                       className="absolute inset-0 rounded-full"
                       style={{
-                        background: `conic-gradient(#c7ff00 ${quizCharge * 360}deg, rgba(0,0,0,.22) ${quizCharge * 360}deg)`,
+                        background: `conic-gradient(#42b8db ${quizCharge * 360}deg, rgba(0,0,0,.22) ${quizCharge * 360}deg)`,
                       }}
                     />
-                    <span className="absolute inset-[7px] rounded-full border border-white/12 bg-[#050707] shadow-[inset_0_0_35px_rgba(199,255,0,.035),0_18px_45px_rgba(0,0,0,.28)]" />
+                    <span className="absolute inset-[7px] rounded-full border border-white/12 bg-[#050707] shadow-[inset_0_0_35px_rgba(66,184,219,.035),0_18px_45px_rgba(0,0,0,.28)]" />
                     <span className="absolute inset-[15px] rounded-full border border-white/8" />
                     <span className="relative z-10 text-center">
                       <span className="block font-mono text-[11px] font-bold tracking-[.28em] text-asca-toxic/80">
@@ -717,15 +737,15 @@ export default function HomePage() {
 
             <div className="quiz-reward-strip mt-8 grid gap-5 border-t border-white/10 pt-6 sm:grid-cols-3">
               <div>
-                <div className="text-sm font-semibold text-asca-orange">Perfect + fast</div>
+                <div className="text-sm font-semibold text-asca-yellow">Perfect + fast</div>
                 <p className="mt-1 text-sm text-white/48">Premium reward contender.</p>
               </div>
               <div>
-                <div className="text-sm font-semibold text-white">Perfect</div>
+                <div className="text-sm font-semibold text-asca-orange">Perfect</div>
                 <p className="mt-1 text-sm text-white/48">Secondary reward contender.</p>
               </div>
               <div>
-                <div className="text-sm font-semibold text-asca-toxic">Finish it</div>
+                <div className="text-sm font-semibold text-asca-cyan">Finish it</div>
                 <p className="mt-1 text-sm text-white/48">Participation track.</p>
               </div>
             </div>
