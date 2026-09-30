@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowDown, ArrowLeft, ArrowRight, Check } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { eventConfig } from '../data/eventConfig.js'
 import {
   exportLocalAnalyticsCsv,
@@ -112,8 +112,13 @@ export default function HomePage() {
   const [formStarted, setFormStarted] = useState(false)
   const [leadStatus, setLeadStatus] = useState('idle')
   const [localLeadCount, setLocalLeadCount] = useState(() => getLocalLeads().length)
+  const [quizCharge, setQuizCharge] = useState(0)
+  const quizChargeFrame = useRef(null)
+  const quizChargeStartedAt = useRef(0)
+  const quizChargeTriggered = useRef(false)
 
   const location = useLocation()
+  const navigate = useNavigate()
   const backendConfigured = isEventApiConfigured()
   const isStaffView = new URLSearchParams(location.search).get('staff') === '1'
 
@@ -139,6 +144,56 @@ export default function HomePage() {
     window.addEventListener('online', flush)
     return () => window.removeEventListener('online', flush)
   }, [])
+
+  useEffect(() => {
+    return () => {
+      if (quizChargeFrame.current) {
+        window.cancelAnimationFrame(quizChargeFrame.current)
+      }
+    }
+  }, [])
+
+  const launchQuiz = () => {
+    if (quizChargeTriggered.current) return
+    quizChargeTriggered.current = true
+    setQuizCharge(1)
+    trackEvent('quiz_charge_completed', { eventSlug: eventConfig.slug, holdMs: 3000 })
+
+    const params = new URLSearchParams(location.search)
+    params.set('autostart', '1')
+    navigate({ pathname: '/quiz', search: `?${params.toString()}` })
+  }
+
+  const beginQuizCharge = () => {
+    if (quizChargeFrame.current || quizChargeTriggered.current) return
+
+    quizChargeStartedAt.current = performance.now()
+    setQuizCharge(0)
+
+    const tick = (now) => {
+      const progress = Math.min(1, (now - quizChargeStartedAt.current) / 3000)
+      setQuizCharge(progress)
+
+      if (progress >= 1) {
+        quizChargeFrame.current = null
+        launchQuiz()
+        return
+      }
+
+      quizChargeFrame.current = window.requestAnimationFrame(tick)
+    }
+
+    quizChargeFrame.current = window.requestAnimationFrame(tick)
+  }
+
+  const cancelQuizCharge = () => {
+    if (quizChargeTriggered.current) return
+    if (quizChargeFrame.current) {
+      window.cancelAnimationFrame(quizChargeFrame.current)
+      quizChargeFrame.current = null
+    }
+    setQuizCharge(0)
+  }
 
   const activeWork = workSlides[workSlide]
 
@@ -549,28 +604,131 @@ export default function HomePage() {
         </section>
 
         <section id="quiz" className="event-section quiz-final-section">
-          <div className="event-shell flex h-full items-center">
-            <Link
-              to={{ pathname: '/quiz', search: location.search }}
-              className="final-quiz-card group grid w-full overflow-hidden bg-asca-orange text-black md:grid-cols-[1fr_auto]"
-            >
-              <div className="p-7 md:p-10">
-                <p className="text-sm font-semibold uppercase tracking-[.16em] text-black/55">
-                  Final stop
+          <div className="event-shell flex h-full flex-col justify-center">
+            <div className="quiz-embedded-grid grid items-stretch gap-10 lg:grid-cols-[1.35fr_.65fr]">
+              <motion.div
+                variants={reveal}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: .3 }}
+                className="flex flex-col justify-center"
+              >
+                <p className="text-sm font-semibold text-asca-orange md:text-base">
+                  ASCALab @ Arena Tehnologij
                 </p>
-                <h2 className="mt-3 max-w-4xl text-5xl font-semibold leading-[.9] tracking-[-.055em] md:text-7xl">
-                  Take the student quiz.
+
+                <h2 className="quiz-embedded-title mt-5 max-w-4xl text-[clamp(3.7rem,7vw,7rem)] font-semibold leading-[.9] tracking-[-.06em]">
+                  Test your<br />
+                  <span className="text-asca-toxic">tech</span>{' '}
+                  <span className="text-asca-orange">instincts.</span>
                 </h2>
-                <p className="mt-5 max-w-xl text-base font-medium text-black/60 md:text-lg">
-                  5–8 random questions · AI image challenge · speed matters
+
+                <p className="mt-7 max-w-2xl text-lg leading-8 text-white/62 md:text-xl">
+                  {eventConfig.studentIntro}
                 </p>
-              </div>
-              <div className="grid min-h-40 place-items-center bg-black px-10 text-white md:min-h-full md:min-w-52">
-                <div className="grid size-20 place-items-center rounded-full border border-white/20 transition duration-300 group-hover:translate-x-2 group-hover:bg-asca-toxic group-hover:text-black">
-                  <ArrowRight size={34} />
+
+                <div className="mt-9 flex flex-wrap gap-x-7 gap-y-3 text-sm font-medium text-white/56 md:text-base">
+                  <span><b className="font-semibold text-white">{eventConfig.quiz.minQuestions}–{eventConfig.quiz.maxQuestions}</b> random questions</span>
+                  <span className="text-asca-orange">•</span>
+                  <span><b className="font-semibold text-white">1</b> AI image challenge</span>
+                  <span className="text-asca-orange">•</span>
+                  <span><b className="font-semibold text-white">Speed</b> matters</span>
                 </div>
+
+                <p className="mt-5 text-sm text-white/44">
+                  Answer order changes every run. On-screen prize status is provisional.
+                </p>
+              </motion.div>
+
+              <motion.div
+                variants={reveal}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: .3 }}
+                className="quiz-launch-panel flex min-h-[430px] flex-col justify-between bg-asca-orange p-7 text-black md:p-9"
+              >
+                <div>
+                  <p className="text-sm font-semibold">THE QUICK VERSION</p>
+                  <h3 className="mt-4 text-4xl font-semibold leading-[.98] tracking-[-.045em] md:text-5xl">
+                    Got a minute?<br />Make it count.
+                  </h3>
+                  <p className="mt-5 max-w-sm text-base leading-7 text-black/68">
+                    No sign-up before the quiz. Pick answers fast, do not trust your friend blindly, and see where you land.
+                  </p>
+                </div>
+
+                <div className="mt-8 flex flex-col items-center">
+                  <button
+                    type="button"
+                    className="cyber-go-button group relative isolate grid size-40 select-none place-items-center rounded-full text-white outline-none md:size-44"
+                    aria-label="Hold for three seconds to start the quiz"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow={Math.round(quizCharge * 100)}
+                    onPointerDown={(event) => {
+                      event.preventDefault()
+                      beginQuizCharge()
+                    }}
+                    onPointerUp={cancelQuizCharge}
+                    onPointerCancel={cancelQuizCharge}
+                    onPointerLeave={cancelQuizCharge}
+                    onKeyDown={(event) => {
+                      if ((event.key === 'Enter' || event.key === ' ') && !event.repeat) {
+                        event.preventDefault()
+                        beginQuizCharge()
+                      }
+                    }}
+                    onKeyUp={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault()
+                        cancelQuizCharge()
+                      }
+                    }}
+                    onContextMenu={(event) => event.preventDefault()}
+                  >
+                    <span
+                      className="absolute inset-0 rounded-full"
+                      style={{
+                        background: `conic-gradient(#c7ff00 ${quizCharge * 360}deg, rgba(0,0,0,.22) ${quizCharge * 360}deg)`,
+                      }}
+                    />
+                    <span className="absolute inset-[7px] rounded-full border border-white/12 bg-[#050707] shadow-[inset_0_0_35px_rgba(199,255,0,.035),0_18px_45px_rgba(0,0,0,.28)]" />
+                    <span className="absolute inset-[15px] rounded-full border border-white/8" />
+                    <span className="relative z-10 text-center">
+                      <span className="block font-mono text-[11px] font-bold tracking-[.28em] text-asca-toxic/80">
+                        {quizCharge > 0 ? `CHARGE ${Math.round(quizCharge * 100)}%` : 'HOLD 3 SEC'}
+                      </span>
+                      <span className="mt-1 block text-5xl font-black tracking-[-.06em] transition group-active:scale-95">
+                        GO
+                      </span>
+                    </span>
+                    <span className="cyber-go-crosshair absolute -left-3 top-1/2 h-px w-6 bg-black/65" />
+                    <span className="cyber-go-crosshair absolute -right-3 top-1/2 h-px w-6 bg-black/65" />
+                    <span className="cyber-go-crosshair absolute left-1/2 -top-3 h-6 w-px bg-black/65" />
+                    <span className="cyber-go-crosshair absolute bottom-[-12px] left-1/2 h-6 w-px bg-black/65" />
+                  </button>
+
+                  <p className="mt-5 font-mono text-[11px] font-semibold uppercase tracking-[.18em] text-black/55">
+                    Press and hold to initialize
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+
+            <div className="quiz-reward-strip mt-8 grid gap-5 border-t border-white/10 pt-6 sm:grid-cols-3">
+              <div>
+                <div className="text-sm font-semibold text-asca-orange">Perfect + fast</div>
+                <p className="mt-1 text-sm text-white/48">Premium reward contender.</p>
               </div>
-            </Link>
+              <div>
+                <div className="text-sm font-semibold text-white">Perfect</div>
+                <p className="mt-1 text-sm text-white/48">Secondary reward contender.</p>
+              </div>
+              <div>
+                <div className="text-sm font-semibold text-asca-toxic">Finish it</div>
+                <p className="mt-1 text-sm text-white/48">Participation track.</p>
+              </div>
+            </div>
           </div>
         </section>
       </main>
