@@ -65,10 +65,6 @@ a {
   transition: border-color .2s ease, background .2s ease;
 }
 
-textarea.field {
-  padding-top: 17px;
-}
-
 .field::placeholder {
   color: rgba(255,255,255,.50);
 }
@@ -79,72 +75,9 @@ select.field option {
 }
 
 .field:focus {
-  border-color: rgba(199,255,0,.72);
+  border-color: rgba(247,149,84,.72);
   background: rgba(255,255,255,.055);
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .quiz-cta {
-    box-shadow: 0 0 0 rgba(199,255,0,0);
-  }
-
-  .quiz-cta::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at 84% 20%, rgba(255,255,255,.28), transparent 24%),
-      linear-gradient(120deg, transparent 34%, rgba(255,255,255,.22) 48%, transparent 62%);
-    opacity: 0;
-    transform: translateX(-20%);
-    transition: opacity .45s ease, transform .7s cubic-bezier(.22,1,.36,1);
-    pointer-events: none;
-  }
-
-  .quiz-cta:hover {
-    transform: translateY(-4px) scale(1.008);
-    box-shadow: 0 18px 70px rgba(199,255,0,.18);
-  }
-
-  .quiz-cta:hover::after {
-    opacity: 1;
-    transform: translateX(8%);
-  }
-
-  .quiz-cta:hover .quiz-arrow {
-    transform: translateX(6px) rotate(-8deg) scale(1.08);
-  }
-
-  .quiz-sheen {
-    position: absolute;
-    width: 180px;
-    height: 180px;
-    border-radius: 999px;
-    right: -70px;
-    top: -90px;
-    background: rgba(255,255,255,.16);
-    filter: blur(2px);
-    transition: transform .6s cubic-bezier(.22,1,.36,1), opacity .6s ease;
-    opacity: .6;
-  }
-
-  .quiz-cta:hover .quiz-sheen {
-    transform: scale(1.55) translate(-18px, 14px);
-    opacity: .9;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .quiz-cta,
-  .quiz-cta::after,
-  .quiz-arrow,
-
-}
-
 
 .tech-marquee {
   overflow: hidden;
@@ -154,14 +87,13 @@ select.field option {
   display: flex;
   width: max-content;
   align-items: center;
-  gap: 0;
   animation: tech-marquee 26s linear infinite;
 }
 
 .tech-marquee-item {
   position: relative;
   padding: 0 2.2rem;
-  font-size: clamp(1.25rem, 2.2vw, 2rem);
+  font-size: clamp(1.15rem, 1.6vw, 1.7rem);
   font-weight: 700;
   letter-spacing: -.035em;
   color: rgba(255,255,255,.82);
@@ -175,24 +107,7 @@ select.field option {
   top: 50%;
   transform: translateY(-48%);
   color: #c7ff00;
-  font-size: .9rem;
-}
-
-.student-quiz-band {
-  position: relative;
-  isolation: isolate;
-  box-shadow: 0 24px 90px rgba(199,255,0,.10);
-}
-
-.student-quiz-band::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(circle at 92% 8%, rgba(255,255,255,.34), transparent 22%),
-    linear-gradient(115deg, transparent 0 64%, rgba(0,0,0,.05) 64% 66%, transparent 66%);
-  pointer-events: none;
+  font-size: .85rem;
 }
 
 @keyframes tech-marquee {
@@ -200,243 +115,114 @@ select.field option {
   to { transform: translateX(-50%); }
 }
 
-@media (hover: hover) {
-  .tech-marquee:hover .tech-marquee-track {
-    animation-play-state: paused;
-  }
+.event-site {
+  min-height: 100%;
+  overflow-x: hidden;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .tech-marquee-track {
-    animation: none;
-    flex-wrap: wrap;
-    width: auto;
-    justify-content: center;
-    row-gap: 1rem;
-  }
-}
-
-
-.section-screen {
+.event-section {
+  position: relative;
+  min-height: 100svh;
   scroll-margin-top: 0;
-  position: relative;
 }
 
-.section-screen:target {
-  outline: none;
+.event-shell {
+  width: min(100%, 1500px);
+  margin-inline: auto;
+  padding: 1.8rem 2.5rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .section-screen:target {
-    animation: section-arrive .5s ease both;
-  }
+.welcome-title {
+  font-size: clamp(4.4rem, 8.2vw, 8.2rem);
 }
 
-@keyframes section-arrive {
-  from { opacity: .94; }
-  to { opacity: 1; }
-}
-
-
-.hero-scroll-orbit {
+.section-orbit,
+.final-quiz-card {
   text-decoration: none;
 }
 
-.section-jump {
-  text-decoration: none;
-  transition:
-    transform .25s cubic-bezier(.22,1,.36,1),
-    color .2s ease,
-    border-color .2s ease,
-    background .2s ease;
-}
-
-.section-jump-ghost {
-  position: relative;
-  overflow: hidden;
-}
-
-.section-jump-ghost::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(100deg, transparent 20%, rgba(247,149,84,.10), transparent 80%);
-  transform: translateX(-120%);
-  transition: transform .45s cubic-bezier(.22,1,.36,1);
-  pointer-events: none;
-}
-
-.section-jump-text {
-  position: relative;
-  padding-bottom: 4px;
-}
-
-.section-jump-text::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 1.5rem;
-  bottom: 0;
-  height: 1px;
-  background: #f79554;
-  transform: scaleX(.35);
-  transform-origin: left;
-  transition: transform .3s cubic-bezier(.22,1,.36,1);
-}
-
-@media (hover: hover) {
-  .hero-scroll-orbit:hover > span:last-child {
-    transform: scale(1.06) rotate(-4deg);
-  }
-
-  .section-jump-orb:hover {
-    transform: translateY(-5px) rotate(4deg);
-    box-shadow: 0 18px 55px rgba(199,255,0,.18);
-  }
-
-  .section-jump-bracket:hover {
-    transform: translateX(4px);
-  }
-
-  .section-jump-ghost:hover {
-    transform: translateY(-2px);
-    border-color: rgba(247,149,84,.48);
-  }
-
-  .section-jump-ghost:hover::after {
-    transform: translateX(120%);
-  }
-
-  .section-jump-square:hover {
-    transform: translate(3px,-3px);
-    box-shadow: -6px 6px 0 rgba(247,149,84,.78);
-  }
-
-  .section-jump-toxic:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 40px rgba(199,255,0,.15);
-  }
-
-  .section-jump-text:hover::after {
-    transform: scaleX(1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-scroll-orbit *,
-  .section-jump,
-  .section-jump *,
-  .section-jump::after {
-    transition: none !important;
-    transform: none !important;
-  }
-}
-
-
-/* Responsive layout: phone -> iPad Air 2 -> desktop */
-
-.section-jump {
+.section-orbit {
   min-height: 44px;
 }
 
+.work-carousel {
+  min-height: 0;
+  touch-action: pan-y;
+}
+
+.offer-card {
+  min-height: 9.5rem;
+}
+
+/* Phones */
 @media (max-width: 739px) {
-  .site-hero-shell {
-    padding-inline: 1.25rem;
-    padding-top: 1.4rem;
-    padding-bottom: 1.4rem;
-  }
-
-  .site-hero-title {
-    font-size: clamp(3.35rem, 17vw, 5.3rem);
-    line-height: .91;
-  }
-
-  .site-hero-content {
-    padding-bottom: 1.5rem;
-  }
-
-  .site-hero-bottom {
-    gap: 1.5rem;
-  }
-
-  .hero-scroll-orbit > span:last-child {
-    width: 4.5rem;
-    height: 4.5rem;
-  }
-
-  .statement-section,
-  .career-section,
-  .quiz-teaser-section,
-  .industries-intro,
-  .myqabee-section,
-  .mindset-section,
-  .student-path-section,
-  .contact-section {
+  .event-section {
     min-height: auto;
   }
 
-  .statement-section,
-  .mindset-section,
-  .student-path-section,
-  .contact-section {
-    padding-top: 4.5rem;
-    padding-bottom: 4.5rem;
+  .event-shell {
+    height: auto;
+    padding: 1.35rem 1.25rem;
   }
 
-  .services-intro {
-    padding-top: 4rem;
-    padding-bottom: 2.5rem;
+  .welcome-section,
+  .welcome-section .event-shell {
+    min-height: 100svh;
   }
 
-  .service-chapter {
-    padding-top: .55rem;
-    padding-bottom: .55rem;
+  .welcome-title {
+    font-size: clamp(3.55rem, 17vw, 5rem);
   }
 
-  .service-card {
+  .welcome-section .section-orbit > span:first-child {
+    display: none;
+  }
+
+  .work-section,
+  .offer-section,
+  .funnel-section,
+  .quiz-final-section {
+    padding-block: 3.5rem;
+  }
+
+  .work-section h2,
+  .offer-section h2,
+  .funnel-section h2 {
+    font-size: clamp(2.5rem, 12vw, 3.5rem);
+  }
+
+  .work-carousel {
+    min-height: 36rem;
+  }
+
+  .work-carousel article {
+    grid-template-columns: 1fr;
+  }
+
+  .work-carousel article > div:first-child {
+    min-height: 14rem;
+  }
+
+  .offer-grid,
+  .funnel-section .event-shell,
+  .final-quiz-card {
+    grid-template-columns: 1fr;
+  }
+
+  .offer-card {
     min-height: 0;
   }
 
-  .service-media {
-    min-height: 20rem;
+  .final-quiz-card h2 {
+    font-size: clamp(3.2rem, 14vw, 4.7rem);
   }
 
-  .service-copy {
-    padding: 2rem 1.5rem 2.2rem;
-  }
-
-  .service-title {
-    font-size: clamp(2.4rem, 12vw, 3.5rem);
-  }
-
-  .career-section,
-  .quiz-teaser-section,
-  .industries-intro {
-    padding-top: 4.75rem;
-    padding-bottom: 4.75rem;
-  }
-
-  .career-cloud {
-    gap: .6rem 1rem;
-  }
-
-  .industry-card {
-    height: 82svh;
-  }
-
-  .industry-title {
-    font-size: clamp(2.6rem, 12vw, 4.6rem);
-  }
-
-  .final-quiz-section {
-    min-height: auto;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+  .final-quiz-card > div:last-child {
+    min-height: 9rem;
   }
 
   .quiz-intro-grid {
-    padding-top: 2.75rem;
-    padding-bottom: 2.75rem;
+    padding-block: 2.75rem;
     gap: 2rem;
   }
 
@@ -463,169 +249,51 @@ select.field option {
   }
 }
 
-/* iPad Air 2 is 768x1024 CSS px in portrait and 1024x768 in landscape.
-   This range also covers the common 8–11 inch tablet viewport family. */
-@media (min-width: 740px) and (max-width: 1180px) {
-  .site-hero-shell {
-    padding-inline: 2rem;
-    padding-top: 1.75rem;
-    padding-bottom: 1.75rem;
+/* Tablet family, including iPad Air 2 portrait */
+@media (min-width: 740px) and (max-width: 900px) and (orientation: portrait) {
+  .event-section {
+    min-height: auto;
   }
 
-  .site-hero-header img {
-    max-height: 3.4rem;
+  .event-shell {
+    height: auto;
+    padding: 2rem;
   }
 
-  .site-hero-content {
-    width: 100%;
-    max-width: none;
-    padding-bottom: 2.25rem;
+  .welcome-section,
+  .welcome-section .event-shell {
+    min-height: 100svh;
   }
 
-  .site-hero-title {
-    max-width: 58rem;
-    font-size: clamp(4.8rem, 9vw, 6.6rem);
-    line-height: .9;
+  .welcome-title {
+    font-size: clamp(4.8rem, 10.6vw, 6rem);
   }
 
-  .site-hero-bottom {
-    margin-top: 1.6rem;
-    gap: 2rem;
+  .work-section,
+  .offer-section,
+  .funnel-section,
+  .quiz-final-section {
+    padding-block: 2rem;
   }
 
-  .hero-toxic-glow {
-    width: 28rem;
-    height: 28rem;
-    filter: blur(72px);
-    opacity: .7;
+  .work-carousel {
+    min-height: 34rem;
   }
 
-  .hero-scroll-orbit {
-    min-width: max-content;
+  .work-carousel article,
+  .offer-section .event-shell > div:first-child,
+  .funnel-section .event-shell,
+  .final-quiz-card {
+    grid-template-columns: 1fr;
   }
 
-  .statement-section {
-    min-height: 74svh;
-    padding: 4.5rem 2.5rem;
-  }
-
-  .statement-section h2 {
-    font-size: clamp(4.6rem, 9vw, 6.7rem);
-  }
-
-  .services-intro {
-    padding: 4.25rem 2.5rem 3.2rem;
-  }
-
-  .services-intro h2 {
-    max-width: 46rem;
-    font-size: clamp(3.2rem, 6.8vw, 4.6rem);
-    line-height: .98;
-  }
-
-  .service-chapter {
-    padding: .85rem 2rem;
-  }
-
-  .service-card {
-    min-height: 0;
-    border-radius: 2rem;
-  }
-
-  .service-media {
-    min-height: 22rem;
-  }
-
-  .service-copy {
-    padding: 2.6rem;
-  }
-
-  .service-title {
-    font-size: clamp(3.1rem, 5.8vw, 4rem);
-  }
-
-  .service-copy p {
-    max-width: 38rem;
-  }
-
-  .career-section {
-    min-height: 82svh;
-    padding-top: 4.6rem;
-    padding-bottom: 4.6rem;
-  }
-
-  .career-cloud {
-    max-width: 66rem;
-    font-size: clamp(3.4rem, 7vw, 5.25rem);
-    gap: .8rem 1.35rem;
-  }
-
-  .section-jump-orb {
-    width: 7rem;
-    height: 7rem;
-  }
-
-  .quiz-teaser-section {
-    min-height: 70svh;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-  }
-
-  .student-quiz-band {
-    width: 100%;
-    max-width: none;
-    border-radius: 2rem;
-    padding: 2.5rem;
-  }
-
-  .industries-intro {
-    min-height: 76svh;
-    padding-top: 4.5rem;
-    padding-bottom: 4.5rem;
-  }
-
-  .industries-intro h2 {
-    max-width: 52rem;
-    font-size: clamp(4rem, 8vw, 6rem);
-  }
-
-  .industry-story-wrap {
-    padding-inline: 2rem;
-  }
-
-  .industry-card {
-    height: 86svh;
-    border-radius: 2rem;
-  }
-
-  .industry-title {
-    font-size: clamp(3.4rem, 6.8vw, 5.1rem);
-  }
-
-  .myqabee-section,
-  .mindset-section,
-  .student-path-section,
-  .contact-section {
-    min-height: 82svh;
-    padding-top: 4.5rem;
-    padding-bottom: 4.5rem;
-  }
-
-  .final-quiz-section {
-    min-height: 58svh;
-  }
-
-  .quiz-intro-page {
-    padding: 1.6rem 2rem;
-  }
-
-  .quiz-intro-shell {
-    min-height: calc(100svh - 3.2rem);
+  .work-carousel article > div:first-child {
+    min-height: 16rem;
   }
 
   .quiz-intro-grid {
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
+    grid-template-columns: 1fr;
+    padding-block: 2.5rem;
     gap: 2rem;
   }
 
@@ -634,89 +302,10 @@ select.field option {
   }
 
   .quiz-orange-panel {
-    min-height: 22rem;
-    padding: 2rem;
-  }
-
-  .quiz-result-page,
-  .quiz-active-page {
-    padding-inline: 2rem;
-  }
-
-  .quiz-result-card {
-    max-width: 60rem;
-    padding: 2.25rem;
-  }
-
-  .quiz-active-shell {
-    max-width: 60rem;
-  }
-
-  .quiz-question-card {
-    padding: 2.25rem;
-    border-radius: 1.8rem;
-  }
-
-  .quiz-question-title {
-    font-size: clamp(2.6rem, 5vw, 3.5rem);
-    line-height: 1.02;
-  }
-
-  .quiz-answer-grid button {
-    min-height: 4.5rem;
-    padding: 1rem 1.15rem;
-  }
-
-  .quiz-image-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 740px) and (max-width: 900px) and (orientation: portrait) {
-  .site-hero-title {
-    font-size: clamp(4.6rem, 10.5vw, 5.4rem);
-  }
-
-  .site-hero-bottom {
-    align-items: end;
-  }
-
-  .statement-section {
-    min-height: 70svh;
-  }
-
-  .service-card {
-    display: block;
-  }
-
-  .service-media {
-    min-height: 35svh;
-  }
-
-  .service-copy {
-    padding: 2.75rem 2.5rem 3rem;
-  }
-
-  .career-section {
-    min-height: 76svh;
-  }
-
-  .career-cloud {
-    font-size: clamp(3.35rem, 8.4vw, 4.4rem);
-  }
-
-  .quiz-intro-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .quiz-orange-panel {
     min-height: 19rem;
   }
 
-  .quiz-result-card {
-    max-width: 44rem;
-  }
-
+  .quiz-result-card,
   .quiz-active-shell {
     max-width: 44rem;
   }
@@ -726,214 +315,16 @@ select.field option {
   }
 }
 
-@media (min-width: 901px) and (max-width: 1180px) and (orientation: landscape) {
-  .site-hero-shell {
-    padding-top: 1.35rem;
-    padding-bottom: 1.35rem;
-  }
-
-  .site-hero-content {
-    padding-bottom: 1.25rem;
-  }
-
-  .site-hero-title {
-    max-width: 54rem;
-    font-size: clamp(4.7rem, 8vw, 5.6rem);
-  }
-
-  .site-hero-bottom {
-    margin-top: 1.25rem;
-  }
-
-  .statement-section {
-    min-height: 78svh;
-    padding-top: 3.4rem;
-    padding-bottom: 3.4rem;
-  }
-
-  .services-intro {
-    padding-top: 3.25rem;
-    padding-bottom: 2.25rem;
-  }
-
-  .service-card {
-    min-height: 68svh;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .service-media {
-    min-height: 100%;
-  }
-
-  .service-copy {
-    padding: 2.2rem 2.4rem;
-  }
-
-  .service-title {
-    font-size: clamp(2.8rem, 4.8vw, 3.35rem);
-  }
-
-  .service-copy p {
-    font-size: .98rem;
-    line-height: 1.65;
-  }
-
-  .career-section {
-    min-height: 92svh;
-    padding-top: 3.2rem;
-    padding-bottom: 3.2rem;
-  }
-
-  .career-cloud {
-    font-size: clamp(3.1rem, 6vw, 4.2rem);
-  }
-
-  .quiz-teaser-section {
-    min-height: 76svh;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-  }
-
-  .industries-intro {
-    min-height: 82svh;
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
-  }
-
-  .industry-sticky {
-    padding-top: 3svh;
-  }
-
-  .industry-card {
-    height: 90svh;
-  }
-
-  .industry-title {
-    font-size: clamp(3rem, 5.4vw, 4.3rem);
-  }
-
-  .myqabee-section,
-  .mindset-section,
-  .student-path-section,
-  .contact-section {
-    min-height: 92svh;
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
-  }
-
-  .quiz-intro-page {
-    padding-top: 1.25rem;
-    padding-bottom: 1.25rem;
-  }
-
-  .quiz-intro-shell {
-    min-height: calc(100svh - 2.5rem);
-  }
-
-  .quiz-intro-grid {
-    grid-template-columns: minmax(0, 1.12fr) minmax(18rem, .88fr);
-    align-items: stretch;
-    gap: 2rem;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
-  }
-
-  .quiz-intro-title {
-    font-size: clamp(4.2rem, 7vw, 5rem);
-  }
-
-  .quiz-orange-panel {
-    min-height: 21rem;
-    padding: 1.8rem;
-  }
-
-  .quiz-result-card {
-    padding: 2rem 2.4rem;
-  }
-
-  .quiz-question-card {
-    padding: 2rem 2.4rem;
-  }
-
-  .quiz-question-title {
-    font-size: clamp(2.5rem, 4vw, 3rem);
-  }
-
-  .quiz-answer-grid {
-    gap: .75rem;
-  }
-
-  .quiz-answer-grid button {
-    min-height: 4.2rem;
-  }
-}
-
-@media (pointer: coarse) {
-  .section-jump,
-  .hero-scroll-orbit,
-  button,
-  a {
-    -webkit-user-select: none;
-    user-select: none;
-  }
-
-  .section-jump:active,
-  .hero-scroll-orbit:active,
-  button:active {
-    transform: scale(.98);
-  }
-}
-
-
-/* Five-section event layout */
-
-.event-site {
-  min-height: 100%;
-  overflow-x: hidden;
-}
-
-.event-section {
-  position: relative;
-  min-height: 100svh;
-  scroll-margin-top: 0;
-}
-
-.event-shell {
-  width: min(100%, 1500px);
-  margin-inline: auto;
-  padding: 1.8rem 2.5rem;
-}
-
-.welcome-title {
-  font-size: clamp(4.4rem, 8.2vw, 8.2rem);
-}
-
-.section-orbit {
-  text-decoration: none;
-  touch-action: manipulation;
-}
-
-.work-carousel {
-  min-height: 0;
-}
-
-.offer-card {
-  min-height: 9.5rem;
-}
-
-.final-quiz-card {
-  text-decoration: none;
-}
-
+/* Primary kiosk target: iPad Air 2 landscape, 1024x768 CSS px */
 @media (min-width: 901px) and (max-width: 1180px) and (orientation: landscape) {
   .event-section {
     min-height: 100svh;
-    height: 100svh;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .event-shell {
-    height: 100%;
+    min-height: 100svh;
+    height: auto;
     padding: 1.25rem 2rem;
   }
 
@@ -961,12 +352,13 @@ select.field option {
   }
 
   .work-section h2 {
-    font-size: clamp(2.35rem, 4.4vw, 3.2rem);
     max-width: 44rem;
+    font-size: clamp(2.35rem, 4.4vw, 3.2rem);
   }
 
   .work-carousel {
     margin-top: 1rem;
+    min-height: 25rem;
   }
 
   .work-carousel article {
@@ -988,17 +380,12 @@ select.field option {
 
   .tech-marquee {
     margin-top: .85rem;
-    padding-top: .6rem;
-    padding-bottom: .6rem;
+    padding-block: .6rem;
   }
 
   .tech-marquee-item {
     padding-inline: 1.55rem;
     font-size: 1.15rem;
-  }
-
-  .work-section .section-orbit {
-    margin-top: -.15rem;
   }
 
   .offer-section .event-shell {
@@ -1039,9 +426,9 @@ select.field option {
   }
 
   .funnel-section .event-shell {
+    gap: 1.75rem;
     padding-top: 1.15rem;
     padding-bottom: 1.1rem;
-    gap: 1.75rem;
   }
 
   .funnel-section h2 {
@@ -1084,7 +471,7 @@ select.field option {
   }
 
   .final-quiz-card {
-    max-height: 78svh;
+    min-height: 70svh;
   }
 
   .final-quiz-card h2 {
@@ -1094,159 +481,78 @@ select.field option {
   .final-quiz-card > div:first-child {
     padding: 2.25rem;
   }
-}
 
-@media (min-width: 740px) and (max-width: 900px) and (orientation: portrait) {
-  .event-section {
-    min-height: auto;
+  .quiz-intro-page {
+    padding: 1.25rem 2rem;
   }
 
-  .event-shell {
-    padding: 2rem;
+  .quiz-intro-shell {
+    min-height: calc(100svh - 2.5rem);
   }
 
-  .welcome-section {
-    min-height: 100svh;
+  .quiz-intro-grid {
+    grid-template-columns: minmax(0, 1.12fr) minmax(18rem, .88fr);
+    align-items: stretch;
+    gap: 2rem;
+    padding-block: 1.5rem;
   }
 
-  .welcome-section .event-shell {
-    min-height: 100svh;
+  .quiz-intro-title {
+    font-size: clamp(4.2rem, 7vw, 5rem);
   }
 
-  .welcome-title {
-    font-size: clamp(4.8rem, 10.6vw, 6rem);
+  .quiz-orange-panel {
+    min-height: 21rem;
+    padding: 1.8rem;
   }
 
-  .work-section,
-  .offer-section,
-  .funnel-section,
-  .quiz-final-section {
-    padding-block: 2rem;
+  .quiz-result-page,
+  .quiz-active-page {
+    padding-inline: 2rem;
   }
 
-  .work-section .event-shell,
-  .offer-section .event-shell,
-  .funnel-section .event-shell,
-  .quiz-final-section .event-shell {
-    height: auto;
+  .quiz-result-card {
+    max-width: 60rem;
+    padding: 2rem 2.4rem;
   }
 
-  .work-carousel {
-    min-height: 34rem;
+  .quiz-active-shell {
+    max-width: 60rem;
   }
 
-  .work-carousel article {
-    grid-template-columns: 1fr;
+  .quiz-question-card {
+    padding: 2rem 2.4rem;
+    border-radius: 1.8rem;
   }
 
-  .work-carousel article > div:first-child {
-    min-height: 16rem;
+  .quiz-question-title {
+    font-size: clamp(2.5rem, 4vw, 3rem);
+    line-height: 1.02;
   }
 
-  .offer-section .event-shell > div:first-child,
-  .funnel-section .event-shell {
-    grid-template-columns: 1fr;
+  .quiz-answer-grid {
+    gap: .75rem;
   }
 
-  .final-quiz-card {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 739px) {
-  .event-section {
-    min-height: auto;
+  .quiz-answer-grid button {
+    min-height: 4.2rem;
   }
 
-  .event-shell {
-    padding: 1.35rem 1.25rem;
-  }
-
-  .welcome-section,
-  .welcome-section .event-shell {
-    min-height: 100svh;
-  }
-
-  .welcome-title {
-    font-size: clamp(3.55rem, 17vw, 5rem);
-  }
-
-  .welcome-section .section-orbit {
-    align-items: flex-end;
-  }
-
-  .welcome-section .section-orbit > span:first-child {
-    display: none;
-  }
-
-  .work-section,
-  .offer-section,
-  .funnel-section,
-  .quiz-final-section {
-    padding-block: 3.5rem;
-  }
-
-  .work-section .event-shell,
-  .offer-section .event-shell,
-  .funnel-section .event-shell,
-  .quiz-final-section .event-shell {
-    height: auto;
-  }
-
-  .work-section h2,
-  .offer-section h2,
-  .funnel-section h2 {
-    font-size: clamp(2.5rem, 12vw, 3.5rem);
-  }
-
-  .work-carousel {
-    min-height: 36rem;
-  }
-
-  .work-carousel article {
-    grid-template-columns: 1fr;
-  }
-
-  .work-carousel article > div:first-child {
-    min-height: 14rem;
-  }
-
-  .offer-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .offer-card {
-    min-height: 0;
-  }
-
-  .funnel-section .event-shell {
-    grid-template-columns: 1fr;
-  }
-
-  .final-quiz-card {
-    grid-template-columns: 1fr;
-  }
-
-  .final-quiz-card h2 {
-    font-size: clamp(3.2rem, 14vw, 4.7rem);
-  }
-
-  .final-quiz-card > div:last-child {
-    min-height: 9rem;
+  .quiz-image-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-
-/* Desktop event layout: preserve tablet tuning, use the wider canvas */
+/* Desktop and large laptops */
 @media (min-width: 1181px) {
   .event-section {
-    height: 100svh;
-    min-height: 720px;
-    overflow: hidden;
+    min-height: max(100svh, 720px);
+    overflow: visible;
   }
 
   .event-shell {
-    height: 100%;
+    min-height: max(100svh, 720px);
+    height: auto;
     width: min(100%, 1640px);
     padding: clamp(2rem, 3.4vw, 4rem) clamp(3rem, 5vw, 6rem);
   }
@@ -1270,14 +576,6 @@ select.field option {
     line-height: .88;
   }
 
-  .welcome-section .mt-auto {
-    padding-bottom: clamp(1rem, 2.2vh, 2rem);
-  }
-
-  .welcome-section .section-orbit {
-    margin-bottom: .35rem;
-  }
-
   .welcome-section .section-orbit > span:last-child {
     width: 5rem;
     height: 5rem;
@@ -1295,7 +593,7 @@ select.field option {
 
   .work-carousel {
     margin-top: clamp(1.1rem, 1.8vh, 1.8rem);
-    min-height: 0;
+    min-height: 30rem;
   }
 
   .work-carousel article {
@@ -1318,28 +616,9 @@ select.field option {
     line-height: 1.65;
   }
 
-  .work-carousel .pointer-events-none button {
-    width: 3.25rem;
-    height: 3.25rem;
-  }
-
   .tech-marquee {
     margin-top: 1rem;
     padding-block: .7rem;
-  }
-
-  .tech-marquee-item {
-    padding-inline: 2rem;
-    font-size: clamp(1.15rem, 1.55vw, 1.6rem);
-  }
-
-  .work-section .section-orbit {
-    margin-top: .15rem;
-  }
-
-  .offer-section .event-shell {
-    padding-top: clamp(2rem, 3vw, 3.25rem);
-    padding-bottom: clamp(2rem, 3vw, 3.25rem);
   }
 
   .offer-section .event-shell > div:first-child {
@@ -1380,17 +659,11 @@ select.field option {
   .funnel-section .event-shell {
     grid-template-columns: minmax(25rem, .72fr) minmax(0, 1.28fr);
     gap: clamp(4rem, 6vw, 7rem);
-    padding-top: clamp(2rem, 3vw, 3.4rem);
-    padding-bottom: clamp(2rem, 3vw, 3.4rem);
   }
 
   .funnel-section h2 {
     max-width: 38rem;
     font-size: clamp(4rem, 4.7vw, 5.7rem);
-  }
-
-  .funnel-section > .event-shell > div:first-child > p:last-of-type {
-    max-width: 34rem;
   }
 
   .funnel-form {
@@ -1403,23 +676,9 @@ select.field option {
     font-size: 1rem;
   }
 
-  .funnel-form label > span:first-child {
-    font-size: .9rem;
-  }
-
   .funnel-form button[type="submit"] {
     min-height: 3.35rem;
     padding-inline: 1.5rem;
-  }
-
-  .funnel-section .section-orbit > span:last-child {
-    width: 3.75rem;
-    height: 3.75rem;
-  }
-
-  .quiz-final-section .event-shell {
-    padding-top: clamp(3rem, 5vh, 5rem);
-    padding-bottom: clamp(3rem, 5vh, 5rem);
   }
 
   .final-quiz-card {
@@ -1435,23 +694,15 @@ select.field option {
     max-width: 62rem;
     font-size: clamp(6rem, 7.2vw, 8.5rem);
   }
-
-  .final-quiz-card > div:last-child {
-    min-width: 0;
-  }
-
-  .final-quiz-card > div:last-child > div {
-    width: 6rem;
-    height: 6rem;
-  }
-
-  .section-orbit > span:last-child {
-    flex: 0 0 auto;
-  }
 }
 
-/* Short desktop/laptop screens: same design, less vertical theatre. */
+/* Short desktop/laptop screens: content may grow instead of being clipped. */
 @media (min-width: 1181px) and (max-height: 820px) {
+  .event-section,
+  .event-shell {
+    min-height: 100svh;
+  }
+
   .event-shell {
     padding-top: 1.35rem;
     padding-bottom: 1.25rem;
@@ -1465,15 +716,12 @@ select.field option {
     height: 3.4rem;
   }
 
-  .welcome-section .mt-auto {
-    padding-bottom: .6rem;
-  }
-
   .work-section h2 {
     font-size: clamp(2.6rem, 3.6vw, 3.5rem);
   }
 
   .work-carousel {
+    min-height: 25rem;
     margin-top: .8rem;
   }
 
@@ -1530,18 +778,55 @@ select.field option {
   }
 }
 
-/* Extra-wide monitors: stop stretching content into the next postcode. */
 @media (min-width: 1680px) {
   .event-shell {
     width: min(92vw, 1720px);
   }
+}
 
-  .work-carousel article {
-    grid-template-columns: minmax(0, 1.2fr) minmax(31rem, .8fr);
+@media (hover: hover) {
+  .tech-marquee:hover .tech-marquee-track {
+    animation-play-state: paused;
   }
 
-  .offer-section .event-shell > div:first-child,
-  .funnel-section .event-shell {
-    gap: 7rem;
+  .section-orbit:hover > span:last-child {
+    transform: scale(1.06) rotate(-4deg);
+  }
+}
+
+@media (pointer: coarse) {
+  .section-orbit,
+  button,
+  a {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .section-orbit:active,
+  button:active {
+    transform: scale(.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .tech-marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: auto;
+    justify-content: center;
+    row-gap: 1rem;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
