@@ -50,7 +50,7 @@ const workSlides = [
       'Our work lives in industries where software is tied directly to the business and reliability is not a decorative requirement.',
     image: '/media/insurance.webp',
     items: ['Banking', 'Insurance', 'Energy', 'Telecom'],
-    accent: 'cyan',
+    accent: 'orange',
   },
   {
     eyebrow: 'Engineering around delivery',
@@ -59,7 +59,7 @@ const workSlides = [
       'Development, DevOps and QA stay close together so delivery does not become a relay race made entirely of handovers and crossed fingers.',
     image: '/media/devops.webp',
     items: ['Development', 'DevOps', 'Testing', 'Automation'],
-    accent: 'yellow',
+    accent: 'orange',
   },
 ]
 
@@ -91,11 +91,8 @@ const reveal = {
   },
 }
 
-function SectionArrow({ href, label, tone = 'orange' }) {
-  const toneClass =
-    tone === 'green'
-      ? 'border-asca-toxic/55 bg-asca-toxic text-black'
-      : 'border-asca-orange/55 bg-asca-orange text-black'
+function SectionArrow({ href, label }) {
+  const toneClass = 'border-asca-toxic/55 bg-asca-toxic text-black'
 
   return (
     <a href={href} className="section-orbit group inline-flex items-center gap-4">
@@ -337,15 +334,7 @@ export default function HomePage() {
                   </div>
 
                   <div className="flex min-h-0 flex-col justify-center p-6 md:p-8 lg:p-10">
-                    <p
-                      className={`text-sm font-semibold uppercase tracking-[.16em] ${
-                        activeWork.accent === 'cyan'
-                          ? 'text-asca-cyan'
-                          : activeWork.accent === 'yellow'
-                            ? 'text-asca-yellow'
-                            : 'text-asca-orange'
-                      }`}
-                    >
+                    <p className="text-sm font-semibold uppercase tracking-[.16em] text-asca-orange">
                       {activeWork.eyebrow}
                     </p>
                     <h3 className="mt-3 text-3xl font-semibold leading-[.98] tracking-[-.045em] md:text-4xl lg:text-5xl">
@@ -369,7 +358,7 @@ export default function HomePage() {
                 <button
                   type="button"
                   onClick={() => goWork(-1)}
-                  className="pointer-events-auto grid size-11 place-items-center rounded-full bg-black/65 text-white backdrop-blur transition hover:bg-asca-orange hover:text-black"
+                  className="pointer-events-auto grid size-11 place-items-center rounded-full bg-black/65 text-white backdrop-blur transition hover:bg-asca-toxic hover:text-black"
                   aria-label="Previous slide"
                 >
                   <ArrowLeft size={19} />
@@ -377,7 +366,7 @@ export default function HomePage() {
                 <button
                   type="button"
                   onClick={() => goWork(1)}
-                  className="pointer-events-auto grid size-11 place-items-center rounded-full bg-black/65 text-white backdrop-blur transition hover:bg-asca-orange hover:text-black"
+                  className="pointer-events-auto grid size-11 place-items-center rounded-full bg-black/65 text-white backdrop-blur transition hover:bg-asca-toxic hover:text-black"
                   aria-label="Next slide"
                 >
                   <ArrowRight size={19} />
@@ -422,21 +411,11 @@ export default function HomePage() {
                     initial="hidden"
                     whileInView="show"
                     viewport={{ once: true, amount: .3 }}
-                    className={`offer-card p-5 md:p-6 ${
-                      index === 0
-                        ? 'bg-asca-orange text-black'
-                        : index === 1
-                          ? 'bg-asca-navy text-white'
-                          : index === 2
-                            ? 'bg-asca-yellow text-black'
-                            : 'bg-asca-red text-white'
-                    }`}
+                    className={`offer-card p-5 md:p-6 ${index === 0 || index === 3 ? 'bg-asca-orange text-black' : 'bg-white/[.035] text-white'}`}
                   >
                     <h3 className="text-xl font-semibold tracking-[-.025em] md:text-2xl">{offer.title}</h3>
                     <p
-                      className={`mt-3 text-sm leading-6 md:text-base ${
-                        index === 0 || index === 2 ? 'text-black/65' : 'text-white/72'
-                      }`}
+                      className={`mt-3 text-sm leading-6 md:text-base ${index === 0 || index === 3 ? 'text-black/65' : 'text-white/56'}`}
                     >
                       {offer.copy}
                     </p>
@@ -512,7 +491,7 @@ export default function HomePage() {
                   <button
                     type="button"
                     onClick={() => setLeadStatus('idle')}
-                    className="mt-6 min-h-11 rounded-xl bg-white px-5 font-semibold text-black transition hover:bg-asca-toxic"
+                    className="mt-6 min-h-11 rounded-xl bg-asca-toxic px-5 font-semibold text-black transition hover:brightness-105"
                   >
                     Add another
                   </button>
@@ -608,7 +587,7 @@ export default function HomePage() {
 
                   <button
                     disabled={leadStatus === 'sending'}
-                    className="inline-flex min-h-12 w-fit items-center gap-2 rounded-xl bg-asca-orange px-6 font-bold text-black transition hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
+                    className="inline-flex min-h-12 w-fit items-center gap-2 rounded-xl bg-asca-toxic px-6 font-bold text-black transition hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
                     type="submit"
                   >
                     {leadStatus === 'sending' ? 'Saving…' : 'Leave my details'} <ArrowRight size={17} />
@@ -639,8 +618,7 @@ export default function HomePage() {
 
                 <h2 className="quiz-embedded-title mt-5 max-w-4xl text-[clamp(3.7rem,7vw,7rem)] font-semibold leading-[.9] tracking-[-.06em]">
                   Test your<br />
-                  <span className="text-asca-toxic">tech</span>{' '}
-                  <span className="text-asca-orange">instincts.</span>
+                  <span className="text-asca-orange">tech instincts.</span>
                 </h2>
 
                 <p className="mt-7 max-w-2xl text-lg leading-8 text-white/62 md:text-xl">
@@ -709,10 +687,10 @@ export default function HomePage() {
                     <span
                       className="absolute inset-0 rounded-full"
                       style={{
-                        background: `conic-gradient(#42b8db ${quizCharge * 360}deg, rgba(0,0,0,.22) ${quizCharge * 360}deg)`,
+                        background: `conic-gradient(#c7ff00 ${quizCharge * 360}deg, rgba(0,0,0,.22) ${quizCharge * 360}deg)`,
                       }}
                     />
-                    <span className="absolute inset-[7px] rounded-full border border-white/12 bg-[#050707] shadow-[inset_0_0_35px_rgba(66,184,219,.035),0_18px_45px_rgba(0,0,0,.28)]" />
+                    <span className="absolute inset-[7px] rounded-full border border-white/12 bg-[#050707] shadow-[inset_0_0_35px_rgba(199,255,0,.035),0_18px_45px_rgba(0,0,0,.28)]" />
                     <span className="absolute inset-[15px] rounded-full border border-white/8" />
                     <span className="relative z-10 text-center">
                       <span className="block font-mono text-[11px] font-bold tracking-[.28em] text-asca-toxic/80">
@@ -737,7 +715,7 @@ export default function HomePage() {
 
             <div className="quiz-reward-strip mt-8 grid gap-5 border-t border-white/10 pt-6 sm:grid-cols-3">
               <div>
-                <div className="text-sm font-semibold text-asca-yellow">Perfect + fast</div>
+                <div className="text-sm font-semibold text-asca-orange">Perfect + fast</div>
                 <p className="mt-1 text-sm text-white/48">Premium reward contender.</p>
               </div>
               <div>
@@ -745,7 +723,7 @@ export default function HomePage() {
                 <p className="mt-1 text-sm text-white/48">Secondary reward contender.</p>
               </div>
               <div>
-                <div className="text-sm font-semibold text-asca-cyan">Finish it</div>
+                <div className="text-sm font-semibold text-white">Finish it</div>
                 <p className="mt-1 text-sm text-white/48">Participation track.</p>
               </div>
             </div>
