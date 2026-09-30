@@ -15,9 +15,37 @@ const APP_SHELL = [
   '/media/portrait-ai.png',
 ]
 
+async function cacheBuildAssets() {
+  const cache = await caches.open(CACHE_NAME)
+
+  try {
+    const response = await fetch('/', { cache: 'no-store' })
+    if (!response.ok) return
+
+    const html = await response.clone().text()
+    await cache.put('/', response)
+
+    const assetPaths = [...html.matchAll(/(?:src|href)="([^"]+)"/g)]
+      .map((match) => match[1])
+      .filter((path) => path.startsWith('/assets/'))
+
+    await Promise.all(
+      [...new Set(assetPaths)].map(async (path) => {
+        const assetResponse = await fetch(path, { cache: 'no-store' })
+        if (assetResponse.ok) await cache.put(path, assetResponse)
+      }),
+    )
+  } catch {
+    // If install happens without a working connection, normal runtime caching still applies.
+  }
+}
+
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)),
+    Promise.all([
+      caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)),
+      cacheBuildAssets(),
+    ]),
   )
   self.skipWaiting()
 })
