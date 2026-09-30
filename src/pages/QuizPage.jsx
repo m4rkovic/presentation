@@ -219,6 +219,7 @@ export default function QuizPage() {
     setResponses([])
     setSessionStartedAt(Date.now())
     setResultMeta(null)
+    setResetCountdown(eventConfig.quiz.kioskResetSeconds)
     answerLock.current = false
     setStage('active')
 
@@ -237,6 +238,7 @@ export default function QuizPage() {
     setResponses([])
     setSessionStartedAt(null)
     setResultMeta(null)
+    setResetCountdown(eventConfig.quiz.kioskResetSeconds)
     answerLock.current = false
     navigate('/')
   }
