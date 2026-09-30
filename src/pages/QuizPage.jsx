@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { eventConfig } from '../data/eventConfig.js'
 import { questionPool } from '../data/questionPool.js'
 import {
@@ -104,9 +104,12 @@ function getPrizeOutcome({ accuracy, elapsedSeconds }) {
 
 export default function QuizPage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const answerLock = useRef(false)
+  const autoStartHandled = useRef(false)
+  const autoStartRequested = new URLSearchParams(location.search).get('autostart') === '1'
 
-  const [stage, setStage] = useState('intro')
+  const [stage, setStage] = useState(autoStartRequested ? 'launching' : 'intro')
   const [sessionQuestions, setSessionQuestions] = useState([])
   const [questionIndex, setQuestionIndex] = useState(0)
   const [correctCount, setCorrectCount] = useState(0)
@@ -144,6 +147,13 @@ export default function QuizPage() {
     window.addEventListener('online', flush)
     return () => window.removeEventListener('online', flush)
   }, [])
+
+  useEffect(() => {
+    if (!autoStartRequested || autoStartHandled.current) return
+
+    autoStartHandled.current = true
+    startQuiz()
+  }, [autoStartRequested])
 
   useEffect(() => {
     if (stage !== 'active' || !currentQuestion) return
@@ -315,6 +325,19 @@ export default function QuizPage() {
           100,
       )
     : 0
+
+  if (stage === 'launching') {
+    return (
+      <main className="grid min-h-[100svh] place-items-center bg-asca-bg px-5 text-white">
+        <div className="text-center">
+          <div className="mx-auto size-12 animate-pulse rounded-full border border-asca-toxic/40 bg-asca-toxic/10 shadow-[0_0_35px_rgba(199,255,0,.12)]" />
+          <p className="mt-5 font-mono text-xs font-bold uppercase tracking-[.24em] text-asca-toxic">
+            Initializing quiz
+          </p>
+        </div>
+      </main>
+    )
+  }
 
   if (stage === 'intro') {
     return (
