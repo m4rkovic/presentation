@@ -170,7 +170,7 @@ export default function HomePage() {
           <div className="event-shell relative z-10 flex h-full flex-col">
             <header className="flex items-center justify-between gap-6">
               <span className="hidden items-center gap-3 text-base font-semibold text-white/82 sm:flex">
-                <span className="size-2.5 rounded-full bg-asca-orange shadow-[0_0_20px_rgba(247,149,84,.65)]" />
+                <span className="size-2.5 rounded-full bg-asca-orange shadow-[0_0_20px_rgba(242,140,82,.65)]" />
                 {eventConfig.campaignTitle}
               </span>
 
@@ -520,7 +520,7 @@ export default function HomePage() {
                   </div>
 
                   <label className="flex items-start gap-3 text-xs leading-5 text-white/58 md:text-sm">
-                    <input required type="checkbox" name="consent" value="yes" className="mt-1 size-4 accent-[#f79554]" />
+                    <input required type="checkbox" name="consent" value="yes" className="mt-1 size-4 accent-[#f28c52]" />
                     <span>
                       I agree that ASCALab may use these details to contact me about internships, student opportunities or relevant roles.
                     </span>
