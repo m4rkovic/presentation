@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowLeft, ArrowRight, Check, Clock3 } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { eventConfig } from '../data/eventConfig.js'
@@ -114,7 +114,6 @@ export default function QuizPage() {
   const [sessionStartedAt, setSessionStartedAt] = useState(null)
   const [timeLeft, setTimeLeft] = useState(eventConfig.quiz.defaultTimePerQuestion)
   const [resultMeta, setResultMeta] = useState(null)
-  const [resetCountdown, setResetCountdown] = useState(eventConfig.quiz.kioskResetSeconds)
 
   const currentQuestion = sessionQuestions[questionIndex]
 
@@ -166,23 +165,6 @@ export default function QuizPage() {
     return () => window.clearTimeout(timer)
   }, [timeLeft, stage, currentQuestion])
 
-  useEffect(() => {
-    if (stage !== 'result') return undefined
-
-    setResetCountdown(eventConfig.quiz.kioskResetSeconds)
-    const interval = window.setInterval(() => {
-      setResetCountdown((value) => Math.max(0, value - 1))
-    }, 1000)
-
-    return () => window.clearInterval(interval)
-  }, [stage])
-
-  useEffect(() => {
-    if (stage === 'result' && resetCountdown === 0) {
-      resetAndGoHome()
-    }
-  }, [stage, resetCountdown])
-
   async function startQuiz() {
     let questions = buildQuestionSet()
     const aiQuestion = questions.find((question) => question.type === 'aiImageCompare')
@@ -219,7 +201,6 @@ export default function QuizPage() {
     setResponses([])
     setSessionStartedAt(Date.now())
     setResultMeta(null)
-    setResetCountdown(eventConfig.quiz.kioskResetSeconds)
     answerLock.current = false
     setStage('active')
 
@@ -238,7 +219,6 @@ export default function QuizPage() {
     setResponses([])
     setSessionStartedAt(null)
     setResultMeta(null)
-    setResetCountdown(eventConfig.quiz.kioskResetSeconds)
     answerLock.current = false
     navigate('/')
   }
@@ -484,30 +464,17 @@ export default function QuizPage() {
             </div>
           </div>
 
-          <div className="mt-10 flex flex-col gap-4 rounded-[24px] border border-white/10 bg-black/20 p-5 md:flex-row md:items-center md:justify-between">
-            <div>
-              <div className="font-semibold">Show this screen to the ASCALab team.</div>
-              <div className="mt-1 text-sm leading-6 text-white/52">{storageText}</div>
-            </div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[.03] px-4 py-2 text-sm text-white/72">
-              <Clock3 size={15} /> Resetting in {resetCountdown}s
-            </div>
+          <div className="mt-10 rounded-[24px] border border-white/10 bg-black/20 p-5">
+            <div className="font-semibold">Show this screen to the ASCALab team.</div>
+            <div className="mt-1 text-sm leading-6 text-white/52">{storageText}</div>
           </div>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <button
-              onClick={startQuiz}
-              className="min-h-14 flex-1 rounded-2xl border border-white/10 bg-white/[.03] px-6 font-semibold transition hover:bg-white/[.06]"
-            >
-              Play again
-            </button>
-            <button
-              onClick={resetAndGoHome}
-              className="min-h-14 flex-1 rounded-2xl bg-asca-orange px-6 font-semibold text-black transition hover:brightness-105"
-            >
-              Done
-            </button>
-          </div>
+          <button
+            onClick={resetAndGoHome}
+            className="mt-8 min-h-14 w-full rounded-2xl bg-asca-orange px-6 font-semibold text-black transition hover:brightness-105"
+          >
+            Done
+          </button>
         </motion.div>
       </main>
     )
