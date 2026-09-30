@@ -108,27 +108,72 @@ const industryStories = [
 ]
 
 function SectionJump({ href, label, variant = 'line' }) {
-  const family =
-    variant === 'orb'
-      ? 'orb'
-      : variant === 'ghost'
-        ? 'outline'
-        : variant === 'square' || variant === 'toxic'
-          ? 'filled'
-          : 'line'
-
   const classes = {
-    line: 'group inline-flex items-center gap-3 text-sm font-semibold text-white/72 transition hover:text-asca-orange',
-    orb: 'group inline-flex size-14 items-center justify-center rounded-full border border-white/22 bg-white/[.04] text-white transition hover:border-asca-orange/70 hover:text-asca-orange',
-    outline: 'group inline-flex min-h-12 items-center gap-3 rounded-full border border-white/18 px-5 text-sm font-semibold text-white/78 transition hover:border-asca-orange/55 hover:bg-asca-orange/[.05] hover:text-white',
-    filled: 'group inline-flex min-h-12 items-center gap-3 rounded-xl bg-asca-orange px-5 text-sm font-bold text-black transition hover:translate-y-[-1px]',
+    line: 'section-jump section-jump-line group inline-flex items-center gap-3 text-sm font-semibold text-white/74',
+    orb: 'section-jump section-jump-orb group inline-grid size-24 place-items-center rounded-full bg-asca-toxic text-black md:size-28',
+    bracket: 'section-jump section-jump-bracket group inline-flex min-h-12 items-center gap-4 text-sm font-semibold text-white/82',
+    ghost: 'section-jump section-jump-ghost group inline-flex min-h-12 items-center gap-3 rounded-full border border-white/18 px-5 text-sm font-semibold text-white/80',
+    square: 'section-jump section-jump-square group inline-flex min-h-13 items-center gap-4 bg-white px-5 text-sm font-bold text-black',
+    toxic: 'section-jump section-jump-toxic group inline-flex min-h-13 items-center gap-5 rounded-2xl bg-asca-toxic px-6 text-sm font-bold text-black',
+    text: 'section-jump section-jump-text group inline-flex items-center gap-2 text-sm font-semibold text-asca-orange',
+  }
+
+  if (variant === 'orb') {
+    return (
+      <a href={href} className={classes.orb} aria-label={label}>
+        <ArrowDown size={30} strokeWidth={2.2} className="transition duration-300 group-hover:translate-y-1.5" />
+      </a>
+    )
+  }
+
+  if (variant === 'line') {
+    return (
+      <a href={href} className={classes.line}>
+        <span className="h-px w-8 bg-asca-orange/80 transition-all duration-300 group-hover:w-12" />
+        <span>{label}</span>
+        <ArrowDown size={16} className="transition duration-300 group-hover:translate-y-1" />
+      </a>
+    )
+  }
+
+  if (variant === 'bracket') {
+    return (
+      <a href={href} className={classes.bracket}>
+        <span>{label}</span>
+        <span className="grid size-9 place-items-center border border-asca-orange/55 text-asca-orange transition duration-300 group-hover:rotate-6 group-hover:bg-asca-orange group-hover:text-black">
+          <ArrowDown size={16} />
+        </span>
+      </a>
+    )
+  }
+
+  if (variant === 'square') {
+    return (
+      <a href={href} className={classes.square}>
+        <span>{label}</span>
+        <span className="grid size-8 place-items-center bg-black text-white transition duration-300 group-hover:translate-y-1">
+          <ArrowDown size={15} />
+        </span>
+      </a>
+    )
+  }
+
+  if (variant === 'toxic') {
+    return (
+      <a href={href} className={classes.toxic}>
+        <span>{label}</span>
+        <span className="grid size-9 place-items-center rounded-full bg-black text-white transition duration-300 group-hover:translate-y-1">
+          <ArrowDown size={16} />
+        </span>
+      </a>
+    )
   }
 
   return (
-    <a href={href} className={classes[family]}>
-      {family === 'line' ? <span className="h-px w-8 bg-asca-orange/75 transition group-hover:w-11" /> : null}
-      {family === 'orb' ? <ArrowDown size={20} /> : <span>{label}</span>}
-      {family === 'orb' ? null : <ArrowDown size={16} className="transition group-hover:translate-y-1" />}
+    <a href={href} className={classes[variant] || classes.text}>
+      {variant === 'ghost' ? <span className="size-2 rounded-full bg-asca-orange" /> : null}
+      <span>{label}</span>
+      <ArrowDown size={16} className="transition duration-300 group-hover:translate-y-1" />
     </a>
   )
 }
@@ -239,24 +284,20 @@ export default function HomePage() {
                     <span>ship</span>
                   </div>
                 </div>
-                <div className="flex shrink-0 flex-wrap items-center gap-4">
-                  <Link
-                    to={{ pathname: '/quiz', search: location.search }}
-                    className="inline-flex min-h-12 items-center gap-2 rounded-full bg-asca-orange px-5 text-sm font-bold text-black transition hover:scale-[1.02]"
-                  >
-                    Start quiz <ArrowRight size={17} />
-                  </Link>
-                  <a href="#statement" className="hero-scroll-cue inline-flex min-h-12 items-center gap-3 text-sm font-semibold text-white/76 transition hover:text-white">
-                    <span className="h-px w-8 bg-asca-orange/75" />
-                    Scroll the booth <ArrowDown size={17} />
-                  </a>
-                </div>
+                <a href="#statement" className="hero-scroll-orbit group inline-flex shrink-0 items-center gap-4">
+                  <span className="text-sm font-semibold text-white/80 transition group-hover:text-white">
+                    Scroll the booth
+                  </span>
+                  <span className="grid size-20 place-items-center rounded-full border border-asca-orange/70 bg-asca-orange text-black shadow-[0_0_0_0_rgba(247,149,84,.25)] transition duration-300 group-hover:scale-105 group-hover:shadow-[0_0_0_10px_rgba(247,149,84,.10)] md:size-24">
+                    <ArrowDown size={25} strokeWidth={2.2} className="transition duration-300 group-hover:translate-y-1.5" />
+                  </span>
+                </a>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="statement" className="section-screen flex min-h-[100svh] items-center px-6 py-20 md:px-10 lg:px-14">
+        <section id="statement" className="section-screen flex min-h-[78svh] items-center px-6 py-16 md:min-h-[82svh] md:px-10 md:py-20 lg:px-14">
           <div className="mx-auto w-full max-w-[1500px]">
             <motion.div className="max-w-6xl" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .35 }}>
               <p className="mb-8 text-xl font-medium text-asca-orange md:text-2xl">
@@ -277,7 +318,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="services" className="section-screen flex min-h-[62svh] items-center py-16 md:py-20">
+        <section id="services" className="section-screen flex items-center py-14 md:py-18">
           <motion.div className="mx-auto w-full max-w-[1500px] px-6 md:px-10 lg:px-14" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .35 }}>
             <h2 className="max-w-4xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
               Three ways to get very good at solving real problems.
@@ -288,14 +329,14 @@ export default function HomePage() {
           </motion.div>
         </section>
 
-        <section className="pb-8 md:pb-16">
-          <div className="space-y-0">
+        <section className="pb-10 md:pb-16">
+          <div className="space-y-5 md:space-y-8">
             {serviceStories.map((service, index) => (
               <motion.article
                 key={service.title}
                 id={`service-${service.title.toLowerCase()}`}
-                className="section-screen mx-auto flex min-h-[100svh] max-w-[1500px] items-center px-4 py-8 md:px-8 md:py-10" variants={index % 2 ? revealRight : revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .18 }}>
-                <div className={`grid min-h-[72svh] overflow-hidden rounded-[30px] bg-[#0e1217] md:rounded-[40px] lg:grid-cols-2 ${index % 2 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
+                className="section-screen mx-auto flex max-w-[1500px] items-center px-4 py-3 md:px-8 md:py-5" variants={index % 2 ? revealRight : revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .18 }}>
+                <div className={`grid min-h-[70svh] w-full overflow-hidden rounded-[30px] bg-[#0e1217] md:min-h-[74svh] md:rounded-[40px] lg:grid-cols-2 ${index % 2 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
                   <div className="relative min-h-[42svh] lg:min-h-full">
                     <motion.img src={service.image} alt="" width="1400" height="900" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" variants={imageReveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }} />
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,12,.05),rgba(7,9,12,.35))]" />
@@ -339,14 +380,17 @@ export default function HomePage() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: .35 }}
-            className="mx-auto max-w-[1500px] px-6 md:px-10 lg:px-14"
+            className="relative mx-auto w-full max-w-[1500px] px-6 md:px-10 lg:px-14"
           >
             <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
               Where you could fit
             </p>
             <div className="mt-7 flex flex-wrap gap-x-7 gap-y-3 text-[clamp(2.5rem,5.8vw,6.5rem)] font-semibold leading-none tracking-[-.055em] text-white/82">
               {eventConfig.careers.map((career, index) => (
-                <span key={career} className={index % 3 === 1 ? 'text-asca-toxic' : 'text-white/82'}>
+                <span
+                  key={career}
+                  className={career === 'Frontend' || career === 'QA' ? 'text-asca-orange' : 'text-white/82'}
+                >
                   {career}
                 </span>
               ))}
@@ -357,7 +401,7 @@ export default function HomePage() {
             <p className="mt-5 font-mono text-sm text-asca-toxic/85">
               // no perfect profile required
             </p>
-            <div className="mt-10">
+            <div className="mt-10 flex justify-end md:absolute md:bottom-0 md:right-10 md:mt-0 lg:right-14">
               <SectionJump href="#quiz-teaser" label="Try something less corporate" variant="orb" />
             </div>
           </motion.div>
