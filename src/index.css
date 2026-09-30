@@ -12,7 +12,7 @@
   --color-asca-toxic-legacy: #c7ff00;
 
   /* Existing "toxic" utility now maps to the new cyan accent. */
-  --color-asca-toxic: #42b8db;
+  --color-asca-toxic: #c7ff00;
 
   --color-asca-dark: #314770;
   --color-asca-bg: #07090c;
@@ -107,7 +107,7 @@ select.field option {
   font-size: clamp(1.15rem, 1.6vw, 1.7rem);
   font-weight: 700;
   letter-spacing: -.035em;
-  color: rgba(255,255,255,.82);
+  color: #c7ff00;
   white-space: nowrap;
 }
 
@@ -117,7 +117,7 @@ select.field option {
   right: -.35rem;
   top: 50%;
   transform: translateY(-48%);
-  color: #42b8db;
+  color: #c7ff00;
   font-size: .85rem;
 }
 
@@ -845,7 +845,7 @@ select.field option {
 
 /* Hero brand refinements */
 .welcome-kicker {
-  color: #42b8db;
+  color: #c7ff00;
 }
 
 
@@ -869,14 +869,14 @@ select.field option {
   }
 
   .welcome-bottom .section-orbit > span:last-child {
-    background: #42b8db;
-    border-color: rgba(66,184,219,.58);
+    background: #c7ff00;
+    border-color: rgba(199,255,0,.58);
     color: #111;
-    box-shadow: 0 0 0 0 rgba(66,184,219,.16);
+    box-shadow: 0 0 0 0 rgba(199,255,0,.16);
   }
 
   .welcome-bottom .section-orbit:hover > span:last-child {
-    box-shadow: 0 0 0 10px rgba(66,184,219,.08);
+    box-shadow: 0 0 0 10px rgba(199,255,0,.08);
   }
 }
 
@@ -935,8 +935,8 @@ select.field option {
   border: 1px solid rgba(0,0,0,.18);
   border-radius: 999px;
   box-shadow:
-    0 0 0 1px rgba(66,184,219,.04),
-    0 0 42px rgba(66,184,219,.06);
+    0 0 0 1px rgba(199,255,0,.04),
+    0 0 42px rgba(199,255,0,.06);
 }
 
 .cyber-go-button::after {
@@ -945,13 +945,13 @@ select.field option {
   inset: 20%;
   z-index: 0;
   border-radius: 999px;
-  background: radial-gradient(circle, rgba(66,184,219,.08), transparent 68%);
+  background: radial-gradient(circle, rgba(199,255,0,.08), transparent 68%);
   opacity: 0;
   transition: opacity .2s ease;
 }
 
 .cyber-go-button:focus-visible {
-  outline: 2px solid #42b8db;
+  outline: 2px solid #c7ff00;
   outline-offset: 8px;
 }
 
@@ -969,7 +969,7 @@ select.field option {
 
 @media (hover: hover) {
   .cyber-go-button:hover {
-    filter: drop-shadow(0 0 18px rgba(66,184,219,.16));
+    filter: drop-shadow(0 0 18px rgba(199,255,0,.16));
   }
 }
 
