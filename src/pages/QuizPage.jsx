@@ -434,7 +434,7 @@ export default function QuizPage() {
         ? 'Result submitted to the event backend.'
         : resultMeta.submissionState.status === 'queued'
           ? `Connection issue. Result saved on this device; ${resultMeta.submissionState.queuedCount} result(s) waiting to retry.`
-          : 'No event backend is configured. This result is stored on this device only.'
+          : 'This result was saved on this device only.'
 
     return (
       <main className="grid min-h-[100svh] place-items-center bg-asca-bg px-5 py-8 text-white">
@@ -600,7 +600,7 @@ export default function QuizPage() {
 
         {!isEventApiConfigured() ? (
           <p className="mt-4 text-center text-xs text-white/40">
-            Event backend is not connected on this deployment; results stay on this device.
+            Results are being stored on this device only.
           </p>
         ) : getPendingSubmissions().length > 0 ? (
           <p className="mt-4 text-center text-xs text-white/40">
