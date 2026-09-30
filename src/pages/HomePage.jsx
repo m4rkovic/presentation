@@ -386,9 +386,11 @@ export default function HomePage() {
                 Leave your contact details and tell us what kind of work you are curious about.
               </p>
 
-              {!backendConfigured && isStaffView ? (
+              {!backendConfigured ? (
                 <p className="mt-5 max-w-md rounded-xl border border-amber-300/20 bg-amber-300/8 p-3.5 text-xs leading-5 text-amber-100/80">
-                  Staff note: central event storage is not connected. Export local data before clearing browser storage.
+                  {isStaffView
+                    ? 'Staff note: central event storage is not connected. Export local data before clearing browser storage.'
+                    : 'Central event storage is not connected on this deployment. Submitted details will stay on this device only.'}
                 </p>
               ) : null}
 
