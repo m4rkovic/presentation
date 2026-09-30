@@ -17,7 +17,7 @@ export const eventConfig = {
   prizes: {
     tier1: {
       label: 'Tier 1 contender',
-      title: 'Top score + speed',
+      title: 'Perfect + fast',
       description:
         'Perfect accuracy with a fast time. This is a provisional result; ASCALab staff confirms prize eligibility.',
       reward: 'ASCALab premium reward',
