@@ -1235,3 +1235,313 @@ select.field option {
     min-height: 9rem;
   }
 }
+
+
+/* Desktop event layout: preserve tablet tuning, use the wider canvas */
+@media (min-width: 1181px) {
+  .event-section {
+    height: 100svh;
+    min-height: 720px;
+    overflow: hidden;
+  }
+
+  .event-shell {
+    height: 100%;
+    width: min(100%, 1640px);
+    padding: clamp(2rem, 3.4vw, 4rem) clamp(3rem, 5vw, 6rem);
+  }
+
+  .welcome-section .event-shell {
+    padding-top: clamp(2rem, 3vw, 3.5rem);
+    padding-bottom: clamp(2rem, 3vw, 3.5rem);
+  }
+
+  .welcome-section header {
+    min-height: 4.5rem;
+  }
+
+  .welcome-section header img {
+    height: clamp(3.7rem, 4.1vw, 4.8rem);
+  }
+
+  .welcome-title {
+    max-width: 78rem;
+    font-size: clamp(6rem, 7.7vw, 9rem);
+    line-height: .88;
+  }
+
+  .welcome-section .mt-auto {
+    padding-bottom: clamp(1rem, 2.2vh, 2rem);
+  }
+
+  .welcome-section .section-orbit {
+    margin-bottom: .35rem;
+  }
+
+  .welcome-section .section-orbit > span:last-child {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .work-section .event-shell {
+    padding-top: clamp(1.6rem, 2.4vw, 2.7rem);
+    padding-bottom: clamp(1.2rem, 2vw, 2.2rem);
+  }
+
+  .work-section h2 {
+    max-width: 58rem;
+    font-size: clamp(3rem, 4.1vw, 4.7rem);
+  }
+
+  .work-carousel {
+    margin-top: clamp(1.1rem, 1.8vh, 1.8rem);
+    min-height: 0;
+  }
+
+  .work-carousel article {
+    border-radius: 2rem;
+    grid-template-columns: minmax(0, 1.14fr) minmax(27rem, .86fr);
+  }
+
+  .work-carousel article > div:last-child {
+    padding: clamp(2.25rem, 3vw, 3.7rem);
+  }
+
+  .work-carousel h3 {
+    max-width: 37rem;
+    font-size: clamp(3.1rem, 4vw, 4.7rem);
+  }
+
+  .work-carousel p {
+    max-width: 38rem;
+    font-size: clamp(1rem, 1.12vw, 1.2rem);
+    line-height: 1.65;
+  }
+
+  .work-carousel .pointer-events-none button {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+
+  .tech-marquee {
+    margin-top: 1rem;
+    padding-block: .7rem;
+  }
+
+  .tech-marquee-item {
+    padding-inline: 2rem;
+    font-size: clamp(1.15rem, 1.55vw, 1.6rem);
+  }
+
+  .work-section .section-orbit {
+    margin-top: .15rem;
+  }
+
+  .offer-section .event-shell {
+    padding-top: clamp(2rem, 3vw, 3.25rem);
+    padding-bottom: clamp(2rem, 3vw, 3.25rem);
+  }
+
+  .offer-section .event-shell > div:first-child {
+    grid-template-columns: minmax(25rem, .78fr) minmax(0, 1.22fr);
+    gap: clamp(3rem, 5vw, 6rem);
+  }
+
+  .offer-section h2 {
+    max-width: 40rem;
+    font-size: clamp(4.7rem, 5.5vw, 6.8rem);
+  }
+
+  .offer-section p {
+    max-width: 35rem;
+    font-size: clamp(1.05rem, 1.2vw, 1.25rem);
+    line-height: 1.7;
+  }
+
+  .offer-grid {
+    gap: 1rem;
+  }
+
+  .offer-card {
+    min-height: clamp(10.5rem, 17vh, 13.5rem);
+    padding: clamp(1.55rem, 2vw, 2.25rem);
+  }
+
+  .offer-card h3 {
+    font-size: clamp(1.55rem, 1.8vw, 2rem);
+  }
+
+  .offer-card p {
+    margin-top: .8rem;
+    font-size: clamp(.9rem, 1vw, 1.05rem);
+    line-height: 1.55;
+  }
+
+  .funnel-section .event-shell {
+    grid-template-columns: minmax(25rem, .72fr) minmax(0, 1.28fr);
+    gap: clamp(4rem, 6vw, 7rem);
+    padding-top: clamp(2rem, 3vw, 3.4rem);
+    padding-bottom: clamp(2rem, 3vw, 3.4rem);
+  }
+
+  .funnel-section h2 {
+    max-width: 38rem;
+    font-size: clamp(4rem, 4.7vw, 5.7rem);
+  }
+
+  .funnel-section > .event-shell > div:first-child > p:last-of-type {
+    max-width: 34rem;
+  }
+
+  .funnel-form {
+    gap: 1.15rem;
+  }
+
+  .funnel-form .field {
+    min-height: 3.6rem;
+    border-radius: .9rem;
+    font-size: 1rem;
+  }
+
+  .funnel-form label > span:first-child {
+    font-size: .9rem;
+  }
+
+  .funnel-form button[type="submit"] {
+    min-height: 3.35rem;
+    padding-inline: 1.5rem;
+  }
+
+  .funnel-section .section-orbit > span:last-child {
+    width: 3.75rem;
+    height: 3.75rem;
+  }
+
+  .quiz-final-section .event-shell {
+    padding-top: clamp(3rem, 5vh, 5rem);
+    padding-bottom: clamp(3rem, 5vh, 5rem);
+  }
+
+  .final-quiz-card {
+    min-height: min(66svh, 44rem);
+    grid-template-columns: minmax(0, 1fr) clamp(14rem, 17vw, 20rem);
+  }
+
+  .final-quiz-card > div:first-child {
+    padding: clamp(3rem, 4.5vw, 5.5rem);
+  }
+
+  .final-quiz-card h2 {
+    max-width: 62rem;
+    font-size: clamp(6rem, 7.2vw, 8.5rem);
+  }
+
+  .final-quiz-card > div:last-child {
+    min-width: 0;
+  }
+
+  .final-quiz-card > div:last-child > div {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .section-orbit > span:last-child {
+    flex: 0 0 auto;
+  }
+}
+
+/* Short desktop/laptop screens: same design, less vertical theatre. */
+@media (min-width: 1181px) and (max-height: 820px) {
+  .event-shell {
+    padding-top: 1.35rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .welcome-title {
+    font-size: clamp(5rem, 7vw, 6.7rem);
+  }
+
+  .welcome-section header img {
+    height: 3.4rem;
+  }
+
+  .welcome-section .mt-auto {
+    padding-bottom: .6rem;
+  }
+
+  .work-section h2 {
+    font-size: clamp(2.6rem, 3.6vw, 3.5rem);
+  }
+
+  .work-carousel {
+    margin-top: .8rem;
+  }
+
+  .work-carousel article > div:last-child {
+    padding: 1.8rem 2.2rem;
+  }
+
+  .work-carousel h3 {
+    font-size: clamp(2.6rem, 3.5vw, 3.4rem);
+  }
+
+  .tech-marquee {
+    margin-top: .7rem;
+    padding-block: .48rem;
+  }
+
+  .offer-section h2 {
+    font-size: clamp(3.8rem, 4.8vw, 5rem);
+  }
+
+  .offer-card {
+    min-height: 8.2rem;
+    padding: 1.15rem 1.3rem;
+  }
+
+  .offer-card h3 {
+    font-size: 1.35rem;
+  }
+
+  .offer-card p {
+    margin-top: .5rem;
+    font-size: .84rem;
+    line-height: 1.4;
+  }
+
+  .funnel-section h2 {
+    font-size: clamp(3.3rem, 4.2vw, 4.2rem);
+  }
+
+  .funnel-form {
+    gap: .75rem;
+  }
+
+  .funnel-form .field {
+    min-height: 3rem;
+  }
+
+  .final-quiz-card {
+    min-height: 68svh;
+  }
+
+  .final-quiz-card h2 {
+    font-size: clamp(5.2rem, 6.5vw, 6.7rem);
+  }
+}
+
+/* Extra-wide monitors: stop stretching content into the next postcode. */
+@media (min-width: 1680px) {
+  .event-shell {
+    width: min(92vw, 1720px);
+  }
+
+  .work-carousel article {
+    grid-template-columns: minmax(0, 1.2fr) minmax(31rem, .8fr);
+  }
+
+  .offer-section .event-shell > div:first-child,
+  .funnel-section .event-shell {
+    gap: 7rem;
+  }
+}
