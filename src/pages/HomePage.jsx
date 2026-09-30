@@ -13,41 +13,41 @@ import {
 } from '../lib/leadCapture.js'
 
 const reveal = {
-  hidden: { opacity: 0, y: 72 },
+  hidden: { opacity: 0, y: 56 },
   show: {
     opacity: 1,
     y: 0,
-        transition: { duration: 1.05, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: .85, ease: [0.16, 1, 0.3, 1] },
   },
 }
 
 const revealLeft = {
-  hidden: { opacity: 0, x: -110, rotateZ: -1.2 },
+  hidden: { opacity: 0, x: -84, rotateZ: -.6 },
   show: {
     opacity: 1,
     x: 0,
     rotateZ: 0,
-        transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: .9, ease: [0.16, 1, 0.3, 1] },
   },
 }
 
 const revealRight = {
-  hidden: { opacity: 0, x: 110, rotateZ: 1.2 },
+  hidden: { opacity: 0, x: 84, rotateZ: .6 },
   show: {
     opacity: 1,
     x: 0,
     rotateZ: 0,
-        transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: .9, ease: [0.16, 1, 0.3, 1] },
   },
 }
 
 const imageReveal = {
-  hidden: { opacity: 0, scale: 1.16, y: 34 },
+  hidden: { opacity: 0, scale: 1.08, y: 20 },
   show: {
     opacity: 1,
     scale: 1,
     y: 0,
-        transition: { duration: 1.35, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 1.05, ease: [0.16, 1, 0.3, 1] },
   },
 }
 
@@ -107,21 +107,27 @@ const industryStories = [
 ]
 
 function SectionJump({ href, label, variant = 'line' }) {
-  const variants = {
-    line: 'group inline-flex items-center gap-3 text-sm font-semibold text-white/62 transition hover:text-white',
-    orb: 'group inline-flex size-14 items-center justify-center rounded-full border border-white/16 bg-white/[.03] text-white transition hover:border-asca-toxic/70 hover:text-asca-toxic',
-    bracket: 'group inline-flex items-center gap-3 border-l-2 border-asca-toxic pl-4 text-sm font-semibold text-white/74 transition hover:pl-5 hover:text-white',
-    ghost: 'group inline-flex min-h-12 items-center gap-3 rounded-full border border-white/12 px-5 text-sm font-semibold text-white/70 transition hover:border-white/30 hover:bg-white/[.04] hover:text-white',
-    square: 'group inline-flex min-h-12 items-center gap-3 rounded-lg bg-white px-5 text-sm font-semibold text-black transition hover:bg-asca-toxic',
-    toxic: 'group inline-flex min-h-12 items-center gap-3 rounded-full bg-asca-toxic px-5 text-sm font-bold text-black transition hover:scale-[1.02]',
-    text: 'group inline-flex items-center gap-2 text-sm font-semibold text-asca-toxic transition hover:text-white',
+  const family =
+    variant === 'orb'
+      ? 'orb'
+      : variant === 'ghost'
+        ? 'outline'
+        : variant === 'square' || variant === 'toxic'
+          ? 'filled'
+          : 'line'
+
+  const classes = {
+    line: 'group inline-flex items-center gap-3 text-sm font-semibold text-white/72 transition hover:text-white',
+    orb: 'group inline-flex size-14 items-center justify-center rounded-full border border-white/22 bg-white/[.04] text-white transition hover:border-asca-toxic/70 hover:text-asca-toxic',
+    outline: 'group inline-flex min-h-12 items-center gap-3 rounded-full border border-white/18 px-5 text-sm font-semibold text-white/78 transition hover:border-white/38 hover:bg-white/[.04] hover:text-white',
+    filled: 'group inline-flex min-h-12 items-center gap-3 rounded-xl bg-asca-toxic px-5 text-sm font-bold text-black transition hover:translate-y-[-1px]',
   }
 
   return (
-    <a href={href} className={variants[variant]}>
-      {variant === 'line' ? <span className="h-px w-8 bg-asca-toxic/70 transition group-hover:w-11" /> : null}
-      {variant === 'orb' ? <ArrowDown size={20} /> : <span>{label}</span>}
-      {variant === 'orb' ? null : <ArrowDown size={16} className="transition group-hover:translate-y-1" />}
+    <a href={href} className={classes[family]}>
+      {family === 'line' ? <span className="h-px w-8 bg-asca-toxic/70 transition group-hover:w-11" /> : null}
+      {family === 'orb' ? <ArrowDown size={20} /> : <span>{label}</span>}
+      {family === 'orb' ? null : <ArrowDown size={16} className="transition group-hover:translate-y-1" />}
     </a>
   )
 }
@@ -193,9 +199,9 @@ export default function HomePage() {
                 className="mb-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-bold uppercase tracking-[.17em] text-asca-toxic md:text-sm"
               >
                 <span>Students</span>
-                <span className="text-white/32">/</span>
+                <span className="text-white/50">/</span>
                 <span>Internships</span>
-                <span className="text-white/32">/</span>
+                <span className="text-white/50">/</span>
                 <span>Tech quiz</span>
               </motion.div>
               <motion.h1
@@ -213,7 +219,7 @@ export default function HomePage() {
                   <p className="max-w-2xl text-lg leading-8 text-white/68 md:text-xl">
                     Software. Cloud. QA. Data. Real systems, real users and maybe your next internship.
                   </p>
-                  <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-white/34 md:text-sm">
+                  <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-white/52 md:text-sm">
                     <span className="text-asca-toxic">{'{'} curiosity &gt; buzzwords {'}'}</span>
                     <span>build</span>
                     <span className="text-white/18">/</span>
@@ -238,22 +244,6 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        <section className="border-y border-white/8 px-6 py-9 md:px-10 lg:px-14">
-          <div className="mx-auto grid max-w-[1500px] grid-cols-2 gap-y-8 md:grid-cols-4">
-            {[
-              ['100+', 'Engineers'],
-              ['25', 'Years of experience'],
-              ['60+', 'Projects delivered'],
-              ['9', 'Countries'],
-            ].map(([value, label]) => (
-              <div key={label} className="md:px-8 md:first:pl-0">
-                <div className={`text-4xl font-semibold tracking-[-.05em] md:text-5xl ${label === 'Engineers' ? 'text-asca-toxic' : ''}`}>{value}</div>
-                <div className="mt-2 text-sm text-white/42">{label}</div>
-              </div>
-            ))}
           </div>
         </section>
 
@@ -309,7 +299,7 @@ export default function HomePage() {
                       {service.headline}
                     </h3>
                     <p className="mt-8 max-w-xl text-lg leading-8 text-white/66">{service.copy}</p>
-                    <p className="mt-6 max-w-xl leading-7 text-white/40">{service.detail}</p>
+                    <p className="mt-6 max-w-xl leading-7 text-white/54">{service.detail}</p>
                     <div className="mt-9">
                       <SectionJump
                         href={serviceNextTargets[index]}
@@ -352,7 +342,7 @@ export default function HomePage() {
                 </span>
               ))}
             </div>
-            <p className="mt-8 max-w-2xl text-lg leading-8 text-white/48">
+            <p className="mt-8 max-w-2xl text-lg leading-8 text-white/60">
               You do not need to arrive knowing everything. Fundamentals, curiosity and enough stubbornness to keep digging are a pretty good start.
             </p>
             <p className="mt-5 font-mono text-sm text-asca-toxic/85">
@@ -406,7 +396,7 @@ export default function HomePage() {
               <h2 className="text-[clamp(3.3rem,6.8vw,7rem)] font-semibold leading-[.95] tracking-[-.06em]">
                 This is where “it works” stops being enough.
               </h2>
-              <p className="mt-8 max-w-2xl text-xl leading-9 text-white/48">
+              <p className="mt-8 max-w-2xl text-xl leading-9 text-white/60">
                 Money, policies, energy and connectivity all create different problems. The common bit is that people notice when the software gets them wrong.
               </p>
               <div className="mt-12">
@@ -486,7 +476,7 @@ export default function HomePage() {
                 </AnimatePresence>
 
                 <div className="pointer-events-none absolute left-7 right-7 top-7 z-20 flex items-center justify-between md:left-10 md:right-10 md:top-9">
-                  <p className="text-xs font-semibold uppercase tracking-[.18em] text-white/42">
+                  <p className="text-xs font-semibold uppercase tracking-[.18em] text-white/56">
                     Scroll to switch
                   </p>
                   <div className="flex items-center gap-2">
@@ -541,7 +531,7 @@ export default function HomePage() {
               <p className="mt-7 max-w-xl text-xl leading-9 text-white/56">
                 myQAbee grew out of real testing work: a codeless way to automate scenarios across environments and devices. It is a good example of what happens when engineers stop accepting a repetitive problem as “just how things are”.
               </p>
-              <p className="mt-6 max-w-xl leading-7 text-white/38">
+              <p className="mt-6 max-w-xl leading-7 text-white/54">
                 Product thinking is not reserved for product companies. Sometimes the most useful idea starts as a problem your own team is tired of solving manually.
               </p>
               <div className="mt-9">
@@ -825,7 +815,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <footer className="px-6 py-8 text-sm text-white/34 md:px-10 lg:px-14">
+        <footer className="px-6 py-8 text-sm text-white/52 md:px-10 lg:px-14">
           <div className="mx-auto flex max-w-[1500px] flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <span>ASCALab d.o.o.</span>
             <span>Development · DevOps · Testing</span>
