@@ -213,7 +213,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-asca-bg text-white">
       <main>
-        <section className="relative min-h-[100svh] overflow-hidden">
+        <section className="site-hero relative min-h-[100svh] overflow-hidden">
           <img
             src="/media/hero.webp"
             alt=""
@@ -224,10 +224,10 @@ export default function HomePage() {
             className="absolute inset-0 h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,12,.18),rgba(7,9,12,.64)_60%,#07090c_100%)]" />
-          <div className="pointer-events-none absolute -bottom-40 right-[8%] size-[38rem] rounded-full bg-asca-toxic/10 blur-[110px]" />
+          <div className="hero-toxic-glow pointer-events-none absolute -bottom-40 right-[8%] size-[38rem] rounded-full bg-asca-toxic/10 blur-[110px]" />
 
-          <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] flex-col px-6 py-8 md:px-10 md:py-10 lg:px-14">
-            <div className="flex items-center justify-between gap-6">
+          <div className="site-hero-shell relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] flex-col px-6 py-8 md:px-10 md:py-10 lg:px-14">
+            <div className="site-hero-header flex items-center justify-between gap-6">
               <span className="hidden items-center gap-3 text-base font-semibold text-white/82 sm:flex md:text-lg">
                 <span className="size-2.5 rounded-full bg-asca-orange shadow-[0_0_20px_rgba(247,149,84,.72)]" />
                 {eventConfig.campaignTitle}
@@ -245,7 +245,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="mt-auto max-w-5xl pb-10 md:pb-16">
+            <div className="site-hero-content mt-auto max-w-5xl pb-10 md:pb-16">
               <motion.div
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -262,13 +262,13 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-5xl text-[clamp(3.5rem,8.5vw,8.8rem)] font-semibold leading-[.92] tracking-[-0.045em]"
+                className="site-hero-title max-w-5xl text-[clamp(3.5rem,8.5vw,8.8rem)] font-semibold leading-[.92] tracking-[-0.045em]"
               >
                 <span className="block">Build things that</span>
                 <span className="block tracking-[-0.03em] text-asca-toxic">actually matter.</span>
               </motion.h1>
 
-              <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+              <div className="site-hero-bottom mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
                 <div>
                   <p className="max-w-2xl text-lg leading-8 text-white/68 md:text-xl">
                     Software. Cloud. QA. Data. Real systems, real users and maybe your next internship.
@@ -297,7 +297,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="statement" className="section-screen flex min-h-[78svh] items-center px-6 py-16 md:min-h-[82svh] md:px-10 md:py-20 lg:px-14">
+        <section id="statement" className="statement-section section-screen flex min-h-[78svh] items-center px-6 py-16 md:min-h-[82svh] md:px-10 md:py-20 lg:px-14">
           <div className="mx-auto w-full max-w-[1500px]">
             <motion.div className="max-w-6xl" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .35 }}>
               <p className="mb-8 text-xl font-medium text-asca-orange md:text-2xl">
@@ -318,7 +318,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="services" className="section-screen flex items-center py-14 md:py-18">
+        <section id="services" className="services-intro section-screen flex items-center py-14 md:py-18">
           <motion.div className="mx-auto w-full max-w-[1500px] px-6 md:px-10 lg:px-14" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .35 }}>
             <h2 className="max-w-4xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
               Three ways to get very good at solving real problems.
@@ -335,17 +335,17 @@ export default function HomePage() {
               <motion.article
                 key={service.title}
                 id={`service-${service.title.toLowerCase()}`}
-                className="section-screen mx-auto flex max-w-[1500px] items-center px-4 py-3 md:px-8 md:py-5" variants={index % 2 ? revealRight : revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .18 }}>
-                <div className={`grid min-h-[70svh] w-full overflow-hidden rounded-[30px] bg-[#0e1217] md:min-h-[74svh] md:rounded-[40px] lg:grid-cols-2 ${index % 2 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
-                  <div className="relative min-h-[42svh] lg:min-h-full">
+                className="service-chapter section-screen mx-auto flex max-w-[1500px] items-center px-4 py-3 md:px-8 md:py-5" variants={index % 2 ? revealRight : revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .18 }}>
+                <div className={`service-card grid min-h-[70svh] w-full overflow-hidden rounded-[30px] bg-[#0e1217] md:min-h-[74svh] md:rounded-[40px] lg:grid-cols-2 ${index % 2 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
+                  <div className="service-media relative min-h-[42svh] lg:min-h-full">
                     <motion.img src={service.image} alt="" width="1400" height="900" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" variants={imageReveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }} />
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,12,.05),rgba(7,9,12,.35))]" />
                     <div className="absolute left-6 top-6 rounded-full bg-black/45 px-4 py-2 text-sm font-medium text-white/80 backdrop-blur-md md:left-8 md:top-8">
                       {service.title}
                     </div>
                   </div>
-                  <div className="flex flex-col justify-center p-7 md:p-12 lg:p-14">
-                    <h3 className="max-w-xl text-4xl font-semibold leading-[1.02] tracking-[-.05em] md:text-6xl">
+                  <div className="service-copy flex flex-col justify-center p-7 md:p-12 lg:p-14">
+                    <h3 className="service-title max-w-xl text-4xl font-semibold leading-[1.02] tracking-[-.05em] md:text-6xl">
                       {service.headline}
                     </h3>
                     <p className="mt-8 max-w-xl text-lg leading-8 text-white/66">{service.copy}</p>
@@ -374,7 +374,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="career-paths" className="section-screen flex min-h-[100svh] items-center overflow-hidden border-y border-white/8 py-16 md:py-20">
+        <section id="career-paths" className="career-section section-screen flex min-h-[100svh] items-center overflow-hidden border-y border-white/8 py-16 md:py-20">
           <motion.div
             variants={reveal}
             initial="hidden"
@@ -385,7 +385,7 @@ export default function HomePage() {
             <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
               Where you could fit
             </p>
-            <div className="mt-7 flex flex-wrap gap-x-7 gap-y-3 text-[clamp(2.5rem,5.8vw,6.5rem)] font-semibold leading-none tracking-[-.055em] text-white/82">
+            <div className="career-cloud mt-7 flex flex-wrap gap-x-7 gap-y-3 text-[clamp(2.5rem,5.8vw,6.5rem)] font-semibold leading-none tracking-[-.055em] text-white/82">
               {eventConfig.careers.map((career, index) => (
                 <span
                   key={career}
@@ -407,7 +407,7 @@ export default function HomePage() {
           </motion.div>
         </section>
 
-        <section id="quiz-teaser" className="section-screen flex min-h-[100svh] items-center px-4 py-10 md:px-8 md:py-16">
+        <section id="quiz-teaser" className="quiz-teaser-section section-screen flex min-h-[100svh] items-center px-4 py-10 md:px-8 md:py-16">
           <motion.div
             variants={reveal}
             initial="hidden"
@@ -443,7 +443,7 @@ export default function HomePage() {
           </motion.div>
         </section>
 
-        <section id="industries" className="section-screen flex min-h-[100svh] items-center px-6 py-20 md:px-10 lg:px-14">
+        <section id="industries" className="industries-intro section-screen flex min-h-[100svh] items-center px-6 py-20 md:px-10 lg:px-14">
           <div className="mx-auto max-w-[1500px]">
             <motion.div className="max-w-5xl" variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: .4 }}>
               <h2 className="text-[clamp(3.3rem,6.8vw,7rem)] font-semibold leading-[.95] tracking-[-.06em]">
@@ -459,10 +459,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="industry-story" className="relative px-4 pb-16 md:px-8 md:pb-24">
+        <section id="industry-story" className="industry-story-wrap relative px-4 pb-16 md:px-8 md:pb-24">
           <div className="relative h-[360svh]">
-            <div className="sticky top-0 z-10 flex h-[100svh] items-start pt-[4svh] md:pt-[5svh]">
-              <div className="relative mx-auto h-[88svh] w-full max-w-[1500px] overflow-hidden rounded-[30px] bg-[#0b0f13] md:h-[86svh] md:rounded-[40px]">
+            <div className="industry-sticky sticky top-0 z-10 flex h-[100svh] items-start pt-[4svh] md:pt-[5svh]">
+              <div className="industry-card relative mx-auto h-[88svh] w-full max-w-[1500px] overflow-hidden rounded-[30px] bg-[#0b0f13] md:h-[86svh] md:rounded-[40px]">
                 <AnimatePresence initial={false} mode="sync">
                   <motion.div
                     key={industryStories[activeIndustry].title}
@@ -517,7 +517,7 @@ export default function HomePage() {
                         <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
                           {industryStories[activeIndustry].title}
                         </p>
-                        <h3 className="mt-4 text-[clamp(3rem,6.5vw,6.8rem)] font-semibold leading-[.93] tracking-[-.06em]">
+                        <h3 className="industry-title mt-4 text-[clamp(3rem,6.5vw,6.8rem)] font-semibold leading-[.93] tracking-[-.06em]">
                           {industryStories[activeIndustry].headline}
                         </h3>
                         <p className={`mt-7 max-w-xl text-lg leading-8 text-white/68 md:text-xl ${activeIndustry % 2 ? 'ml-auto' : ''}`}>
@@ -575,7 +575,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="myqabee" className="section-screen flex min-h-[100svh] items-center px-6 py-16 md:px-10 lg:px-14">
+        <section id="myqabee" className="myqabee-section section-screen flex min-h-[100svh] items-center px-6 py-16 md:px-10 lg:px-14">
           <div className="mx-auto grid w-full max-w-[1500px] gap-14 lg:grid-cols-[1fr_1fr] lg:items-center">
             <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
               <h2 className="text-5xl font-semibold leading-[.98] tracking-[-.055em] md:text-7xl">
@@ -609,7 +609,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="mindset" className="section-screen flex min-h-[100svh] items-center px-6 py-20 md:px-10 lg:px-14">
+        <section id="mindset" className="mindset-section section-screen flex min-h-[100svh] items-center px-6 py-20 md:px-10 lg:px-14">
           <div className="mx-auto grid w-full max-w-[1500px] gap-12 lg:grid-cols-[1fr_1fr]">
             <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
               <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
@@ -636,7 +636,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="student-path" className="section-screen flex min-h-[100svh] items-center px-6 py-20 md:px-10 lg:px-14">
+        <section id="student-path" className="student-path-section section-screen flex min-h-[100svh] items-center px-6 py-20 md:px-10 lg:px-14">
           <div className="mx-auto w-full max-w-[1500px]">
             <motion.div
               variants={reveal}
@@ -680,7 +680,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="contact" className="section-screen flex min-h-[100svh] items-center px-6 py-16 md:px-10 lg:px-14">
+        <section id="contact" className="contact-section section-screen flex min-h-[100svh] items-center px-6 py-16 md:px-10 lg:px-14">
           <div className="mx-auto grid w-full max-w-[1500px] gap-12 lg:grid-cols-[.78fr_1.22fr] lg:items-center">
             <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
               <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
@@ -861,7 +861,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="final-quiz" className="section-screen flex min-h-[72svh] items-center px-4 py-10 md:px-8 md:py-14">
+        <section id="final-quiz" className="final-quiz-section section-screen flex min-h-[72svh] items-center px-4 py-10 md:px-8 md:py-14">
           <div className="mx-auto max-w-[1180px]">
             <Link
               to={{ pathname: '/quiz', search: location.search }}
