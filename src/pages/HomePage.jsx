@@ -3,7 +3,14 @@ import { ArrowDown, ArrowRight, Check } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Link, useLocation } from 'react-router-dom'
 import { eventConfig } from '../data/eventConfig.js'
-import { trackEvent } from '../lib/analytics.js'
+import { getEventSource, trackEvent } from '../lib/analytics.js'
+import { isEventApiConfigured } from '../lib/eventApi.js'
+import {
+  exportLocalLeadsCsv,
+  flushLeads,
+  getLocalLeads,
+  persistLead,
+} from '../lib/leadCapture.js'
 
 const reveal = {
   hidden: { opacity: 0, y: 72, filter: 'blur(10px)' },
@@ -124,13 +131,27 @@ function SectionJump({ href, label, variant = 'line' }) {
 }
 
 export default function HomePage() {
-  const [formSent, setFormSent] = useState(false)
   const [formStarted, setFormStarted] = useState(false)
+  const [leadStatus, setLeadStatus] = useState('idle')
+  const [localLeadCount, setLocalLeadCount] = useState(() => getLocalLeads().length)
   const [activeIndustry, setActiveIndustry] = useState(0)
   const location = useLocation()
+  const backendConfigured = isEventApiConfigured()
+  const isStaffView = new URLSearchParams(location.search).get('staff') === '1'
 
   useEffect(() => {
     trackEvent('page_view', { eventSlug: eventConfig.slug })
+
+    const flush = async () => {
+      const result = await flushLeads()
+      if (result.sent > 0) {
+        trackEvent('queued_leads_sent', { count: result.sent })
+      }
+    }
+
+    flush()
+    window.addEventListener('online', flush)
+    return () => window.removeEventListener('online', flush)
   }, [])
 
   return (
@@ -203,10 +224,18 @@ export default function HomePage() {
                     <span>ship</span>
                   </div>
                 </div>
-                <a href="#statement" className="hero-scroll-cue inline-flex min-h-12 shrink-0 items-center gap-3 text-sm font-semibold text-white/76 transition hover:text-white">
-                  <span className="h-px w-8 bg-asca-toxic/70" />
-                  Scroll the booth <ArrowDown size={17} />
-                </a>
+                <div className="flex shrink-0 flex-wrap items-center gap-4">
+                  <Link
+                    to={{ pathname: '/quiz', search: location.search }}
+                    className="inline-flex min-h-12 items-center gap-2 rounded-full bg-asca-toxic px-5 text-sm font-bold text-black transition hover:scale-[1.02]"
+                  >
+                    Start quiz <ArrowRight size={17} />
+                  </Link>
+                  <a href="#statement" className="hero-scroll-cue inline-flex min-h-12 items-center gap-3 text-sm font-semibold text-white/76 transition hover:text-white">
+                    <span className="h-px w-8 bg-asca-toxic/70" />
+                    Scroll the booth <ArrowDown size={17} />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -584,8 +613,8 @@ export default function HomePage() {
                     <span key={career}>{career}</span>
                   ))}
                 </div>
-                <p className="mt-6 max-w-xl leading-7 text-white/42">
-                  Leave your details below for now, then take the event quiz. Each session gets a different mix, so standing next to the smartest person in your group is less useful than you hoped.
+                <p className="mt-6 max-w-xl leading-7 text-white/52">
+                  Interested in an internship or future role? Leave your contact details, choose the area you care about, then take the event quiz. Each session gets a different mix.
                 </p>
                 <div className="mt-7 flex flex-wrap items-center gap-5">
                   <Link
@@ -594,147 +623,172 @@ export default function HomePage() {
                   >
                     Preview the student quiz <ArrowRight size={17} />
                   </Link>
-                  <SectionJump href="#feedback" label="Or leave feedback first" variant="bracket" />
+                  <SectionJump href="#contact" label="Leave your details" variant="bracket" />
                 </div>
               </div>
             </motion.div>
           </div>
         </section>
 
-        <section id="feedback" className="section-screen flex min-h-[100svh] items-center px-6 py-16 md:px-10 lg:px-14">
-          <div className="mx-auto grid w-full max-w-[1500px] gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-start">
+        <section id="contact" className="section-screen flex min-h-[100svh] items-center px-6 py-16 md:px-10 lg:px-14">
+          <div className="mx-auto grid w-full max-w-[1500px] gap-12 lg:grid-cols-[.78fr_1.22fr] lg:items-center">
             <motion.div variants={revealLeft} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
-              <h2 className="max-w-xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
-                Event feedback prototype.
-              </h2>
-              <p className="mt-5 max-w-md text-lg leading-8 text-white/46">
-                We are keeping the current Google Form integration here until the final student lead form is available. The interface is ours; the answers still submit to the published form in the background.
+              <p className="text-sm font-semibold uppercase tracking-[.18em] text-asca-toxic">
+                Stay in touch
               </p>
+              <h2 className="mt-4 max-w-xl text-4xl font-semibold tracking-[-.045em] md:text-6xl">
+                Interested in building with us?
+              </h2>
+              <p className="mt-5 max-w-md text-lg leading-8 text-white/58">
+                Leave your name, email and the area you are curious about. This replaces the unrelated conference feedback form that used to live here.
+              </p>
+
+              {!backendConfigured ? (
+                <p className="mt-6 max-w-md rounded-xl border border-amber-300/20 bg-amber-300/8 p-4 text-sm leading-6 text-amber-100/80">
+                  Event backend is not configured on this deployment. Entries are saved only in this browser until <code>VITE_EVENT_API_URL</code> is connected.
+                </p>
+              ) : null}
+
+              {isStaffView ? (
+                <button
+                  type="button"
+                  onClick={() => exportLocalLeadsCsv()}
+                  className="mt-6 text-sm font-semibold text-asca-toxic underline decoration-asca-toxic/35 underline-offset-4"
+                >
+                  Staff: export {localLeadCount} local lead{localLeadCount === 1 ? '' : 's'} as CSV
+                </button>
+              ) : null}
+
               <div className="mt-8">
                 <SectionJump href="#final-quiz" label="Skip to the quiz" variant="text" />
               </div>
             </motion.div>
 
-            <motion.div className="min-h-[760px]" variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }}>
-              <iframe title="Google Forms submit target" name="google-form-target" className="hidden" />
-
-              {formSent ? (
+            <motion.div variants={revealRight} initial="hidden" whileInView="show" viewport={{ once: true, amount: .25 }}>
+              {leadStatus === 'sent' || leadStatus === 'queued' || leadStatus === 'local-only' ? (
                 <motion.div
-                  initial={{ opacity: 0, y: 14 }}
+                  initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: .45, ease: [0.22, 1, 0.36, 1] }}
-                  className="flex min-h-[760px] items-center"
+                  className="rounded-[28px] border border-white/10 bg-white/[.025] p-8 md:p-10"
                 >
-                  <div className="max-w-lg">
-                    <div className="grid size-16 place-items-center rounded-full bg-emerald-400/10 text-emerald-300">
-                      <Check size={32} strokeWidth={2.2} />
-                    </div>
-                    <h3 className="mt-7 text-4xl font-semibold tracking-[-.045em] md:text-5xl">
-                      Form sent successfully.
-                    </h3>
-                    <p className="mt-4 text-lg leading-8 text-white/46">
-                      Thanks for the feedback. Your response has been submitted.
-                    </p>
+                  <div className="grid size-16 place-items-center rounded-full bg-asca-toxic/10 text-asca-toxic">
+                    <Check size={32} strokeWidth={2.2} />
                   </div>
+                  <h3 className="mt-7 text-3xl font-semibold tracking-[-.04em] md:text-4xl">
+                    {leadStatus === 'sent'
+                      ? 'Details sent.'
+                      : leadStatus === 'queued'
+                        ? 'Saved. We will retry.'
+                        : 'Saved on this device.'}
+                  </h3>
+                  <p className="mt-4 max-w-lg text-base leading-7 text-white/58">
+                    {leadStatus === 'sent'
+                      ? 'Your contact details reached the event backend.'
+                      : leadStatus === 'queued'
+                        ? 'The connection failed, so this entry is queued locally and will retry when the browser comes back online.'
+                        : 'There is no central event backend configured yet, so this entry exists only in this browser. Staff can export local entries from staff mode.'}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setLeadStatus('idle')}
+                    className="mt-7 min-h-12 rounded-xl bg-white px-5 font-semibold text-black transition hover:bg-asca-toxic"
+                  >
+                    Add another
+                  </button>
                 </motion.div>
               ) : (
                 <form
-                  action="https://docs.google.com/forms/d/e/1FAIpQLScRy8VVrCMWDZgcmKenHgR-Y1sjB5TLlBj_fuN_3n2xxLdgBw/formResponse"
-                  method="POST"
-                  target="google-form-target"
-                  className="min-h-[760px] space-y-10 pt-1"
+                  className="space-y-7"
                   onFocusCapture={() => {
                     if (!formStarted) {
                       setFormStarted(true)
-                      trackEvent('form_started', { eventSlug: eventConfig.slug })
+                      trackEvent('lead_form_started', { eventSlug: eventConfig.slug })
                     }
                   }}
-                  onSubmit={(event) => {
+                  onSubmit={async (event) => {
+                    event.preventDefault()
                     const form = event.currentTarget
-                    setFormSent(false)
-                    trackEvent('form_completed', { eventSlug: eventConfig.slug })
-                    window.setTimeout(() => {
-                      form.reset()
-                      setFormSent(true)
-                    }, 650)
+                    const data = new FormData(form)
+
+                    setLeadStatus('sending')
+                    const result = await persistLead({
+                      eventSlug: eventConfig.slug,
+                      source: getEventSource(),
+                      name: String(data.get('name') || '').trim(),
+                      email: String(data.get('email') || '').trim(),
+                      studyField: String(data.get('studyField') || '').trim(),
+                      interest: String(data.get('interest') || '').trim(),
+                      consent: data.get('consent') === 'yes',
+                    })
+
+                    setLocalLeadCount(getLocalLeads().length)
+                    setLeadStatus(result.status)
+                    form.reset()
+                    trackEvent('lead_form_completed', {
+                      eventSlug: eventConfig.slug,
+                      deliveryStatus: result.status,
+                    })
                   }}
                 >
-                  <fieldset>
-                    <legend className="text-xl font-semibold tracking-[-.02em] text-white">
-                      Overall quality
-                    </legend>
-                    <p className="mt-2 text-sm text-white/38">Poor to excellent</p>
-                    <div className="mt-5 flex flex-wrap gap-x-7 gap-y-4">
-                      {[1, 2, 3, 4, 5].map((value) => (
-                        <label key={value} className="feedback-native-choice">
-                          <input required type="radio" name="entry.1080979567" value={value} />
-                          <span>{value}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </fieldset>
-
-                  <fieldset>
-                    <legend className="text-xl font-semibold tracking-[-.02em] text-white">
-                      Most valuable keynote or topic
-                    </legend>
-                    <div className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-                      {['Global Market Trends', 'Digital Assets and Blockchain', 'Sustainable Investing', 'Regulatory Updates'].map((option) => (
-                        <label key={option} className="feedback-native-choice">
-                          <input required type="radio" name="entry.795391864" value={option} />
-                          <span>{option}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </fieldset>
-
-                  <fieldset>
-                    <legend className="text-xl font-semibold tracking-[-.02em] text-white">
-                      What did you enjoy most?
-                    </legend>
-                    <label className="feedback-native-choice mt-5">
-                      <input type="checkbox" name="entry.1322378946" value="Panel discussions" />
-                      <span>Panel discussions</span>
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    <label className="block">
+                      <span className="text-sm font-semibold text-white/80">Name</span>
+                      <input
+                        required
+                        name="name"
+                        autoComplete="name"
+                        className="field mt-2"
+                        placeholder="Your name"
+                      />
                     </label>
-                    <p className="mt-3 text-xs leading-5 text-white/25">
-                      Test mapping currently uses the confirmed “Panel discussions” option.
-                    </p>
-                  </fieldset>
-
-                  <fieldset>
-                    <legend className="text-xl font-semibold tracking-[-.02em] text-white">
-                      Additional rating
-                    </legend>
-                    <div className="mt-5 flex flex-wrap gap-x-7 gap-y-4">
-                      {[1, 2, 3, 4, 5].map((value) => (
-                        <label key={value} className="feedback-native-choice">
-                          <input required type="radio" name="entry.809343022" value={value} />
-                          <span>{value}</span>
-                        </label>
-                      ))}
-                    </div>
-                    <p className="mt-3 text-xs leading-5 text-white/25">
-                      Question wording will be replaced once we confirm the lower half of the source form.
-                    </p>
-                  </fieldset>
+                    <label className="block">
+                      <span className="text-sm font-semibold text-white/80">Email</span>
+                      <input
+                        required
+                        type="email"
+                        name="email"
+                        autoComplete="email"
+                        className="field mt-2"
+                        placeholder="you@example.com"
+                      />
+                    </label>
+                  </div>
 
                   <label className="block">
-                    <span className="text-xl font-semibold tracking-[-.02em] text-white">
-                      Additional feedback
-                    </span>
-                    <textarea
+                    <span className="text-sm font-semibold text-white/80">School / faculty / field</span>
+                    <input
                       required
-                      name="entry.239328865"
-                      className="feedback-simple-textarea mt-5"
-                      placeholder="Tell us what you think..."
+                      name="studyField"
+                      className="field mt-2"
+                      placeholder="e.g. Computer Science, ETF, Elektronski..."
                     />
                   </label>
 
-                  <div className="flex justify-end pt-2">
-                    <button className="feedback-simple-submit" type="submit">
-                      Send feedback <ArrowRight size={17} />
-                    </button>
-                  </div>
+                  <label className="block">
+                    <span className="text-sm font-semibold text-white/80">What are you interested in?</span>
+                    <select required name="interest" className="field mt-2">
+                      <option value="">Choose an area</option>
+                      {eventConfig.careers.map((career) => (
+                        <option key={career} value={career}>{career}</option>
+                      ))}
+                      <option value="Not sure yet">Not sure yet</option>
+                    </select>
+                  </label>
+
+                  <label className="flex items-start gap-3 text-sm leading-6 text-white/60">
+                    <input required type="checkbox" name="consent" value="yes" className="mt-1 size-4 accent-[#c7ff00]" />
+                    <span>
+                      I agree that ASCALab may use these details to contact me about internships, student opportunities or relevant roles.
+                    </span>
+                  </label>
+
+                  <button
+                    disabled={leadStatus === 'sending'}
+                    className="inline-flex min-h-14 items-center gap-2 rounded-xl bg-asca-toxic px-7 font-bold text-black transition hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
+                    type="submit"
+                  >
+                    {leadStatus === 'sending' ? 'Saving…' : 'Leave my details'} <ArrowRight size={17} />
+                  </button>
                 </form>
               )}
             </motion.div>
