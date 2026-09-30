@@ -454,7 +454,7 @@ export default function QuizPage() {
               <div className="grid size-20 place-items-center rounded-full bg-asca-toxic/10 text-asca-toxic">
                 <Check size={42} strokeWidth={2.5} />
               </div>
-              <p className="mt-7 text-sm font-semibold uppercase tracking-[.18em] text-asca-toxic">
+              <p className="mt-7 text-sm font-semibold uppercase tracking-[.18em] text-asca-orange">
                 Provisional result
               </p>
               <h1 className="mt-3 text-4xl font-semibold tracking-[-.045em] md:text-6xl">
@@ -507,7 +507,7 @@ export default function QuizPage() {
             </button>
             <button
               onClick={resetAndGoHome}
-              className="min-h-14 flex-1 rounded-2xl bg-asca-toxic px-6 font-semibold text-black transition hover:brightness-105"
+              className="min-h-14 flex-1 rounded-2xl bg-asca-orange px-6 font-semibold text-black transition hover:brightness-105"
             >
               Done
             </button>
@@ -522,7 +522,7 @@ export default function QuizPage() {
       <div className="w-full max-w-5xl">
         <div className="mb-6 flex items-center justify-between gap-4">
           <div>
-            <div className="text-sm font-semibold uppercase tracking-[.16em] text-asca-toxic">
+            <div className="text-sm font-semibold uppercase tracking-[.16em] text-asca-orange">
               {eventConfig.eventName}
             </div>
             <div className="mt-2 text-sm font-semibold text-white/60">
@@ -536,7 +536,7 @@ export default function QuizPage() {
         </div>
 
         <div className="mb-3 h-1 overflow-hidden rounded-full bg-white/8">
-          <div className="h-full bg-asca-toxic transition-all" style={{ width: `${progress}%` }} />
+          <div className="h-full bg-asca-orange transition-all" style={{ width: `${progress}%` }} />
         </div>
 
         <section className="rounded-[30px] border border-white/10 bg-asca-panel p-6 md:p-10">
@@ -563,7 +563,7 @@ export default function QuizPage() {
                 <button
                   key={answer}
                   onClick={() => handleAnswer(index)}
-                  className="min-h-20 rounded-2xl border border-white/10 bg-white/[.035] px-5 py-4 text-left font-medium text-white/88 transition hover:border-asca-toxic/60 hover:bg-asca-toxic hover:text-black active:scale-[.99]"
+                  className="min-h-20 rounded-2xl border border-white/10 bg-white/[.035] px-5 py-4 text-left font-medium text-white/88 transition hover:border-asca-orange/70 hover:bg-asca-orange hover:text-black active:scale-[.99]"
                 >
                   {answer}
                 </button>
@@ -575,7 +575,7 @@ export default function QuizPage() {
                 <button
                   key={image.label}
                   onClick={() => handleAnswer(image.value)}
-                  className="group overflow-hidden rounded-[24px] border border-white/10 bg-black/20 text-left transition hover:border-asca-toxic/60"
+                  className="group overflow-hidden rounded-[24px] border border-white/10 bg-black/20 text-left transition hover:border-asca-orange/70"
                 >
                   <div className="overflow-hidden">
                     <img
