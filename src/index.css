@@ -213,19 +213,6 @@ select.field option {
 }
 
 
-.hero-scroll-cue > span {
-  transform-origin: left center;
-  transition: transform .25s ease, opacity .25s ease;
-}
-
-@media (hover: hover) {
-  .hero-scroll-cue:hover > span {
-    transform: scaleX(1.45);
-    opacity: 1;
-  }
-}
-
-
 .section-screen {
   scroll-margin-top: 0;
   position: relative;
@@ -244,4 +231,99 @@ select.field option {
 @keyframes section-arrive {
   from { opacity: .94; }
   to { opacity: 1; }
+}
+
+
+.hero-scroll-orbit {
+  text-decoration: none;
+}
+
+.section-jump {
+  text-decoration: none;
+  transition:
+    transform .25s cubic-bezier(.22,1,.36,1),
+    color .2s ease,
+    border-color .2s ease,
+    background .2s ease;
+}
+
+.section-jump-ghost {
+  position: relative;
+  overflow: hidden;
+}
+
+.section-jump-ghost::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 20%, rgba(247,149,84,.10), transparent 80%);
+  transform: translateX(-120%);
+  transition: transform .45s cubic-bezier(.22,1,.36,1);
+  pointer-events: none;
+}
+
+.section-jump-text {
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.section-jump-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 1.5rem;
+  bottom: 0;
+  height: 1px;
+  background: #f79554;
+  transform: scaleX(.35);
+  transform-origin: left;
+  transition: transform .3s cubic-bezier(.22,1,.36,1);
+}
+
+@media (hover: hover) {
+  .hero-scroll-orbit:hover > span:last-child {
+    transform: scale(1.06) rotate(-4deg);
+  }
+
+  .section-jump-orb:hover {
+    transform: translateY(-5px) rotate(4deg);
+    box-shadow: 0 18px 55px rgba(199,255,0,.18);
+  }
+
+  .section-jump-bracket:hover {
+    transform: translateX(4px);
+  }
+
+  .section-jump-ghost:hover {
+    transform: translateY(-2px);
+    border-color: rgba(247,149,84,.48);
+  }
+
+  .section-jump-ghost:hover::after {
+    transform: translateX(120%);
+  }
+
+  .section-jump-square:hover {
+    transform: translate(3px,-3px);
+    box-shadow: -6px 6px 0 rgba(247,149,84,.78);
+  }
+
+  .section-jump-toxic:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px rgba(199,255,0,.15);
+  }
+
+  .section-jump-text:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-orbit *,
+  .section-jump,
+  .section-jump *,
+  .section-jump::after {
+    transition: none !important;
+    transform: none !important;
+  }
 }
