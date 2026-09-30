@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-asca-orange: #f79554;
+  --color-asca-orange: #f28c52;
   --color-asca-dark: #221f1f;
   --color-asca-bg: #07090c;
   --color-asca-panel: #0f1318;
@@ -75,7 +75,7 @@ select.field option {
 }
 
 .field:focus {
-  border-color: rgba(247,149,84,.72);
+  border-color: rgba(242,140,82,.72);
   background: rgba(255,255,255,.055);
 }
 
