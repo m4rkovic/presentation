@@ -1,5 +1,7 @@
+import { isEventApiConfigured, sendEvent } from './eventApi.js'
+
 const PENDING_KEY = 'asca_pending_quiz_submissions'
-const SYNCED_KEY = 'asca_synced_quiz_submissions'
+const LOCAL_RESULTS_KEY = 'asca_local_quiz_results'
 
 function read(key) {
   if (typeof window === 'undefined') return []
@@ -15,43 +17,60 @@ function write(key, value) {
   window.localStorage.setItem(key, JSON.stringify(value))
 }
 
-export function getPendingSubmissions() {
-  return read(PENDING_KEY)
-}
-
-export function queueQuizSubmission(payload) {
-  const pending = read(PENDING_KEY)
-  pending.push(payload)
-  write(PENDING_KEY, pending)
-  return pending.length
-}
-
-export function flushQuizSubmissions() {
-  const pending = read(PENDING_KEY)
-  if (!pending.length) return 0
-
-  const synced = read(SYNCED_KEY)
-  write(SYNCED_KEY, [...synced, ...pending])
-  write(PENDING_KEY, [])
-  return pending.length
-}
-
-export function persistQuizSubmission(payload) {
-  const enriched = {
+function enrich(payload) {
+  return {
     ...payload,
     localId:
       payload.localId ||
       `quiz-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     storedAt: new Date().toISOString(),
   }
+}
 
-  if (typeof navigator !== 'undefined' && navigator.onLine) {
-    const synced = read(SYNCED_KEY)
-    write(SYNCED_KEY, [...synced, enriched])
-    flushQuizSubmissions()
-    return { status: 'synced', queuedCount: 0 }
+export function getPendingSubmissions() {
+  return read(PENDING_KEY)
+}
+
+export function getLocalResults() {
+  return read(LOCAL_RESULTS_KEY)
+}
+
+export async function flushQuizSubmissions() {
+  if (!isEventApiConfigured()) {
+    return { sent: 0, remaining: read(PENDING_KEY).length }
   }
 
-  const queuedCount = queueQuizSubmission(enriched)
-  return { status: 'queued', queuedCount }
+  const pending = read(PENDING_KEY)
+  if (!pending.length) return { sent: 0, remaining: 0 }
+
+  const remaining = []
+  let sent = 0
+
+  for (const payload of pending) {
+    const result = await sendEvent('quiz_result', payload)
+    if (result.ok) sent += 1
+    else remaining.push(payload)
+  }
+
+  write(PENDING_KEY, remaining)
+  return { sent, remaining: remaining.length }
+}
+
+export async function persistQuizSubmission(payload) {
+  const enriched = enrich(payload)
+  write(LOCAL_RESULTS_KEY, [...read(LOCAL_RESULTS_KEY), enriched].slice(-250))
+
+  if (!isEventApiConfigured()) {
+    return { status: 'local-only', queuedCount: 0 }
+  }
+
+  const result = await sendEvent('quiz_result', enriched)
+
+  if (result.ok) {
+    return { status: 'sent', queuedCount: read(PENDING_KEY).length }
+  }
+
+  const pending = [...read(PENDING_KEY), enriched]
+  write(PENDING_KEY, pending)
+  return { status: 'queued', queuedCount: pending.length }
 }
