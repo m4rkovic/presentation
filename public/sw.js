@@ -1,4 +1,4 @@
-const CACHE_NAME = 'asca-event-shell-v3'
+const CACHE_NAME = 'asca-event-shell-v4'
 
 const APP_SHELL = [
   '/',
@@ -15,9 +15,21 @@ const APP_SHELL = [
   '/media/portrait-ai.png',
 ]
 
-async function cacheBuildAssets() {
-  const cache = await caches.open(CACHE_NAME)
+async function cacheIfAvailable(cache, url) {
+  try {
+    const response = await fetch(url, { cache: 'no-store' })
+    if (response.ok) {
+      await cache.put(url, response)
+      return true
+    }
+  } catch {
+    // Optional cache warm-up must never make service-worker installation fail.
+  }
 
+  return false
+}
+
+async function cacheBuildAssets(cache) {
   try {
     const response = await fetch('/', { cache: 'no-store' })
     if (!response.ok) return
@@ -29,25 +41,28 @@ async function cacheBuildAssets() {
       .map((match) => match[1])
       .filter((path) => path.startsWith('/assets/'))
 
-    await Promise.all(
-      [...new Set(assetPaths)].map(async (path) => {
-        const assetResponse = await fetch(path, { cache: 'no-store' })
-        if (assetResponse.ok) await cache.put(path, assetResponse)
-      }),
+    await Promise.allSettled(
+      [...new Set(assetPaths)].map((path) => cacheIfAvailable(cache, path)),
     )
   } catch {
-    // If install happens without a working connection, normal runtime caching still applies.
+    // Runtime caching will fill anything that was unavailable during install.
   }
+}
+
+async function primeCache() {
+  const cache = await caches.open(CACHE_NAME)
+
+  await Promise.allSettled(
+    APP_SHELL.map((path) => cacheIfAvailable(cache, path)),
+  )
+
+  await cacheBuildAssets(cache)
 }
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    Promise.all([
-      caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)),
-      cacheBuildAssets(),
-    ]),
+    primeCache().then(() => self.skipWaiting()),
   )
-  self.skipWaiting()
 })
 
 self.addEventListener('activate', (event) => {
@@ -58,9 +73,9 @@ self.addEventListener('activate', (event) => {
         Promise.all(
           keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)),
         ),
-      ),
+      )
+      .then(() => self.clients.claim()),
   )
-  self.clients.claim()
 })
 
 self.addEventListener('fetch', (event) => {
@@ -83,13 +98,12 @@ self.addEventListener('fetch', (event) => {
     caches.match(event.request).then((cached) => {
       if (cached) return cached
 
-      return fetch(event.request)
-        .then((response) => {
-          if (!response || response.status !== 200) return response
-          const copy = response.clone()
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy))
-          return response
-        })
+      return fetch(event.request).then((response) => {
+        if (!response || response.status !== 200) return response
+        const copy = response.clone()
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy))
+        return response
+      })
     }),
   )
 })
