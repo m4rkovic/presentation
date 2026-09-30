@@ -74,3 +74,37 @@ export async function persistQuizSubmission(payload) {
   write(PENDING_KEY, pending)
   return { status: 'queued', queuedCount: pending.length }
 }
+
+
+export function exportLocalQuizResultsCsv() {
+  if (typeof window === 'undefined') return false
+  const results = getLocalResults()
+  if (!results.length) return false
+
+  const escape = (value) => `"${String(value ?? '').replaceAll('"', '""')}"`
+  const rows = [
+    ['source', 'finishedAt', 'score', 'totalQuestions', 'accuracy', 'elapsedSeconds', 'provisionalPrizeTier'].join(','),
+    ...results.map((result) =>
+      [
+        escape(result.source),
+        escape(result.finishedAt),
+        escape(result.score),
+        escape(result.totalQuestions),
+        escape(result.accuracy),
+        escape(result.elapsedSeconds),
+        escape(result.provisionalPrizeTier),
+      ].join(','),
+    ),
+  ]
+
+  const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const anchor = document.createElement('a')
+  anchor.href = url
+  anchor.download = `ascalab-quiz-results-${new Date().toISOString().slice(0, 10)}.csv`
+  document.body.appendChild(anchor)
+  anchor.click()
+  anchor.remove()
+  URL.revokeObjectURL(url)
+  return true
+}
