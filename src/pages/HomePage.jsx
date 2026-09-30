@@ -3,7 +3,7 @@ import { ArrowDown, ArrowRight, Check } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Link, useLocation } from 'react-router-dom'
 import { eventConfig } from '../data/eventConfig.js'
-import { getEventSource, trackEvent } from '../lib/analytics.js'
+import { exportLocalAnalyticsCsv, flushAnalytics, getEventSource, getLocalAnalytics, trackEvent } from '../lib/analytics.js'
 import { isEventApiConfigured } from '../lib/eventApi.js'
 import {
   exportLocalLeadsCsv,
@@ -11,6 +11,7 @@ import {
   getLocalLeads,
   persistLead,
 } from '../lib/leadCapture.js'
+import { exportLocalQuizResultsCsv, getLocalResults } from '../lib/quizSession.js'
 
 const reveal = {
   hidden: { opacity: 0, y: 56 },
@@ -145,9 +146,17 @@ export default function HomePage() {
     trackEvent('page_view', { eventSlug: eventConfig.slug })
 
     const flush = async () => {
-      const result = await flushLeads()
-      if (result.sent > 0) {
-        trackEvent('queued_leads_sent', { count: result.sent })
+      const [leadResult, analyticsResult] = await Promise.all([
+        flushLeads(),
+        flushAnalytics(),
+      ])
+
+      if (leadResult.sent > 0) {
+        trackEvent('queued_leads_sent', { count: leadResult.sent })
+      }
+
+      if (analyticsResult.sent > 0) {
+        trackEvent('queued_analytics_sent', { count: analyticsResult.sent })
       }
     }
 
@@ -647,13 +656,29 @@ export default function HomePage() {
               ) : null}
 
               {isStaffView ? (
-                <button
-                  type="button"
-                  onClick={() => exportLocalLeadsCsv()}
-                  className="mt-6 text-sm font-semibold text-asca-toxic underline decoration-asca-toxic/35 underline-offset-4"
-                >
-                  Staff: export {localLeadCount} local lead{localLeadCount === 1 ? '' : 's'} as CSV
-                </button>
+                <div className="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold">
+                  <button
+                    type="button"
+                    onClick={() => exportLocalLeadsCsv()}
+                    className="text-asca-toxic underline decoration-asca-toxic/35 underline-offset-4"
+                  >
+                    Export {localLeadCount} local lead{localLeadCount === 1 ? '' : 's'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => exportLocalQuizResultsCsv()}
+                    className="text-white/72 underline decoration-white/20 underline-offset-4 hover:text-white"
+                  >
+                    Export {getLocalResults().length} quiz result{getLocalResults().length === 1 ? '' : 's'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => exportLocalAnalyticsCsv()}
+                    className="text-white/72 underline decoration-white/20 underline-offset-4 hover:text-white"
+                  >
+                    Export {getLocalAnalytics().length} analytics event{getLocalAnalytics().length === 1 ? '' : 's'}
+                  </button>
+                </div>
               ) : null}
 
               <div className="mt-8">
