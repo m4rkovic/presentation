@@ -233,13 +233,21 @@ export default function HomePage() {
                     type="button"
                     onClick={() => setWorkSlide(index)}
                     aria-label={`Show ${slide.eyebrow}`}
+                    aria-current={index === workSlide ? 'true' : undefined}
                     className={`size-3 rounded-full transition ${index === workSlide ? 'bg-asca-orange' : 'bg-white/20'}`}
                   />
                 ))}
               </div>
             </div>
 
-            <div className="work-carousel relative mt-6 min-h-0 flex-1 overflow-hidden">
+            <div
+              className="work-carousel relative mt-6 min-h-0 flex-1 overflow-hidden"
+              role="region"
+              aria-roledescription="carousel"
+              aria-label="ASCALab work overview"
+              aria-live="polite"
+              aria-atomic="true"
+            >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.article
                   key={activeWork.title}
@@ -247,7 +255,17 @@ export default function HomePage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -52 }}
                   transition={{ duration: .42, ease: [0.16, 1, 0.3, 1] }}
-                  className="grid h-full overflow-hidden rounded-[28px] bg-[#0e1217] md:grid-cols-[1.05fr_.95fr]"
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.12}
+                  onDragEnd={(_, info) => {
+                    if (info.offset.x <= -60) goWork(1)
+                    if (info.offset.x >= 60) goWork(-1)
+                  }}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${workSlide + 1} of ${workSlides.length}: ${activeWork.eyebrow}`}
+                  className="grid h-full cursor-grab overflow-hidden rounded-[28px] bg-[#0e1217] active:cursor-grabbing md:grid-cols-[1.05fr_.95fr]"
                 >
                   <div className="relative min-h-[14rem] overflow-hidden md:min-h-0">
                     <img
@@ -435,6 +453,12 @@ export default function HomePage() {
                     const form = event.currentTarget
                     const data = new FormData(form)
 
+                    if (String(data.get('companyWebsite') || '').trim()) {
+                      trackEvent('lead_form_bot_rejected', { eventSlug: eventConfig.slug })
+                      form.reset()
+                      return
+                    }
+
                     setLeadStatus('sending')
                     const result = await persistLead({
                       eventSlug: eventConfig.slug,
@@ -455,6 +479,16 @@ export default function HomePage() {
                     })
                   }}
                 >
+                  <label className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                    Company website
+                    <input
+                      type="text"
+                      name="companyWebsite"
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </label>
+
                   <div className="grid gap-4 sm:grid-cols-2">
                     <label>
                       <span className="text-sm font-semibold text-white/80">Name</span>
@@ -489,6 +523,10 @@ export default function HomePage() {
                       I agree that ASCALab may use these details to contact me about internships, student opportunities or relevant roles.
                     </span>
                   </label>
+
+                  <p className="text-xs leading-5 text-white/42">
+                    Submitted details are handled by ASCALab for recruitment follow-up. Ask the ASCALab team at the booth for the applicable storage and retention details.
+                  </p>
 
                   <button
                     disabled={leadStatus === 'sending'}
