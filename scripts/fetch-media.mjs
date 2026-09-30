@@ -67,13 +67,20 @@ for (const asset of assets) {
   }
 
   console.log(`media: fetch ${asset.file}`)
-  const response = await fetch(asset.url, {
-    headers: { 'user-agent': 'ASCALab-event-build/1.0' },
-    redirect: 'follow',
-  })
+  let response
+  try {
+    response = await fetch(asset.url, {
+      headers: { 'user-agent': 'ASCALab-event-build/1.0' },
+      redirect: 'follow',
+    })
+  } catch (error) {
+    console.warn(`media: WARN ${asset.file} fetch failed; continuing build`, error?.message || error)
+    continue
+  }
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch ${asset.file}: HTTP ${response.status}`)
+    console.warn(`media: WARN ${asset.file} unavailable (HTTP ${response.status}); continuing build`)
+    continue
   }
 
   const bytes = Buffer.from(await response.arrayBuffer())
