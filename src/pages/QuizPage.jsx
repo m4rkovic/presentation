@@ -9,7 +9,7 @@ import {
   getPendingSubmissions,
   persistQuizSubmission,
 } from '../lib/quizSession.js'
-import { getEventSource, trackEvent } from '../lib/analytics.js'
+import { flushAnalytics, getEventSource, trackEvent } from '../lib/analytics.js'
 import { isEventApiConfigured } from '../lib/eventApi.js'
 
 function shuffle(array) {
@@ -24,8 +24,8 @@ function shuffle(array) {
 function prepareQuestion(question) {
   if (question.type === 'aiImageCompare') {
     const choices = [
-      { ...question.media.left, isCorrect: question.correctAnswer === 0 },
-      { ...question.media.right, isCorrect: question.correctAnswer === 1 },
+      { ...question.media.left, originalIndex: 0, isCorrect: question.correctAnswer === 0 },
+      { ...question.media.right, originalIndex: 1, isCorrect: question.correctAnswer === 1 },
     ]
     const shuffled = shuffle(choices)
 
@@ -42,6 +42,7 @@ function prepareQuestion(question) {
 
   const choices = question.answers.map((answer, index) => ({
     answer,
+    originalIndex: index,
     isCorrect: index === question.correctAnswer,
   }))
   const shuffled = shuffle(choices)
@@ -49,8 +50,33 @@ function prepareQuestion(question) {
   return {
     ...question,
     answers: shuffled.map((choice) => choice.answer),
+    answerOrder: shuffled.map((choice) => choice.originalIndex),
     correctAnswer: shuffled.findIndex((choice) => choice.isCorrect),
   }
+}
+
+function preloadImage(src, timeoutMs = 5000) {
+  return new Promise((resolve) => {
+    const image = new Image()
+    let settled = false
+
+    const finish = (ok) => {
+      if (settled) return
+      settled = true
+      resolve(ok)
+    }
+
+    const timeout = window.setTimeout(() => finish(false), timeoutMs)
+    image.onload = () => {
+      window.clearTimeout(timeout)
+      finish(true)
+    }
+    image.onerror = () => {
+      window.clearTimeout(timeout)
+      finish(false)
+    }
+    image.src = src
+  })
 }
 
 function buildQuestionSet() {
@@ -101,9 +127,17 @@ export default function QuizPage() {
     trackEvent('quiz_page_view', { eventSlug: eventConfig.slug })
 
     const flush = async () => {
-      const result = await flushQuizSubmissions()
-      if (result.sent > 0) {
-        trackEvent('queued_quiz_results_sent', { count: result.sent })
+      const [quizResult, analyticsResult] = await Promise.all([
+        flushQuizSubmissions(),
+        flushAnalytics(),
+      ])
+
+      if (quizResult.sent > 0) {
+        trackEvent('queued_quiz_results_sent', { count: quizResult.sent })
+      }
+
+      if (analyticsResult.sent > 0) {
+        trackEvent('queued_analytics_sent', { count: analyticsResult.sent })
       }
     }
 
@@ -149,15 +183,35 @@ export default function QuizPage() {
     }
   }, [stage, resetCountdown])
 
-  function startQuiz() {
-    const questions = buildQuestionSet()
+  async function startQuiz() {
+    let questions = buildQuestionSet()
+    const aiQuestion = questions.find((question) => question.type === 'aiImageCompare')
 
-    questions.forEach((question) => {
-      question.mediaChoices?.forEach((choice) => {
-        const image = new Image()
-        image.src = choice.src
-      })
-    })
+    if (aiQuestion?.mediaChoices?.length) {
+      const mediaReady = await Promise.all(
+        aiQuestion.mediaChoices.map((choice) => preloadImage(choice.src)),
+      )
+
+      if (mediaReady.some((ready) => !ready)) {
+        const alreadySelected = new Set(questions.map((question) => question.id))
+        const replacement = shuffle(
+          questionPool.filter(
+            (question) =>
+              question.type !== 'aiImageCompare' && !alreadySelected.has(question.id),
+          ),
+        )[0]
+
+        questions = questions
+          .filter((question) => question.type !== 'aiImageCompare')
+          .concat(replacement ? [prepareQuestion(replacement)] : [])
+
+        questions = shuffle(questions)
+        trackEvent('ai_challenge_skipped', {
+          eventSlug: eventConfig.slug,
+          reason: 'media-unavailable',
+        })
+      }
+    }
 
     setSessionQuestions(questions)
     setQuestionIndex(0)
@@ -211,7 +265,7 @@ export default function QuizPage() {
         (elapsedSeconds / sessionQuestions.length).toFixed(2),
       ),
       provisionalPrizeTier: outcome.label,
-      responses: nextResponses.map(({ correctAnswer, ...response }) => response),
+      responses: nextResponses.map(({ isCorrect, ...response }) => response),
     }
 
     const submissionState = await persistQuizSubmission(payload)
@@ -241,12 +295,19 @@ export default function QuizPage() {
 
     const isCorrect = answerIndex === currentQuestion.correctAnswer
     const nextCorrectCount = correctCount + (isCorrect ? 1 : 0)
+    const selectedOriginalIndex =
+      answerIndex === null
+        ? null
+        : currentQuestion.type === 'aiImageCompare'
+          ? currentQuestion.mediaChoices?.[answerIndex]?.originalIndex ?? null
+          : currentQuestion.answerOrder?.[answerIndex] ?? null
+
     const nextResponses = [
       ...responses,
       {
         questionId: currentQuestion.id,
         type: currentQuestion.type,
-        selectedAnswer: answerIndex,
+        selectedOriginalIndex,
         isCorrect,
         timeSpentSeconds:
           (currentQuestion.timeLimit || eventConfig.quiz.defaultTimePerQuestion) -
