@@ -62,3 +62,38 @@ export function trackEvent(name, payload = {}) {
     }
   })
 }
+
+
+export function getLocalAnalytics() {
+  return readEvents()
+}
+
+export function exportLocalAnalyticsCsv() {
+  if (typeof window === 'undefined') return false
+  const events = readEvents()
+  if (!events.length) return false
+
+  const escape = (value) => `"${String(value ?? '').replaceAll('"', '""')}"`
+  const rows = [
+    ['name', 'source', 'at', 'payload'].join(','),
+    ...events.map((event) =>
+      [
+        escape(event.name),
+        escape(event.source),
+        escape(event.at),
+        escape(JSON.stringify(event.payload || {})),
+      ].join(','),
+    ),
+  ]
+
+  const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const anchor = document.createElement('a')
+  anchor.href = url
+  anchor.download = `ascalab-analytics-${new Date().toISOString().slice(0, 10)}.csv`
+  document.body.appendChild(anchor)
+  anchor.click()
+  anchor.remove()
+  URL.revokeObjectURL(url)
+  return true
+}
