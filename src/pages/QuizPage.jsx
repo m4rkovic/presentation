@@ -338,8 +338,8 @@ export default function QuizPage() {
 
   if (stage === 'intro') {
     return (
-      <main className="min-h-[100svh] bg-asca-bg px-5 py-7 text-white md:px-8 md:py-10">
-        <div className="mx-auto flex min-h-[calc(100svh-3.5rem)] w-full max-w-6xl flex-col">
+      <main className="quiz-intro-page min-h-[100svh] bg-asca-bg px-5 py-7 text-white md:px-8 md:py-10">
+        <div className="quiz-intro-shell mx-auto flex min-h-[calc(100svh-3.5rem)] w-full max-w-6xl flex-col">
           <div className="flex items-center justify-between">
             <button
               onClick={() => navigate('/')}
@@ -359,14 +359,14 @@ export default function QuizPage() {
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: .7, ease: [0.16, 1, 0.3, 1] }}
-            className="my-auto grid gap-12 py-14 lg:grid-cols-[1.35fr_.65fr] lg:items-stretch"
+            className="quiz-intro-grid my-auto grid gap-12 py-14 lg:grid-cols-[1.35fr_.65fr] lg:items-stretch"
           >
             <div className="flex flex-col justify-center">
               <p className="text-sm font-semibold text-asca-orange md:text-base">
                 ASCALab @ Arena Tehnologij
               </p>
 
-              <h1 className="mt-5 max-w-4xl text-[clamp(3.9rem,8vw,7.8rem)] font-semibold leading-[.9] tracking-[-.065em]">
+              <h1 className="quiz-intro-title mt-5 max-w-4xl text-[clamp(3.9rem,8vw,7.8rem)] font-semibold leading-[.9] tracking-[-.065em]">
                 Test your<br />
                 <span className="text-asca-toxic">tech</span>{' '}
                 <span className="text-asca-orange">instincts.</span>
@@ -389,7 +389,7 @@ export default function QuizPage() {
               </p>
             </div>
 
-            <div className="flex min-h-[430px] flex-col justify-between bg-asca-orange p-7 text-black md:p-9">
+            <div className="quiz-orange-panel flex min-h-[430px] flex-col justify-between bg-asca-orange p-7 text-black md:p-9">
               <div>
                 <p className="text-sm font-semibold">THE QUICK VERSION</p>
                 <h2 className="mt-4 text-4xl font-semibold leading-[.98] tracking-[-.045em] md:text-5xl">
@@ -438,12 +438,12 @@ export default function QuizPage() {
           : 'This result was saved on this device only.'
 
     return (
-      <main className="grid min-h-[100svh] place-items-center bg-asca-bg px-5 py-8 text-white">
+      <main className="quiz-result-page grid min-h-[100svh] place-items-center bg-asca-bg px-5 py-8 text-white">
         <motion.div
           initial={{ opacity: 0, y: 20, scale: .99 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: .65, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full max-w-5xl rounded-[30px] border border-white/10 bg-asca-panel p-8 shadow-2xl shadow-black/30 md:p-12"
+          className="quiz-result-card w-full max-w-5xl rounded-[30px] border border-white/10 bg-asca-panel p-8 shadow-2xl shadow-black/30 md:p-12"
         >
           <div className="grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
             <div>
@@ -514,8 +514,8 @@ export default function QuizPage() {
   }
 
   return (
-    <main className="min-h-[100svh] bg-asca-bg px-5 py-7 text-white md:grid md:place-items-center md:px-8">
-      <div className="w-full max-w-5xl">
+    <main className="quiz-active-page min-h-[100svh] bg-asca-bg px-5 py-7 text-white md:grid md:place-items-center md:px-8">
+      <div className="quiz-active-shell w-full max-w-5xl">
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
             <div className="text-sm font-semibold uppercase tracking-[.16em] text-asca-orange">
@@ -545,7 +545,7 @@ export default function QuizPage() {
           </span>
         </div>
 
-        <section className="rounded-[30px] border border-white/10 bg-asca-panel p-6 md:p-10">
+        <section className="quiz-question-card rounded-[30px] border border-white/10 bg-asca-panel p-6 md:p-10">
           <div className="mb-8 h-1 overflow-hidden rounded-full bg-white/8">
             <div
               className="h-full bg-asca-toxic transition-all duration-1000 ease-linear"
@@ -553,7 +553,7 @@ export default function QuizPage() {
             />
           </div>
 
-          <h1 className="max-w-4xl text-3xl font-semibold tracking-[-.035em] md:text-5xl">
+          <h1 className="quiz-question-title max-w-4xl text-3xl font-semibold tracking-[-.035em] md:text-5xl">
             {currentQuestion.question}
           </h1>
 
@@ -564,7 +564,7 @@ export default function QuizPage() {
           ) : null}
 
           {currentQuestion.type === 'multipleChoice' ? (
-            <div className="mt-8 grid gap-3 md:grid-cols-2">
+            <div className="quiz-answer-grid mt-8 grid gap-3 md:grid-cols-2">
               {currentQuestion.answers.map((answer, index) => (
                 <button
                   key={answer}
@@ -576,7 +576,7 @@ export default function QuizPage() {
               ))}
             </div>
           ) : (
-            <div className="mt-8 grid gap-5 lg:grid-cols-2">
+            <div className="quiz-image-grid mt-8 grid gap-5 lg:grid-cols-2">
               {currentQuestion.mediaChoices.map((image) => (
                 <button
                   key={image.label}
