@@ -658,8 +658,11 @@ export default function HomePage() {
                 <div className="mt-8 flex flex-col items-center">
                   <button
                     type="button"
-                    className="cyber-go-button group relative isolate grid size-40 select-none place-items-center rounded-full text-white outline-none md:size-44"
-                    aria-label="Hold for three seconds to start the quiz"
+                    className={`cyber-go-button relative isolate grid size-40 select-none place-items-center rounded-full outline-none md:size-44 ${
+                      quizCharge > 0 ? 'is-charging' : ''
+                    }`}
+                    style={{ '--charge': quizCharge }}
+                    aria-label="Press and hold to initialize the quiz"
                     aria-valuemin="0"
                     aria-valuemax="100"
                     aria-valuenow={Math.round(quizCharge * 100)}
@@ -685,28 +688,47 @@ export default function HomePage() {
                     onContextMenu={(event) => event.preventDefault()}
                   >
                     <span
-                      className="absolute inset-0 rounded-full"
+                      className="cyber-go-charge-ring"
                       style={{
-                        background: `conic-gradient(#c7ff00 ${quizCharge * 360}deg, rgba(0,0,0,.22) ${quizCharge * 360}deg)`,
+                        background: `conic-gradient(#c7ff00 ${quizCharge * 360}deg, rgba(0,0,0,.16) ${quizCharge * 360}deg)`,
                       }}
                     />
-                    <span className="absolute inset-[7px] rounded-full border border-white/12 bg-[#050707] shadow-[inset_0_0_35px_rgba(199,255,0,.035),0_18px_45px_rgba(0,0,0,.28)]" />
-                    <span className="absolute inset-[15px] rounded-full border border-white/8" />
-                    <span className="relative z-10 text-center">
-                      <span className="block font-mono text-[11px] font-bold tracking-[.28em] text-asca-toxic/80">
-                        {quizCharge > 0 ? `CHARGE ${Math.round(quizCharge * 100)}%` : 'HOLD 3 SEC'}
-                      </span>
-                      <span className="mt-1 block text-5xl font-black tracking-[-.06em] transition group-active:scale-95">
-                        GO
-                      </span>
+                    <span className="cyber-go-halo halo-one" />
+                    <span className="cyber-go-halo halo-two" />
+                    <span className="cyber-go-shell" />
+                    <span className="cyber-go-core" />
+
+                    <span className="cyber-go-root root-n" />
+                    <span className="cyber-go-root root-ne" />
+                    <span className="cyber-go-root root-e" />
+                    <span className="cyber-go-root root-se" />
+                    <span className="cyber-go-root root-s" />
+                    <span className="cyber-go-root root-sw" />
+                    <span className="cyber-go-root root-w" />
+                    <span className="cyber-go-root root-nw" />
+
+                    <span className="cyber-go-fingerprint" aria-hidden="true">
+                      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M32 8C19.85 8 10 17.85 10 30v4" />
+                        <path d="M32 14C23.16 14 16 21.16 16 30v8" />
+                        <path d="M32 20C26.48 20 22 24.48 22 30v10" />
+                        <path d="M32 26c-2.21 0-4 1.79-4 4v11" />
+                        <path d="M36 30v10.5c0 5.7-1.45 10.8-4 15" />
+                        <path d="M22 45c0 3.6-.8 6.8-2.2 9.5" />
+                        <path d="M41 30v10c0 7.2-2.1 13.2-5.7 18" />
+                        <path d="M46 30v8.5c0 6.1-.8 11-2.3 15.2" />
+                        <path d="M51 30.5v5.5c0 4.4-.45 8.2-1.45 11.6" />
+                        <path d="M11.5 36.5c0 4.2.65 8 1.9 11.4" />
+                        <path d="M16.5 39c0 5.1 1 9.5 2.9 13.1" />
+                        <path d="M27.7 14.6A17 17 0 0 1 49 30" />
+                      </svg>
                     </span>
-                    <span className="cyber-go-crosshair absolute -left-3 top-1/2 h-px w-6 bg-black/65" />
-                    <span className="cyber-go-crosshair absolute -right-3 top-1/2 h-px w-6 bg-black/65" />
-                    <span className="cyber-go-crosshair absolute left-1/2 -top-3 h-6 w-px bg-black/65" />
-                    <span className="cyber-go-crosshair absolute bottom-[-12px] left-1/2 h-6 w-px bg-black/65" />
+
+                    <span className="cyber-go-scan" />
                   </button>
 
-                  <p className="mt-5 font-mono text-[11px] font-semibold uppercase tracking-[.18em] text-black/55">
+                  <p className="cyber-go-status">
+                    <span className="cyber-go-status-dot" />
                     Press and hold to initialize
                   </p>
                 </div>
