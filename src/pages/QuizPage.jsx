@@ -327,10 +327,6 @@ export default function QuizPage() {
     setQuestionIndex((index) => index + 1)
   }
 
-  const progress = sessionQuestions.length
-    ? ((questionIndex + 1) / sessionQuestions.length) * 100
-    : 0
-
   const timePercent = currentQuestion
     ? Math.max(
         0,
@@ -520,12 +516,26 @@ export default function QuizPage() {
   return (
     <main className="min-h-[100svh] bg-asca-bg px-5 py-7 text-white md:grid md:place-items-center md:px-8">
       <div className="w-full max-w-5xl">
-        <div className="mb-6 flex items-center justify-between gap-4">
+        <div className="mb-6 flex items-start justify-between gap-4">
           <div>
             <div className="text-sm font-semibold uppercase tracking-[.16em] text-asca-orange">
               {eventConfig.eventName}
             </div>
-            <div className="mt-2 text-sm font-semibold text-white/60">
+
+            <div className="mt-3 flex items-center gap-2.5" aria-label={`Question ${questionIndex + 1} of ${sessionQuestions.length}`}>
+              {sessionQuestions.map((question, index) => (
+                <span
+                  key={question.id}
+                  className={`block size-3 rounded-full transition-all duration-300 ${
+                    index <= questionIndex
+                      ? 'bg-asca-orange shadow-[0_0_12px_rgba(247,149,84,.34)]'
+                      : 'bg-white/18'
+                  }`}
+                />
+              ))}
+            </div>
+
+            <div className="mt-3 text-sm font-semibold text-white/60">
               Question {questionIndex + 1} / {sessionQuestions.length} · {currentQuestion.category}
             </div>
           </div>
@@ -535,14 +545,10 @@ export default function QuizPage() {
           </span>
         </div>
 
-        <div className="mb-3 h-1 overflow-hidden rounded-full bg-white/8">
-          <div className="h-full bg-asca-orange transition-all" style={{ width: `${progress}%` }} />
-        </div>
-
         <section className="rounded-[30px] border border-white/10 bg-asca-panel p-6 md:p-10">
           <div className="mb-8 h-1 overflow-hidden rounded-full bg-white/8">
             <div
-              className="h-full bg-white/70 transition-all duration-1000"
+              className="h-full bg-asca-toxic transition-all duration-1000 ease-linear"
               style={{ width: `${timePercent}%` }}
             />
           </div>
