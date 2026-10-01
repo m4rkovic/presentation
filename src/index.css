@@ -1104,7 +1104,6 @@ select.field option {
 .cyber-go-shell,
 .cyber-go-core,
 .cyber-go-halo,
-.cyber-go-scan,
 .cyber-go-root {
   position: absolute;
   pointer-events: none;
@@ -1168,11 +1167,14 @@ select.field option {
   position: relative;
   z-index: 5;
   display: grid;
-  width: 51%;
-  height: 51%;
+  width: 58%;
+  height: 58%;
   place-items: center;
-  filter: drop-shadow(0 0 0 rgba(199,255,0,0));
-  transition: transform .14s ease, filter .14s ease;
+  transform: translateY(1px);
+  filter:
+    drop-shadow(0 0 3px rgba(199,255,0,.30))
+    drop-shadow(0 0 11px rgba(199,255,0,.08));
+  transition: transform .18s ease, filter .18s ease;
 }
 
 .cyber-go-fingerprint svg {
@@ -1183,43 +1185,31 @@ select.field option {
 
 .cyber-go-fingerprint path {
   fill: none;
-  stroke: rgba(255,255,255,.94);
-  stroke-width: 2.15;
+  stroke: rgba(218,255,103,.92);
+  stroke-width: 2.7;
   stroke-linecap: round;
   stroke-linejoin: round;
-  transition: stroke .14s ease, opacity .14s ease;
+  vector-effect: non-scaling-stroke;
+  transition: stroke .18s ease, opacity .18s ease;
+}
+
+.cyber-go-fingerprint path:nth-child(3n) {
+  opacity: .78;
+}
+
+.cyber-go-fingerprint path:nth-child(4n) {
+  opacity: .64;
 }
 
 .cyber-go-button.is-charging .cyber-go-fingerprint {
-  transform: scale(1.055);
+  transform: translateY(1px) scale(1.045);
   filter:
-    drop-shadow(0 0 5px rgba(199,255,0,.48))
-    drop-shadow(0 0 14px rgba(199,255,0,.20));
+    drop-shadow(0 0 5px rgba(199,255,0,.58))
+    drop-shadow(0 0 16px rgba(199,255,0,.24));
 }
 
 .cyber-go-button.is-charging .cyber-go-fingerprint path {
   stroke: #c7ff00;
-}
-
-.cyber-go-scan {
-  z-index: 4;
-  left: 27%;
-  right: 27%;
-  top: 28%;
-  height: 1px;
-  opacity: 0;
-  background: linear-gradient(90deg, transparent, #c7ff00 25%, #fff 50%, #c7ff00 75%, transparent);
-  box-shadow: 0 0 12px rgba(199,255,0,.42);
-}
-
-.cyber-go-button.is-charging .cyber-go-scan {
-  opacity: .8;
-  animation: biometric-scan 1.05s ease-in-out infinite alternate;
-}
-
-@keyframes biometric-scan {
-  from { transform: translateY(0); }
-  to { transform: translateY(66px); }
 }
 
 .cyber-go-root {
@@ -1321,10 +1311,6 @@ select.field option {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cyber-go-button.is-charging .cyber-go-scan {
-    animation: none;
-  }
-
   .cyber-go-halo,
   .cyber-go-root,
   .cyber-go-fingerprint,
