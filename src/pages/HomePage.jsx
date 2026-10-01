@@ -228,7 +228,7 @@ export default function HomePage() {
               />
 
               <img
-                src="/ascalab-logo-header-transparent.webp"
+                src="/ascalab-logo-orange-white.webp"
                 alt="ASCALab"
                 className="welcome-logo-official h-11 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,.32)] md:h-13"
               />
