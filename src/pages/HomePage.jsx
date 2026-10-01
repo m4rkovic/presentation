@@ -708,23 +708,27 @@ export default function HomePage() {
                     <span className="cyber-go-root root-nw" />
 
                     <span className="cyber-go-fingerprint" aria-hidden="true">
-                      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M32 8C19.85 8 10 17.85 10 30v4" />
-                        <path d="M32 14C23.16 14 16 21.16 16 30v8" />
-                        <path d="M32 20C26.48 20 22 24.48 22 30v10" />
-                        <path d="M32 26c-2.21 0-4 1.79-4 4v11" />
-                        <path d="M36 30v10.5c0 5.7-1.45 10.8-4 15" />
-                        <path d="M22 45c0 3.6-.8 6.8-2.2 9.5" />
-                        <path d="M41 30v10c0 7.2-2.1 13.2-5.7 18" />
-                        <path d="M46 30v8.5c0 6.1-.8 11-2.3 15.2" />
-                        <path d="M51 30.5v5.5c0 4.4-.45 8.2-1.45 11.6" />
-                        <path d="M11.5 36.5c0 4.2.65 8 1.9 11.4" />
-                        <path d="M16.5 39c0 5.1 1 9.5 2.9 13.1" />
-                        <path d="M27.7 14.6A17 17 0 0 1 49 30" />
+                      <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M48 12C27.01 12 10 29.01 10 50" />
+                        <path d="M48 19C30.88 19 17 32.88 17 50v7" />
+                        <path d="M48 26C34.75 26 24 36.75 24 50v13" />
+                        <path d="M48 33C38.06 33 30 41.06 30 51v15" />
+                        <path d="M48 40c-5.52 0-10 4.48-10 10v17" />
+                        <path d="M48 47c-1.66 0-3 1.34-3 3v14c0 7.31-1.61 13.7-4.83 19.17" />
+                        <path d="M55 50v15c0 8.1-1.8 15.08-5.4 20.95" />
+                        <path d="M62 50v14c0 10.3-2.55 18.98-7.64 26.04" />
+                        <path d="M69 50v12c0 8.27-1.33 15.6-4 22" />
+                        <path d="M76 50v9c0 7.09-.91 13.44-2.74 19.05" />
+                        <path d="M83 50v6c0 4.77-.42 9.15-1.27 13.14" />
+                        <path d="M31 70c-.33 5.01-1.55 9.55-3.66 13.62" />
+                        <path d="M24 67c-.15 4.73-.95 8.99-2.4 12.79" />
+                        <path d="M17 62c0 4.16.48 7.98 1.44 11.45" />
+                        <path d="M11 56c0 3.74.37 7.16 1.1 10.26" />
+                        <path d="M35.5 20.9A31 31 0 0 1 79 49" />
+                        <path d="M39.5 28.4A24 24 0 0 1 72 50" />
+                        <path d="M43 35.7A17 17 0 0 1 65 50" />
                       </svg>
                     </span>
-
-                    <span className="cyber-go-scan" />
                   </button>
 
                   <p className="cyber-go-status">
