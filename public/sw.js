@@ -1,8 +1,8 @@
-const CACHE_NAME = 'asca-event-shell-v6'
+const CACHE_NAME = 'asca-event-shell-v7'
 
 const APP_SHELL = [
   '/',
-  '/ascalab-logo-header-transparent.webp',
+  '/ascalab-logo-orange-white.webp',
   '/arena-tehnologij-logo-white.png',
   '/media/hero.webp',
   '/media/development.webp',
