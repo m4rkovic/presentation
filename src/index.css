@@ -369,7 +369,9 @@ select.field option {
 
   .work-carousel {
     margin-top: 1rem;
+    height: 25rem;
     min-height: 25rem;
+    flex: 0 0 25rem;
   }
 
   .work-carousel article {
@@ -604,7 +606,9 @@ select.field option {
 
   .work-carousel {
     margin-top: clamp(1.1rem, 1.8vh, 1.8rem);
+    height: 30rem;
     min-height: 30rem;
+    flex: 0 0 30rem;
   }
 
   .work-carousel article {
@@ -732,7 +736,9 @@ select.field option {
   }
 
   .work-carousel {
+    height: 25rem;
     min-height: 25rem;
+    flex-basis: 25rem;
     margin-top: .8rem;
   }
 
