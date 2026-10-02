@@ -398,21 +398,21 @@ select.field option {
   }
 
   .work-section .event-shell {
-    padding-top: 6.1rem;
-    padding-bottom: .75rem;
+    padding-top: 7.35rem;
+    padding-bottom: .55rem;
   }
 
   .work-section h2 {
-    max-width: 44rem;
-    font-size: clamp(2.35rem, 4.2vw, 3rem);
+    max-width: 40rem;
+    font-size: clamp(2.15rem, 3.8vw, 2.75rem);
     line-height: .98;
   }
 
   .work-carousel {
-    margin-top: .8rem;
-    height: 25.5rem;
-    min-height: 25.5rem;
-    flex: 0 0 25.5rem;
+    margin-top: .65rem;
+    height: 22.75rem;
+    min-height: 22.75rem;
+    flex: 0 0 22.75rem;
   }
 
   .work-carousel article {
@@ -421,16 +421,16 @@ select.field option {
   }
 
   .work-carousel article > div:last-child {
-    padding: 1.65rem 1.85rem;
+    padding: 1.45rem 1.7rem;
   }
 
   .work-carousel h3 {
-    font-size: clamp(2.35rem, 4.1vw, 3rem);
+    font-size: clamp(2.15rem, 3.7vw, 2.7rem);
   }
 
   .work-carousel p {
-    font-size: .94rem;
-    line-height: 1.5;
+    font-size: .9rem;
+    line-height: 1.48;
   }
 
   .work-carousel article span {
@@ -438,13 +438,13 @@ select.field option {
   }
 
   .tech-marquee {
-    margin-top: .7rem;
-    padding-block: .52rem;
+    margin-top: .55rem;
+    padding-block: .45rem;
   }
 
   .tech-marquee-item {
-    padding-inline: 1.45rem;
-    font-size: 1.08rem;
+    padding-inline: 1.35rem;
+    font-size: 1rem;
   }
 
   .offer-section .event-shell {
