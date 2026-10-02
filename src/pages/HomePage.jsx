@@ -25,6 +25,8 @@ const techStack = [
   'React',
   'TypeScript',
   'Python',
+  'C / C++',
+  'Embedded / Firmware',
   'SQL',
   'Azure',
   'AWS',
@@ -38,7 +40,7 @@ const workSlides = [
     eyebrow: 'What we build',
     title: 'Development that survives real users.',
     body:
-      'Customer applications, internal platforms, integrations and data-heavy systems. The interesting part starts after the demo works.',
+      'We build, test and scale mission-critical systems for banking, energy and SaaS platforms across Europe — 100+ engineers, AWS/Azure and ISO-certified delivery.',
     image: '/media/development.webp',
     items: ['Backend', 'Frontend', 'Embedded / Firmware', 'Integrations'],
     accent: 'orange',
@@ -61,12 +63,21 @@ const workSlides = [
     items: ['Development', 'DevOps', 'Testing', 'Automation'],
     accent: 'orange',
   },
+  {
+    eyebrow: 'QA & in-house product',
+    title: 'Testing we build for ourselves, too.',
+    body:
+      'Our QA teams work with automation and our own in-house testing product, myQAbee — built from the same delivery experience we bring to client projects.',
+    image: '/media/myqabee.webp',
+    items: ['QA Automation', 'myQAbee', 'Testing', 'Quality Engineering'],
+    accent: 'orange',
+  },
 ]
 
 const offers = [
   {
     title: 'Internships',
-    copy: 'A place to turn fundamentals into real project experience with people who already ship production software.',
+    copy: 'Turn fundamentals into real project experience from our Rožna dolina office in Ljubljana — close to the faculties and close to the team you will learn from.',
   },
   {
     title: 'Employment',
@@ -548,8 +559,8 @@ export default function HomePage() {
 
                   <div className="grid gap-4 sm:grid-cols-2">
                     <label>
-                      <span className="text-sm font-semibold text-white/80">Name</span>
-                      <input required name="name" autoComplete="name" className="field mt-2" placeholder="Your name" />
+                      <span className="text-sm font-semibold text-white/80">Name and surname</span>
+                      <input required name="name" autoComplete="name" className="field mt-2" placeholder="Your name and surname" />
                     </label>
                     <label>
                       <span className="text-sm font-semibold text-white/80">Email</span>
