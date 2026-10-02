@@ -660,14 +660,10 @@ export default function HomePage() {
                     <legend className="px-1 text-sm font-semibold text-white/80">
                       I agree that ASCALab may use these details to contact me about internships, student opportunities or relevant roles.
                     </legend>
-                    <div className="mt-2 flex gap-5">
+                    <div className="mt-2">
                       <label className="flex items-center gap-2.5 text-sm text-white/72">
-                        <input required type="radio" name="consent" value="Yes" className="size-4 accent-[#f68523]" />
-                        <span>Yes</span>
-                      </label>
-                      <label className="flex items-center gap-2.5 text-sm text-white/72">
-                        <input type="radio" name="consent" value="No" className="size-4 accent-[#f68523]" />
-                        <span>No</span>
+                        <input required type="checkbox" name="consent" value="Yes" className="size-4 accent-[#f68523]" />
+                        <span>Yes, I Agree</span>
                       </label>
                     </div>
                   </fieldset>
