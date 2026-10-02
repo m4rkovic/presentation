@@ -107,6 +107,9 @@ export default function QuizPage() {
   const location = useLocation()
   const answerLock = useRef(false)
   const autoStartHandled = useRef(false)
+  const resultExitFrame = useRef(null)
+  const resultExitStartedAt = useRef(0)
+  const resultExitTriggered = useRef(false)
   const autoStartRequested = new URLSearchParams(location.search).get('autostart') === '1'
 
   const [stage, setStage] = useState('launching')
@@ -117,7 +120,7 @@ export default function QuizPage() {
   const [sessionStartedAt, setSessionStartedAt] = useState(null)
   const [timeLeft, setTimeLeft] = useState(eventConfig.quiz.defaultTimePerQuestion)
   const [resultMeta, setResultMeta] = useState(null)
-  const [resultExitDelay, setResultExitDelay] = useState(3)
+  const [resultExitProgress, setResultExitProgress] = useState(0)
 
   const currentQuestion = sessionQuestions[questionIndex]
 
@@ -186,14 +189,12 @@ export default function QuizPage() {
   }, [timeLeft, stage, currentQuestion])
 
   useEffect(() => {
-    if (stage !== 'result' || resultExitDelay <= 0) return undefined
-
-    const timer = window.setTimeout(() => {
-      setResultExitDelay((value) => Math.max(0, value - 1))
-    }, 1000)
-
-    return () => window.clearTimeout(timer)
-  }, [stage, resultExitDelay])
+    return () => {
+      if (resultExitFrame.current) {
+        window.cancelAnimationFrame(resultExitFrame.current)
+      }
+    }
+  }, [])
 
   async function startQuiz() {
     let questions = buildQuestionSet()
@@ -231,7 +232,7 @@ export default function QuizPage() {
     setResponses([])
     setSessionStartedAt(Date.now())
     setResultMeta(null)
-    setResultExitDelay(3)
+    setResultExitProgress(0)
     answerLock.current = false
     setStage('active')
 
@@ -242,7 +243,50 @@ export default function QuizPage() {
     })
   }
 
+  function completeResultExit() {
+    if (resultExitTriggered.current) return
+    resultExitTriggered.current = true
+    setResultExitProgress(1)
+    resetAndGoHome()
+  }
+
+  function beginResultExitHold() {
+    if (resultExitFrame.current || resultExitTriggered.current) return
+
+    resultExitStartedAt.current = performance.now()
+    setResultExitProgress(0)
+
+    const tick = (now) => {
+      const progress = Math.min(1, (now - resultExitStartedAt.current) / 3000)
+      setResultExitProgress(progress)
+
+      if (progress >= 1) {
+        resultExitFrame.current = null
+        completeResultExit()
+        return
+      }
+
+      resultExitFrame.current = window.requestAnimationFrame(tick)
+    }
+
+    resultExitFrame.current = window.requestAnimationFrame(tick)
+  }
+
+  function cancelResultExitHold() {
+    if (resultExitTriggered.current) return
+    if (resultExitFrame.current) {
+      window.cancelAnimationFrame(resultExitFrame.current)
+      resultExitFrame.current = null
+    }
+    setResultExitProgress(0)
+  }
+
   function resetAndGoHome() {
+    if (resultExitFrame.current) {
+      window.cancelAnimationFrame(resultExitFrame.current)
+      resultExitFrame.current = null
+    }
+    resultExitTriggered.current = false
     setStage('launching')
     setSessionQuestions([])
     setQuestionIndex(0)
@@ -250,7 +294,7 @@ export default function QuizPage() {
     setResponses([])
     setSessionStartedAt(null)
     setResultMeta(null)
-    setResultExitDelay(3)
+    setResultExitProgress(0)
     answerLock.current = false
     navigate('/')
   }
@@ -285,7 +329,7 @@ export default function QuizPage() {
     const submissionState = await persistQuizSubmission(payload)
 
     setCorrectCount(nextCorrectCount)
-    setResultExitDelay(3)
+    setResultExitProgress(0)
     setResultMeta({
       outcome,
       elapsedSeconds,
@@ -423,11 +467,38 @@ export default function QuizPage() {
           </div>
 
           <button
-            onClick={resetAndGoHome}
-            disabled={resultExitDelay > 0}
-            className="mt-8 min-h-14 w-full rounded-2xl bg-asca-toxic px-6 font-semibold text-black transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-45 disabled:hover:brightness-100"
+            type="button"
+            className="quiz-done-hold relative mt-8 min-h-14 w-full overflow-hidden rounded-2xl border border-asca-toxic/45 bg-asca-toxic/10 px-6 font-semibold text-white transition hover:border-asca-toxic/70"
+            style={{ '--done-progress': resultExitProgress }}
+            aria-label="Press and hold Done for 3 seconds"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow={Math.round(resultExitProgress * 100)}
+            onPointerDown={(event) => {
+              event.preventDefault()
+              beginResultExitHold()
+            }}
+            onPointerUp={cancelResultExitHold}
+            onPointerCancel={cancelResultExitHold}
+            onPointerLeave={cancelResultExitHold}
+            onKeyDown={(event) => {
+              if ((event.key === 'Enter' || event.key === ' ') && !event.repeat) {
+                event.preventDefault()
+                beginResultExitHold()
+              }
+            }}
+            onKeyUp={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault()
+                cancelResultExitHold()
+              }
+            }}
           >
-            {resultExitDelay > 0 ? `Done (${resultExitDelay})` : 'Done'}
+            <span className="quiz-done-fill quiz-done-fill-left" />
+            <span className="quiz-done-fill quiz-done-fill-right" />
+            <span className="relative z-10">
+              {resultExitProgress > 0 ? 'Keep holding…' : 'Done · hold 3s'}
+            </span>
           </button>
         </motion.div>
       </main>
