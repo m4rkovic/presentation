@@ -8,7 +8,7 @@ export const eventConfig = {
     'Meet the team, explore student career paths and test your tech instincts in a fast-paced quiz built for the fair.',
   careers: ['Backend', 'Frontend', 'Embedded / Firmware', 'DevOps', 'QA', 'Data / AI'],
   quiz: {
-    minQuestions: 5,
+    minQuestions: 8,
     maxQuestions: 8,
     defaultTimePerQuestion: 15,
     fastTrackThresholdSeconds: 55,
