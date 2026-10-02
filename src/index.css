@@ -1563,3 +1563,62 @@ select.field option {
   outline: 2px solid #c7ff00;
   outline-offset: 4px;
 }
+
+
+/* Large 4:3 tablet / kiosk displays (e.g. 1600x1200).
+   Keep desktop layout intact elsewhere, but use the taller viewport instead of
+   leaving a dead half-screen below the work carousel. */
+@media (min-width: 1200px) and (max-width: 1700px) and (min-height: 900px) {
+  .work-section .event-shell {
+    padding-top: 8rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .work-section h2 {
+    max-width: 54rem;
+    font-size: clamp(3rem, 3.7vw, 3.8rem);
+    line-height: .98;
+  }
+
+  .work-carousel {
+    margin-top: 1rem;
+    height: 34rem;
+    min-height: 34rem;
+    flex: 0 0 34rem;
+  }
+
+  .work-carousel article {
+    grid-template-columns: minmax(0, 1.12fr) minmax(28rem, .88fr);
+  }
+
+  .work-carousel article > div:last-child {
+    padding: 2.2rem 2.5rem;
+  }
+
+  .work-carousel h3 {
+    font-size: clamp(2.9rem, 3.8vw, 3.8rem);
+  }
+
+  .work-carousel p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  .work-carousel article span {
+    font-size: .9rem;
+  }
+
+  .tech-marquee {
+    margin-top: .9rem;
+    padding-block: .65rem;
+  }
+
+  .tech-marquee-item {
+    font-size: 1.22rem;
+    padding-inline: 1.6rem;
+  }
+
+  .work-section .section-orbit {
+    margin-top: .35rem;
+  }
+}
