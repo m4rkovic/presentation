@@ -6,7 +6,7 @@ export const eventConfig = {
   heroStatement: 'Clear thinking. Better software. Less corporate fog.',
   studentIntro:
     'Meet the team, explore student career paths and test your tech instincts in a fast-paced quiz built for the fair.',
-  careers: ['Backend', 'Frontend', 'Embedded / Firmware', 'DevOps', 'QA', 'Data / AI'],
+  careers: ['Backend', 'Frontend', 'Embedded / Firmware', 'DevOps', 'QA', 'Data / AI', 'Not sure yet', 'C', 'C++'],
   quiz: {
     minQuestions: 8,
     maxQuestions: 8,
