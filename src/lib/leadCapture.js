@@ -3,6 +3,21 @@ import { isEventApiConfigured, sendEvent } from './eventApi.js'
 const LOCAL_LEADS_KEY = 'asca_local_student_leads'
 const PENDING_LEADS_KEY = 'asca_pending_student_leads'
 
+const GOOGLE_FORM_ACTION =
+  'https://docs.google.com/forms/d/e/1FAIpQLSd5bpR6efmurCbW2StUNzMc-OIA8uWZ0CG10gz40EL2zndtxw/formResponse'
+
+const GOOGLE_FORM_FIELDS = {
+  name: 'entry.1781500597',
+  email: 'entry.1640447617',
+  phone: 'entry.297979220',
+  studyField: 'entry.839497779',
+  interests: 'entry.144118240',
+  interestOther: 'entry.144118240.other_option_response',
+  contactQuestion: 'entry.2040870261',
+  contactQuestionOther: 'entry.2040870261.other_option_response',
+  consent: 'entry.1432236062',
+}
+
 function read(key) {
   if (typeof window === 'undefined') return []
   try {
@@ -27,16 +42,81 @@ function enrich(payload) {
   }
 }
 
+export function isGoogleFormsConfigured() {
+  return Boolean(GOOGLE_FORM_ACTION)
+}
+
+async function submitGoogleForm(lead) {
+  if (!GOOGLE_FORM_ACTION) {
+    return { ok: false, reason: 'not-configured' }
+  }
+
+  const body = new URLSearchParams()
+  body.set(GOOGLE_FORM_FIELDS.name, lead.name || '')
+  body.set(GOOGLE_FORM_FIELDS.email, lead.email || '')
+  body.set(GOOGLE_FORM_FIELDS.phone, lead.phone || '')
+  body.set(GOOGLE_FORM_FIELDS.studyField, lead.studyField || '')
+
+  for (const interest of lead.interests || []) {
+    if (interest === 'Other') {
+      body.append(GOOGLE_FORM_FIELDS.interests, '__other_option__')
+    } else {
+      body.append(GOOGLE_FORM_FIELDS.interests, interest)
+    }
+  }
+
+  if ((lead.interests || []).includes('Other') && lead.interestOther) {
+    body.set(GOOGLE_FORM_FIELDS.interestOther, lead.interestOther)
+  }
+
+  if (lead.contactQuestion === 'Other') {
+    body.set(GOOGLE_FORM_FIELDS.contactQuestion, '__other_option__')
+    if (lead.questionOther) {
+      body.set(GOOGLE_FORM_FIELDS.contactQuestionOther, lead.questionOther)
+    }
+  } else if (lead.contactQuestion) {
+    body.set(GOOGLE_FORM_FIELDS.contactQuestion, lead.contactQuestion)
+  }
+
+  if (lead.consent) {
+    body.set(GOOGLE_FORM_FIELDS.consent, lead.consent)
+  }
+
+  try {
+    await fetch(GOOGLE_FORM_ACTION, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      },
+      body,
+      keepalive: true,
+    })
+
+    return { ok: true }
+  } catch {
+    return { ok: false, reason: 'network-error' }
+  }
+}
+
 export async function persistLead(payload) {
   const lead = enrich(payload)
   write(LOCAL_LEADS_KEY, [...read(LOCAL_LEADS_KEY), lead].slice(-500))
 
-  if (!isEventApiConfigured()) {
-    return { status: 'local-only' }
-  }
+  const [googleResult, apiResult] = await Promise.all([
+    submitGoogleForm(lead),
+    isEventApiConfigured()
+      ? sendEvent('lead', lead)
+      : Promise.resolve({ ok: false, reason: 'not-configured' }),
+  ])
 
-  const result = await sendEvent('lead', lead)
-  if (result.ok) return { status: 'sent' }
+  if (googleResult.ok || apiResult.ok) {
+    return {
+      status: 'sent',
+      googleSubmitted: googleResult.ok,
+      apiSubmitted: apiResult.ok,
+    }
+  }
 
   const pending = [...read(PENDING_LEADS_KEY), lead]
   write(PENDING_LEADS_KEY, pending)
@@ -44,10 +124,6 @@ export async function persistLead(payload) {
 }
 
 export async function flushLeads() {
-  if (!isEventApiConfigured()) {
-    return { sent: 0, remaining: read(PENDING_LEADS_KEY).length }
-  }
-
   const pending = read(PENDING_LEADS_KEY)
   if (!pending.length) return { sent: 0, remaining: 0 }
 
@@ -55,8 +131,14 @@ export async function flushLeads() {
   let sent = 0
 
   for (const lead of pending) {
-    const result = await sendEvent('lead', lead)
-    if (result.ok) sent += 1
+    const [googleResult, apiResult] = await Promise.all([
+      submitGoogleForm(lead),
+      isEventApiConfigured()
+        ? sendEvent('lead', lead)
+        : Promise.resolve({ ok: false, reason: 'not-configured' }),
+    ])
+
+    if (googleResult.ok || apiResult.ok) sent += 1
     else remaining.push(lead)
   }
 
