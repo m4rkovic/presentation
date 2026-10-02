@@ -398,20 +398,21 @@ select.field option {
   }
 
   .work-section .event-shell {
-    padding-top: 5.35rem;
-    padding-bottom: .85rem;
+    padding-top: 6.1rem;
+    padding-bottom: .75rem;
   }
 
   .work-section h2 {
-    max-width: 52rem;
-    font-size: clamp(2.75rem, 4.9vw, 3.5rem);
+    max-width: 44rem;
+    font-size: clamp(2.35rem, 4.2vw, 3rem);
+    line-height: .98;
   }
 
   .work-carousel {
-    margin-top: 1rem;
-    height: 28.5rem;
-    min-height: 28.5rem;
-    flex: 0 0 28.5rem;
+    margin-top: .8rem;
+    height: 25.5rem;
+    min-height: 25.5rem;
+    flex: 0 0 25.5rem;
   }
 
   .work-carousel article {
@@ -420,30 +421,30 @@ select.field option {
   }
 
   .work-carousel article > div:last-child {
-    padding: 2rem 2.2rem;
+    padding: 1.65rem 1.85rem;
   }
 
   .work-carousel h3 {
-    font-size: clamp(2.7rem, 4.8vw, 3.45rem);
+    font-size: clamp(2.35rem, 4.1vw, 3rem);
   }
 
   .work-carousel p {
-    font-size: 1.02rem;
-    line-height: 1.58;
+    font-size: .94rem;
+    line-height: 1.5;
   }
 
   .work-carousel article span {
-    font-size: .88rem;
+    font-size: .82rem;
   }
 
   .tech-marquee {
-    margin-top: .9rem;
-    padding-block: .68rem;
+    margin-top: .7rem;
+    padding-block: .52rem;
   }
 
   .tech-marquee-item {
-    padding-inline: 1.7rem;
-    font-size: 1.22rem;
+    padding-inline: 1.45rem;
+    font-size: 1.08rem;
   }
 
   .offer-section .event-shell {
@@ -486,60 +487,72 @@ select.field option {
   }
 
   .funnel-section .event-shell {
-    grid-template-columns: minmax(18rem,.62fr) minmax(0,1.38fr);
-    gap: 2.6rem;
-    padding-top: 5.45rem;
-    padding-bottom: 1.05rem;
+    grid-template-columns: minmax(18rem,.66fr) minmax(0,1.34fr);
+    gap: 2.2rem;
+    padding-top: 5.15rem;
+    padding-bottom: .8rem;
   }
 
   .funnel-section h2 {
-    font-size: clamp(3.15rem, 5.2vw, 4rem);
+    font-size: clamp(2.9rem, 4.8vw, 3.65rem);
   }
 
   .funnel-section p {
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: .94rem;
+    line-height: 1.5;
   }
 
   .funnel-form {
-    gap: .95rem;
+    gap: .7rem;
   }
 
   .funnel-form .field {
-    min-height: 3.45rem;
-    border-radius: .9rem;
-    padding-inline: 1rem;
-    font-size: 1rem;
+    min-height: 3.05rem;
+    border-radius: .82rem;
+    padding-inline: .9rem;
+    font-size: .92rem;
   }
 
   .funnel-form label > span:first-child,
   .funnel-form legend {
-    font-size: .9rem !important;
+    font-size: .82rem !important;
   }
 
   .funnel-form fieldset {
-    padding: 1rem 1.15rem;
+    padding: .75rem .95rem;
   }
 
   .funnel-form fieldset label {
-    font-size: .9rem;
+    font-size: .82rem;
   }
 
   .funnel-form input[type="checkbox"],
   .funnel-form input[type="radio"] {
-    width: 1.05rem;
-    height: 1.05rem;
+    width: .95rem;
+    height: .95rem;
   }
 
   .funnel-form button[type="submit"] {
-    min-height: 3.15rem;
-    padding-inline: 1.35rem;
-    font-size: .98rem;
+    min-height: 2.9rem;
+    padding-inline: 1.2rem;
+    font-size: .92rem;
   }
 
   .funnel-section .section-orbit > span:last-child {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 3.15rem;
+    height: 3.15rem;
+  }
+
+  .funnel-actions-row {
+    margin-top: .1rem;
+  }
+
+  .funnel-actions-row .section-orbit {
+    margin-left: auto;
+  }
+
+  .funnel-actions-row .section-orbit > span:first-child {
+    font-size: .82rem;
   }
 
   .quiz-final-section .event-shell {
