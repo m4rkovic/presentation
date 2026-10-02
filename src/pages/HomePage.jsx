@@ -120,6 +120,8 @@ export default function HomePage() {
   const [formStarted, setFormStarted] = useState(false)
   const [leadStatus, setLeadStatus] = useState('idle')
   const [localLeadCount, setLocalLeadCount] = useState(() => getLocalLeads().length)
+  const [interestOtherEnabled, setInterestOtherEnabled] = useState(false)
+  const [contactQuestion, setContactQuestion] = useState('')
   const [quizCharge, setQuizCharge] = useState(0)
   const quizChargeFrame = useRef(null)
   const quizChargeStartedAt = useRef(0)
@@ -528,19 +530,29 @@ export default function HomePage() {
                     }
 
                     setLeadStatus('sending')
+                    const interestSelections = data.getAll('interest').map((value) => String(value))
+                    const interestOther = String(data.get('interestOther') || '').trim()
+                    const questionOther = String(data.get('questionOther') || '').trim()
+
                     const result = await persistLead({
                       eventSlug: eventConfig.slug,
                       source: getEventSource(),
                       name: String(data.get('name') || '').trim(),
                       email: String(data.get('email') || '').trim(),
+                      phone: String(data.get('phone') || '').trim(),
                       studyField: String(data.get('studyField') || '').trim(),
-                      interest: String(data.get('interest') || '').trim(),
-                      consent: data.get('consent') === 'yes',
+                      interests: interestSelections,
+                      interestOther,
+                      contactQuestion: String(data.get('contactQuestion') || '').trim(),
+                      questionOther,
+                      consent: String(data.get('consent') || '').trim(),
                     })
 
                     setLocalLeadCount(getLocalLeads().length)
                     setLeadStatus(result.status)
                     form.reset()
+                    setInterestOtherEnabled(false)
+                    setContactQuestion('')
                     trackEvent('lead_form_completed', {
                       eventSlug: eventConfig.slug,
                       deliveryStatus: result.status,
@@ -559,8 +571,8 @@ export default function HomePage() {
 
                   <div className="grid gap-4 sm:grid-cols-2">
                     <label>
-                      <span className="text-sm font-semibold text-white/80">Name and surname</span>
-                      <input required name="name" autoComplete="name" className="field mt-2" placeholder="Your name and surname" />
+                      <span className="text-sm font-semibold text-white/80">Name</span>
+                      <input required name="name" autoComplete="name" className="field mt-2" placeholder="First and last name" />
                     </label>
                     <label>
                       <span className="text-sm font-semibold text-white/80">Email</span>
@@ -570,30 +582,97 @@ export default function HomePage() {
 
                   <div className="grid gap-4 sm:grid-cols-2">
                     <label>
-                      <span className="text-sm font-semibold text-white/80">School / faculty / field</span>
-                      <input required name="studyField" className="field mt-2" placeholder="Computer Science, ETF..." />
+                      <span className="text-sm font-semibold text-white/80">Phone number</span>
+                      <input type="tel" name="phone" autoComplete="tel" className="field mt-2" placeholder="+386..." />
                     </label>
                     <label>
-                      <span className="text-sm font-semibold text-white/80">Interested in</span>
-                      <select required name="interest" className="field mt-2">
-                        <option value="">Choose an area</option>
-                        {eventConfig.careers.map((career) => (
-                          <option key={career} value={career}>{career}</option>
-                        ))}
-                        <option value="Not sure yet">Not sure yet</option>
-                      </select>
+                      <span className="text-sm font-semibold text-white/80">School / faculty / field</span>
+                      <input required name="studyField" className="field mt-2" placeholder="Where are you currently studying?" />
                     </label>
                   </div>
 
-                  <label className="flex items-start gap-3 text-xs leading-5 text-white/58 md:text-sm">
-                    <input required type="checkbox" name="consent" value="yes" className="mt-1 size-4 accent-[#f68523]" />
-                    <span>
+                  <fieldset className="rounded-2xl border border-white/10 bg-white/[.025] p-4 md:p-5">
+                    <legend className="px-1 text-sm font-semibold text-white/80">Interested in</legend>
+                    <div className="mt-2 grid gap-3 sm:grid-cols-2">
+                      {eventConfig.careers.map((career) => (
+                        <label key={career} className="flex items-center gap-3 text-sm text-white/72">
+                          <input
+                            type="checkbox"
+                            name="interest"
+                            value={career}
+                            className="size-4 accent-[#f68523]"
+                          />
+                          <span>{career}</span>
+                        </label>
+                      ))}
+                      <label className="flex items-center gap-3 text-sm text-white/72">
+                        <input
+                          type="checkbox"
+                          name="interest"
+                          value="Other"
+                          className="size-4 accent-[#f68523]"
+                          onChange={(event) => setInterestOtherEnabled(event.target.checked)}
+                        />
+                        <span>Other</span>
+                      </label>
+                    </div>
+
+                    {interestOtherEnabled ? (
+                      <input
+                        name="interestOther"
+                        className="field mt-4"
+                        placeholder="Tell us what interests you"
+                      />
+                    ) : null}
+                  </fieldset>
+
+                  <fieldset className="rounded-2xl border border-white/10 bg-white/[.025] p-4 md:p-5">
+                    <legend className="px-1 text-sm font-semibold text-white/80">
+                      Do you have anything you want to ask us or inform us about?
+                    </legend>
+                    <div className="mt-2 flex flex-wrap gap-x-5 gap-y-3">
+                      {['Yes', 'No', 'Other'].map((option) => (
+                        <label key={option} className="flex items-center gap-2.5 text-sm text-white/72">
+                          <input
+                            type="radio"
+                            name="contactQuestion"
+                            value={option}
+                            checked={contactQuestion === option}
+                            onChange={(event) => setContactQuestion(event.target.value)}
+                            className="size-4 accent-[#f68523]"
+                          />
+                          <span>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+
+                    {contactQuestion === 'Other' ? (
+                      <input
+                        name="questionOther"
+                        className="field mt-4"
+                        placeholder="Write your note or question"
+                      />
+                    ) : null}
+                  </fieldset>
+
+                  <fieldset className="rounded-2xl border border-white/10 bg-white/[.025] p-4 md:p-5">
+                    <legend className="px-1 text-sm font-semibold text-white/80">
                       I agree that ASCALab may use these details to contact me about internships, student opportunities or relevant roles.
-                    </span>
-                  </label>
+                    </legend>
+                    <div className="mt-2 flex gap-5">
+                      <label className="flex items-center gap-2.5 text-sm text-white/72">
+                        <input type="radio" name="consent" value="Yes" className="size-4 accent-[#f68523]" />
+                        <span>Yes</span>
+                      </label>
+                      <label className="flex items-center gap-2.5 text-sm text-white/72">
+                        <input type="radio" name="consent" value="No" className="size-4 accent-[#f68523]" />
+                        <span>No</span>
+                      </label>
+                    </div>
+                  </fieldset>
 
                   <p className="text-xs leading-5 text-white/42">
-                    Submitted details are handled by ASCALab for recruitment follow-up. Ask the ASCALab team at the booth for the applicable storage and retention details.
+                    Submitted details are handled by ASCALab for recruitment follow-up and student opportunities.
                   </p>
 
                   <button
