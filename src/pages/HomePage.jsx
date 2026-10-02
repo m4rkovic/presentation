@@ -164,6 +164,14 @@ export default function HomePage() {
     }
   }, [])
 
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setWorkSlide((current) => (current + 1) % workSlides.length)
+    }, 7000)
+
+    return () => window.clearTimeout(timer)
+  }, [workSlide])
+
   const launchQuiz = () => {
     if (quizChargeTriggered.current) return
     quizChargeTriggered.current = true
@@ -269,10 +277,10 @@ export default function HomePage() {
 
               <div className="welcome-bottom mt-6 flex items-end justify-between gap-8">
                 <div>
-                  <p className="max-w-2xl text-base leading-7 text-white/70 md:text-lg">
+                  <p className="welcome-lede max-w-2xl text-base leading-7 text-white/70 md:text-lg">
                     Software. Cloud. QA. Data. Real systems, real users and maybe your next internship.
                   </p>
-                  <p className="mt-3 font-mono text-xs text-white/46 md:text-sm">
+                  <p className="welcome-buildline mt-3 font-mono text-xs text-white/46 md:text-sm">
                     build / break / learn / ship
                   </p>
                 </div>
@@ -708,7 +716,7 @@ export default function HomePage() {
                   <span className="text-asca-orange">tech instincts.</span>
                 </h2>
 
-                <p className="mt-7 max-w-2xl text-lg leading-8 text-white/62 md:text-xl">
+                <p className="quiz-embedded-copy mt-7 max-w-2xl text-lg leading-8 text-white/62 md:text-xl">
                   {eventConfig.studentIntro}
                 </p>
 
