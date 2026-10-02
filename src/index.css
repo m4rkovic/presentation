@@ -138,9 +138,25 @@ select.field option {
 }
 
 .event-shell {
-  width: min(100%, 1500px);
+  width: 100%;
+  max-width: none;
   margin-inline: auto;
-  padding: 1.8rem 2.5rem;
+  padding: 1.8rem clamp(2rem, 4vw, 5rem);
+}
+
+.welcome-header {
+  position: fixed;
+  top: clamp(.8rem, 1.5vw, 1.4rem);
+  left: clamp(1.25rem, 3.2vw, 3.5rem);
+  right: clamp(1.25rem, 3.2vw, 3.5rem);
+  z-index: 60;
+  pointer-events: none;
+}
+
+.welcome-header img {
+  filter:
+    drop-shadow(0 2px 6px rgba(0,0,0,.55))
+    drop-shadow(0 0 10px rgba(0,0,0,.25));
 }
 
 .welcome-title {
@@ -336,163 +352,245 @@ select.field option {
   .event-shell {
     min-height: 100svh;
     height: auto;
-    padding: 1.25rem 2rem;
-  }
-
-  .welcome-title {
-    font-size: clamp(4.7rem, 8vw, 5.6rem);
+    width: 100%;
+    max-width: none;
+    padding: 5.25rem 2.35rem 1.1rem;
   }
 
   .welcome-section .event-shell {
-    padding-top: 1.2rem;
-    padding-bottom: 1.15rem;
+    padding: 5.25rem 2.35rem 1.25rem;
   }
 
-  .welcome-section header img {
-    height: 3.2rem;
+  .welcome-header {
+    top: .9rem;
+    left: 2.35rem;
+    right: 2.35rem;
+  }
+
+  .welcome-section header img,
+  .welcome-header img {
+    height: 4rem;
+  }
+
+  .welcome-logo-official {
+    height: 4rem !important;
+  }
+
+  .welcome-title {
+    font-size: clamp(4.9rem, 8.3vw, 5.9rem);
+  }
+
+  .welcome-lede {
+    max-width: 44rem;
+    font-size: 1.15rem !important;
+    line-height: 1.55;
+  }
+
+  .welcome-buildline {
+    margin-top: .7rem;
+    font-size: .92rem !important;
+    letter-spacing: .015em;
   }
 
   .welcome-section .section-orbit > span:last-child {
-    width: 4.5rem;
-    height: 4.5rem;
+    width: 4.7rem;
+    height: 4.7rem;
   }
 
   .work-section .event-shell {
-    padding-top: 1.15rem;
-    padding-bottom: .9rem;
+    padding-top: 5.35rem;
+    padding-bottom: .85rem;
   }
 
   .work-section h2 {
-    max-width: 44rem;
-    font-size: clamp(2.35rem, 4.4vw, 3.2rem);
+    max-width: 52rem;
+    font-size: clamp(2.75rem, 4.9vw, 3.5rem);
   }
 
   .work-carousel {
     margin-top: 1rem;
-    height: 25rem;
-    min-height: 25rem;
-    flex: 0 0 25rem;
+    height: 28.5rem;
+    min-height: 28.5rem;
+    flex: 0 0 28.5rem;
   }
 
   .work-carousel article {
-    border-radius: 1.5rem;
+    border-radius: 1.65rem;
+    grid-template-columns: minmax(0,1.16fr) minmax(0,.84fr);
   }
 
   .work-carousel article > div:last-child {
-    padding: 1.75rem 2rem;
+    padding: 2rem 2.2rem;
   }
 
   .work-carousel h3 {
-    font-size: clamp(2.45rem, 4.6vw, 3.25rem);
+    font-size: clamp(2.7rem, 4.8vw, 3.45rem);
   }
 
   .work-carousel p {
-    font-size: .95rem;
-    line-height: 1.55;
+    font-size: 1.02rem;
+    line-height: 1.58;
+  }
+
+  .work-carousel article span {
+    font-size: .88rem;
   }
 
   .tech-marquee {
-    margin-top: .85rem;
-    padding-block: .6rem;
+    margin-top: .9rem;
+    padding-block: .68rem;
   }
 
   .tech-marquee-item {
-    padding-inline: 1.55rem;
-    font-size: 1.15rem;
+    padding-inline: 1.7rem;
+    font-size: 1.22rem;
   }
 
   .offer-section .event-shell {
-    padding-top: 1.2rem;
-    padding-bottom: 1.1rem;
+    padding-top: 5.4rem;
+    padding-bottom: 1.15rem;
   }
 
   .offer-section .event-shell > div:first-child {
-    gap: 1.6rem;
+    grid-template-columns: minmax(0,.72fr) minmax(0,1.28fr);
+    gap: 2.5rem;
+    align-items: center;
   }
 
   .offer-section h2 {
-    font-size: clamp(3.6rem, 6vw, 4.5rem);
+    font-size: clamp(4rem, 6.4vw, 5rem);
   }
 
   .offer-section p {
-    font-size: .98rem;
-    line-height: 1.6;
+    font-size: 1.06rem;
+    line-height: 1.65;
   }
 
   .offer-grid {
-    gap: .7rem;
+    gap: .9rem;
   }
 
   .offer-card {
-    min-height: 8.1rem;
-    padding: 1.15rem 1.25rem;
+    min-height: 10rem;
+    padding: 1.45rem 1.55rem;
   }
 
   .offer-card h3 {
-    font-size: 1.35rem;
+    font-size: 1.55rem;
   }
 
   .offer-card p {
-    margin-top: .55rem;
-    font-size: .86rem;
-    line-height: 1.45;
+    margin-top: .7rem;
+    font-size: .96rem;
+    line-height: 1.5;
   }
 
   .funnel-section .event-shell {
-    gap: 1.75rem;
-    padding-top: 1.15rem;
-    padding-bottom: 1.1rem;
+    grid-template-columns: minmax(18rem,.62fr) minmax(0,1.38fr);
+    gap: 2.6rem;
+    padding-top: 5.45rem;
+    padding-bottom: 1.05rem;
   }
 
   .funnel-section h2 {
-    font-size: clamp(2.8rem, 4.8vw, 3.6rem);
+    font-size: clamp(3.15rem, 5.2vw, 4rem);
   }
 
   .funnel-section p {
-    font-size: .94rem;
-    line-height: 1.55;
+    font-size: 1rem;
+    line-height: 1.6;
   }
 
   .funnel-form {
-    gap: .8rem;
+    gap: .95rem;
   }
 
   .funnel-form .field {
-    min-height: 3rem;
-    border-radius: .8rem;
-    padding-inline: .9rem;
+    min-height: 3.45rem;
+    border-radius: .9rem;
+    padding-inline: 1rem;
+    font-size: 1rem;
+  }
+
+  .funnel-form label > span:first-child,
+  .funnel-form legend {
+    font-size: .9rem !important;
+  }
+
+  .funnel-form fieldset {
+    padding: 1rem 1.15rem;
+  }
+
+  .funnel-form fieldset label {
     font-size: .9rem;
   }
 
-  .funnel-form label > span:first-child {
-    font-size: .78rem;
+  .funnel-form input[type="checkbox"],
+  .funnel-form input[type="radio"] {
+    width: 1.05rem;
+    height: 1.05rem;
   }
 
   .funnel-form button[type="submit"] {
-    min-height: 2.8rem;
-    padding-inline: 1.1rem;
-    font-size: .9rem;
+    min-height: 3.15rem;
+    padding-inline: 1.35rem;
+    font-size: .98rem;
   }
 
   .funnel-section .section-orbit > span:last-child {
-    width: 3.2rem;
-    height: 3.2rem;
+    width: 3.5rem;
+    height: 3.5rem;
   }
 
   .quiz-final-section .event-shell {
-    padding: 1.5rem 2rem;
+    justify-content: center;
+    padding: 5.35rem 2.35rem 1.25rem;
   }
 
-  .final-quiz-card {
-    min-height: 70svh;
+  .quiz-embedded-grid {
+    gap: 2.2rem;
+    grid-template-columns: minmax(0,1.2fr) minmax(21rem,.8fr);
   }
 
-  .final-quiz-card h2 {
-    font-size: clamp(4.2rem, 7vw, 5.2rem);
+  .quiz-embedded-title {
+    font-size: clamp(4.3rem, 6.4vw, 5.1rem);
   }
 
-  .final-quiz-card > div:first-child {
-    padding: 2.25rem;
+  .quiz-embedded-copy {
+    font-size: 1.15rem !important;
+    line-height: 1.65 !important;
+  }
+
+  .quiz-embedded-grid p {
+    line-height: 1.6;
+  }
+
+  .quiz-launch-panel {
+    min-height: 26rem;
+    padding: 1.85rem;
+  }
+
+  .quiz-launch-panel h3 {
+    font-size: 2.7rem;
+  }
+
+  .cyber-go-button {
+    width: 9.4rem;
+    height: 9.4rem;
+  }
+
+  .quiz-reward-strip {
+    margin-top: 1.35rem;
+    padding-top: 1.15rem;
+  }
+
+  .quiz-reward-strip > div > div {
+    font-size: .95rem;
+  }
+
+  .quiz-reward-strip p {
+    font-size: .9rem;
+    line-height: 1.45;
   }
 
   .quiz-intro-page {
@@ -566,8 +664,9 @@ select.field option {
   .event-shell {
     min-height: max(100svh, 720px);
     height: auto;
-    width: min(100%, 1640px);
-    padding: clamp(2rem, 3.4vw, 4rem) clamp(3rem, 5vw, 6rem);
+    width: 100%;
+    max-width: none;
+    padding: clamp(4.8rem, 5.5vw, 6rem) clamp(3rem, 5vw, 6rem) clamp(2rem, 3.4vw, 4rem);
   }
 
   .welcome-section .event-shell {
@@ -797,7 +896,8 @@ select.field option {
 
 @media (min-width: 1680px) {
   .event-shell {
-    width: min(92vw, 1720px);
+    width: 100%;
+    max-width: none;
   }
 }
 
