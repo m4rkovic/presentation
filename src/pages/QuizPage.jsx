@@ -117,6 +117,7 @@ export default function QuizPage() {
   const [sessionStartedAt, setSessionStartedAt] = useState(null)
   const [timeLeft, setTimeLeft] = useState(eventConfig.quiz.defaultTimePerQuestion)
   const [resultMeta, setResultMeta] = useState(null)
+  const [resultExitDelay, setResultExitDelay] = useState(3)
 
   const currentQuestion = sessionQuestions[questionIndex]
 
@@ -184,6 +185,16 @@ export default function QuizPage() {
     return () => window.clearTimeout(timer)
   }, [timeLeft, stage, currentQuestion])
 
+  useEffect(() => {
+    if (stage !== 'result' || resultExitDelay <= 0) return undefined
+
+    const timer = window.setTimeout(() => {
+      setResultExitDelay((value) => Math.max(0, value - 1))
+    }, 1000)
+
+    return () => window.clearTimeout(timer)
+  }, [stage, resultExitDelay])
+
   async function startQuiz() {
     let questions = buildQuestionSet()
     const aiQuestion = questions.find((question) => question.type === 'aiImageCompare')
@@ -220,6 +231,7 @@ export default function QuizPage() {
     setResponses([])
     setSessionStartedAt(Date.now())
     setResultMeta(null)
+    setResultExitDelay(3)
     answerLock.current = false
     setStage('active')
 
@@ -238,6 +250,7 @@ export default function QuizPage() {
     setResponses([])
     setSessionStartedAt(null)
     setResultMeta(null)
+    setResultExitDelay(3)
     answerLock.current = false
     navigate('/')
   }
@@ -272,6 +285,7 @@ export default function QuizPage() {
     const submissionState = await persistQuizSubmission(payload)
 
     setCorrectCount(nextCorrectCount)
+    setResultExitDelay(3)
     setResultMeta({
       outcome,
       elapsedSeconds,
@@ -410,9 +424,10 @@ export default function QuizPage() {
 
           <button
             onClick={resetAndGoHome}
-            className="mt-8 min-h-14 w-full rounded-2xl bg-asca-toxic px-6 font-semibold text-black transition hover:brightness-105"
+            disabled={resultExitDelay > 0}
+            className="mt-8 min-h-14 w-full rounded-2xl bg-asca-toxic px-6 font-semibold text-black transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-45 disabled:hover:brightness-100"
           >
-            Done
+            {resultExitDelay > 0 ? `Done (${resultExitDelay})` : 'Done'}
           </button>
         </motion.div>
       </main>
