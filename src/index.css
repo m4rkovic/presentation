@@ -1192,10 +1192,9 @@ select.field option {
 .cyber-go-fingerprint path {
   fill: none;
   stroke: rgba(218,255,103,.96);
-  stroke-width: 2.35;
+  stroke-width: 2;          /* u jedinicama viewBox-a, skalira se sa dugmetom */
   stroke-linecap: round;
   stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
 }
 
 .cyber-go-button.is-charging .cyber-go-fingerprint {
