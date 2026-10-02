@@ -510,13 +510,16 @@ export default function HomePage() {
                         ? 'The connection failed, so this entry is queued locally and will retry when the browser comes back online.'
                         : 'Your details were saved on this event device for the ASCALab team.'}
                   </p>
-                  <button
-                    type="button"
-                    onClick={() => setLeadStatus('idle')}
-                    className="mt-6 min-h-11 rounded-xl bg-asca-toxic px-5 font-semibold text-black transition hover:brightness-105"
-                  >
-                    Add another
-                  </button>
+                  <div className="funnel-actions-row mt-6 flex items-center justify-between gap-4">
+                    <button
+                      type="button"
+                      onClick={() => setLeadStatus('idle')}
+                      className="min-h-11 rounded-xl bg-asca-toxic px-5 font-semibold text-black transition hover:brightness-105"
+                    >
+                      Add another
+                    </button>
+                    <SectionArrow href="#quiz" label="Finish with the quiz" tone="green" />
+                  </div>
                 </motion.div>
               ) : (
                 <form
@@ -680,19 +683,18 @@ export default function HomePage() {
                     Submitted details are handled by ASCALab for recruitment follow-up and student opportunities.
                   </p>
 
-                  <button
-                    disabled={leadStatus === 'sending'}
-                    className="inline-flex min-h-12 w-fit items-center gap-2 rounded-xl bg-asca-toxic px-6 font-bold text-black transition hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
-                    type="submit"
-                  >
-                    {leadStatus === 'sending' ? 'Saving…' : 'Leave my details'} <ArrowRight size={17} />
-                  </button>
+                  <div className="funnel-actions-row flex items-center justify-between gap-4">
+                    <button
+                      disabled={leadStatus === 'sending'}
+                      className="inline-flex min-h-12 w-fit items-center gap-2 rounded-xl bg-asca-toxic px-6 font-bold text-black transition hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
+                      type="submit"
+                    >
+                      {leadStatus === 'sending' ? 'Saving…' : 'Leave my details'} <ArrowRight size={17} />
+                    </button>
+                    <SectionArrow href="#quiz" label="Finish with the quiz" tone="green" />
+                  </div>
                 </form>
               )}
-
-              <div className="mt-5 flex justify-end">
-                <SectionArrow href="#quiz" label="Finish with the quiz" tone="green" />
-              </div>
             </div>
           </div>
         </section>
