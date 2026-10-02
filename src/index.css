@@ -1173,13 +1173,13 @@ select.field option {
   position: relative;
   z-index: 5;
   display: grid;
-  width: 62%;
-  height: 66%;
+  width: 58%;
+  height: 64%;
   place-items: center;
-  transform: translateY(2px);
+  transform: translateY(1px);
   filter:
-    drop-shadow(0 0 3px rgba(199,255,0,.22))
-    drop-shadow(0 0 10px rgba(199,255,0,.10));
+    drop-shadow(0 0 2px rgba(199,255,0,.18))
+    drop-shadow(0 0 8px rgba(199,255,0,.10));
   transition: transform .18s ease, filter .18s ease;
 }
 
@@ -1192,17 +1192,17 @@ select.field option {
 .cyber-go-fingerprint path {
   fill: none;
   stroke: rgba(218,255,103,.96);
-  stroke-width: 2.45;
+  stroke-width: 2.35;
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
 }
 
 .cyber-go-button.is-charging .cyber-go-fingerprint {
-  transform: translateY(2px) scale(1.035);
+  transform: translateY(1px) scale(1.03);
   filter:
-    drop-shadow(0 0 5px rgba(199,255,0,.42))
-    drop-shadow(0 0 14px rgba(199,255,0,.18));
+    drop-shadow(0 0 4px rgba(199,255,0,.36))
+    drop-shadow(0 0 12px rgba(199,255,0,.14));
 }
 
 .cyber-go-button.is-charging .cyber-go-fingerprint path {
