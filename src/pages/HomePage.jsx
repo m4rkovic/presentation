@@ -15,6 +15,7 @@ import {
   exportLocalLeadsCsv,
   flushLeads,
   getLocalLeads,
+  isGoogleFormsConfigured,
   persistLead,
 } from '../lib/leadCapture.js'
 import { exportLocalQuizResultsCsv, getLocalResults } from '../lib/quizSession.js'
@@ -129,7 +130,7 @@ export default function HomePage() {
 
   const location = useLocation()
   const navigate = useNavigate()
-  const backendConfigured = isEventApiConfigured()
+  const backendConfigured = isEventApiConfigured() || isGoogleFormsConfigured()
   const isStaffView = new URLSearchParams(location.search).get('staff') === '1'
 
   useEffect(() => {
@@ -458,7 +459,7 @@ export default function HomePage() {
                 <p className="mt-5 max-w-md rounded-xl border border-amber-300/20 bg-amber-300/8 p-3.5 text-xs leading-5 text-amber-100/80">
                   {isStaffView
                     ? 'Staff note: central event storage is not connected. Export local data before clearing browser storage.'
-                    : 'Central event storage is not connected on this deployment. Submitted details will stay on this device only.'}
+                    : 'Lead submission is not connected on this deployment. Submitted details will stay on this device only.'}
                 </p>
               ) : null}
 
@@ -489,14 +490,14 @@ export default function HomePage() {
                   </div>
                   <h3 className="mt-5 text-3xl font-semibold tracking-[-.04em]">
                     {leadStatus === 'sent'
-                      ? 'Details sent.'
+                      ? 'Details submitted.'
                       : leadStatus === 'queued'
                         ? 'Saved. We will retry.'
                         : 'Saved on this device.'}
                   </h3>
                   <p className="mt-3 max-w-lg text-sm leading-6 text-white/58">
                     {leadStatus === 'sent'
-                      ? 'Your contact details reached the event backend.'
+                      ? 'Your contact details were submitted to the ASCALab registration form.'
                       : leadStatus === 'queued'
                         ? 'The connection failed, so this entry is queued locally and will retry when the browser comes back online.'
                         : 'Your details were saved on this event device for the ASCALab team.'}
@@ -661,7 +662,7 @@ export default function HomePage() {
                     </legend>
                     <div className="mt-2 flex gap-5">
                       <label className="flex items-center gap-2.5 text-sm text-white/72">
-                        <input type="radio" name="consent" value="Yes" className="size-4 accent-[#f68523]" />
+                        <input required type="radio" name="consent" value="Yes" className="size-4 accent-[#f68523]" />
                         <span>Yes</span>
                       </label>
                       <label className="flex items-center gap-2.5 text-sm text-white/72">
