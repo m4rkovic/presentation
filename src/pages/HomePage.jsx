@@ -584,7 +584,7 @@ export default function HomePage() {
                   <div className="grid gap-4 sm:grid-cols-2">
                     <label>
                       <span className="text-sm font-semibold text-white/80">Phone number</span>
-                      <input type="tel" name="phone" autoComplete="tel" className="field mt-2" placeholder="+386..." />
+                      <input type="tel" name="phone" autoComplete="tel" className="field mt-2" placeholder="+381..." />
                     </label>
                     <label>
                       <span className="text-sm font-semibold text-white/80">School / faculty / field</span>
