@@ -502,9 +502,9 @@ export default function QuizPage() {
                 <button
                   key={image.label}
                   onClick={() => handleAnswer(image.value)}
-                  className="group overflow-hidden rounded-[24px] border border-white/10 bg-black/20 text-left transition hover:border-asca-toxic/70"
+                  className="quiz-image-card group text-left"
                 >
-                  <div className="overflow-hidden">
+                  <div className="quiz-image-frame">
                     <img
                       src={image.src}
                       alt={image.alt}
@@ -512,15 +512,17 @@ export default function QuizPage() {
                       height="540"
                       loading="eager"
                       decoding="async"
-                      className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+                      className="quiz-image"
                     />
                   </div>
-                  <div className="flex items-center justify-between gap-3 p-5">
+
+                  <div className="quiz-image-meta">
                     <div>
                       <div className="text-sm uppercase tracking-[.16em] text-white/50">{image.label}</div>
-                      <div className="mt-1 text-lg font-semibold">Select {image.label}</div>
+                      <div className="mt-1 text-lg font-semibold text-white">Select {image.label}</div>
                     </div>
-                    <div className="rounded-full border border-white/10 px-3 py-1.5 text-sm text-white/66">
+
+                    <div className="quiz-image-cta">
                       Choose
                     </div>
                   </div>
