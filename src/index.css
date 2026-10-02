@@ -1409,3 +1409,39 @@ select.field option {
     padding: 1rem;
   }
 }
+
+
+/* Quiz result hold-to-exit control */
+.quiz-done-hold {
+  --done-progress: 0;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  isolation: isolate;
+}
+
+.quiz-done-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+  width: calc(var(--done-progress) * 50%);
+  background: #c7ff00;
+  pointer-events: none;
+}
+
+.quiz-done-fill-left {
+  left: 0;
+}
+
+.quiz-done-fill-right {
+  right: 0;
+}
+
+.quiz-done-hold[aria-valuenow="100"] {
+  color: #000;
+}
+
+.quiz-done-hold:focus-visible {
+  outline: 2px solid #c7ff00;
+  outline-offset: 4px;
+}
