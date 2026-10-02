@@ -74,8 +74,23 @@ export function exportLocalLeadsCsv() {
   const leads = getLocalLeads()
   if (!leads.length) return false
 
-  const fields = ['name', 'email', 'studyField', 'interest', 'source', 'capturedAt']
-  const escape = (value) => `"${String(value ?? '').replaceAll('"', '""')}"`
+  const fields = [
+    'name',
+    'email',
+    'phone',
+    'studyField',
+    'interests',
+    'interestOther',
+    'contactQuestion',
+    'questionOther',
+    'consent',
+    'source',
+    'capturedAt',
+  ]
+  const escape = (value) => {
+    const normalized = Array.isArray(value) ? value.join(' | ') : value
+    return `"${String(normalized ?? '').replaceAll('"', '""')}"`
+  }
   const csv = [
     fields.join(','),
     ...leads.map((lead) => fields.map((field) => escape(lead[field])).join(',')),
