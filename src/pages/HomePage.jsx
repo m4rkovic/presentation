@@ -626,7 +626,7 @@ export default function HomePage() {
                 </p>
 
                 <div className="mt-9 flex flex-wrap gap-x-7 gap-y-3 text-sm font-medium text-white/56 md:text-base">
-                  <span><b className="font-semibold text-white">{eventConfig.quiz.minQuestions}–{eventConfig.quiz.maxQuestions}</b> random questions</span>
+                  <span><b className="font-semibold text-white">{eventConfig.quiz.maxQuestions}</b> random questions</span>
                   <span className="text-asca-orange">•</span>
                   <span><b className="font-semibold text-white">1</b> AI image challenge</span>
                   <span className="text-asca-orange">•</span>
