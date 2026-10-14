@@ -32,5 +32,38 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      (() => {
+        const sectionAliases = {
+          contacts: 'contact',
+        };
+
+        const scrollToHash = () => {
+          const hash = window.location.hash.slice(1);
+          if (!hash) return;
+
+          const targetId = sectionAliases[hash] || hash;
+          let attempts = 0;
+
+          const findAndScroll = () => {
+            const target = document.getElementById(targetId);
+            if (target) {
+              target.scrollIntoView({ block: 'start' });
+              return;
+            }
+
+            attempts += 1;
+            if (attempts < 30) {
+              window.requestAnimationFrame(findAndScroll);
+            }
+          };
+
+          window.requestAnimationFrame(findAndScroll);
+        };
+
+        window.addEventListener('load', scrollToHash);
+        window.addEventListener('hashchange', scrollToHash);
+      })();
+    </script>
   </body>
 </html>
