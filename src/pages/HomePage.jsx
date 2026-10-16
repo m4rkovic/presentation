@@ -523,6 +523,7 @@ export default function HomePage() {
                 </motion.div>
               ) : (
                 <form
+                  id="intership"
                   className="funnel-form grid gap-4"
                   onFocusCapture={() => {
                     if (!formStarted) {
