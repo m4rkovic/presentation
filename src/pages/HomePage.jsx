@@ -690,7 +690,7 @@ export default function HomePage() {
                       className="inline-flex min-h-12 w-fit items-center gap-2 rounded-xl bg-asca-toxic px-6 font-bold text-black transition hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
                       type="submit"
                     >
-                      {leadStatus === 'sending' ? 'Saving…' : 'Leave my details'} <ArrowRight size={17} />
+                      {leadStatus === 'sending' ? 'Saving…' : 'Submit'} <ArrowRight size={17} />
                     </button>
                     <SectionArrow href="#quiz" label="Finish with the quiz" tone="green" />
                   </div>
