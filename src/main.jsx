@@ -12,7 +12,6 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>,
 )
 
-
 if ('serviceWorker' in navigator) {
   if (import.meta.env.PROD) {
     window.addEventListener('load', () => {
