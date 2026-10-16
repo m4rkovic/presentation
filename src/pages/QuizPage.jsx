@@ -337,6 +337,7 @@ export default function QuizPage() {
       submissionState,
     })
     setStage('result')
+    window.history.replaceState(null, '', '/quiz/complete')
 
     trackEvent('quiz_completed', {
       eventSlug: eventConfig.slug,
