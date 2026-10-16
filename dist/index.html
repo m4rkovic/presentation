@@ -16,8 +16,11 @@
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/ascalab-logo-official.webp" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" href="/ascalab-logo-official.webp" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>ASCALab @ Arena Tehnologij</title>
+
+    <!-- Rybbit Analytics -->
+    <script src="https://rybbit.ascalab.com/api/script.js?siteId=21fe1b922962" defer></script>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JVWL0D6GS"></script>
@@ -28,10 +31,43 @@
 
       gtag('config', 'G-1JVWL0D6GS');
     </script>
-    <script type="module" crossorigin src="/assets/index-Cu9jeheP.js"></script>
+    <script type="module" crossorigin src="/assets/index-BPVKoY4d.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-Dfb1M57p.css">
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      (() => {
+        const sectionAliases = {
+          contacts: 'contact',
+        };
+
+        const scrollToHash = () => {
+          const hash = window.location.hash.slice(1);
+          if (!hash) return;
+
+          const targetId = sectionAliases[hash] || hash;
+          let attempts = 0;
+
+          const findAndScroll = () => {
+            const target = document.getElementById(targetId);
+            if (target) {
+              target.scrollIntoView({ block: 'start' });
+              return;
+            }
+
+            attempts += 1;
+            if (attempts < 30) {
+              window.requestAnimationFrame(findAndScroll);
+            }
+          };
+
+          window.requestAnimationFrame(findAndScroll);
+        };
+
+        window.addEventListener('load', scrollToHash);
+        window.addEventListener('hashchange', scrollToHash);
+      })();
+    </script>
   </body>
 </html>
